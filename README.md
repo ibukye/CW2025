@@ -27,8 +27,24 @@ javafx.controls,javafx.fxml,javafx.media
 
 ## Directory Structure
 
+**MVC Design Pattern (Model-View-Controller)**
+- **Model** : State, Logic of Application (Data Structure, Rule, Computation)
+  - Board, SimpleBoard : State of game board & bricks (Moving of bricks, rotation, generate new brick, clear rows, score management)
+  - BrickRotator : Rotational logic of brick
+  - ClearRow : Computation (linesRemoved, newMatrix, scoreBonus)
+  - DownData: State change (ClearRow, ViewData)
+  - MatrixOperations : Computation (intersect, copy, merge, checkRemoving)
+  - NextShapeInfo : State
+  - Score : Manages score -> State
+  - ViewData : State of a brick (brickData, xPosition, yPosition, nextBrickData)
+- **View** : GUI
+  - 
+- **Controller** : Update Model & View (in between)
+- 
 ```
 com.comp2042
+|-- controller/
+|
 |-- logic.bricks/
 |    |-- Brick
 |    |-- BrickGenerator
@@ -43,24 +59,30 @@ com.comp2042
 |    |-- SBrick
 |    |-- TBrick
 |    |-- ZBrick
-|-- Board
-|-- BrickRotator
-|-- ClearRow
-|-- DownData
+|
+|-- model/
+|    |-- Board
+|    |-- BrickRotator
+|    |-- ClearRow
+|    |-- DownData
+|    |-- MatrixOperations
+|    |-- NextShapeInfo
+|    |-- Score
+|    |-- SimpleBoard
+|    |-- ViewData
+|
+|-- view/
+|
 |-- EventSource
 |-- EventType
 |-- GameController
 |-- GameOverPanel
-|--GuiController
-|--InputEventListener
+|-- GuiController
+|-- InputEventListener
 |-- Main
-|-- MatrixOperations
 |-- MoveEvent
-|-- NextShapeInfo
 |-- NotificationPanel
-|-- Score
-|-- SimpleBoard
-|-- ViewData
+
 ```
 
 
@@ -91,8 +113,10 @@ com.comp2042
 ---
 
 ## TimeLine
-- [ ] Create issues
-- [ ] Directory Refactoring
+- [x] Create issues
+- [x] Directory Refactoring (Model)
+- [ ] Directory Refactoring (View)
+- [ ] Directory Refactoring (Controller)
 - [ ] Code Refactoring
 - [ ] Code Modification (Modification)
 - [ ] Code Extension (Should Implement)
