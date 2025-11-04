@@ -1,5 +1,6 @@
-package com.comp2042;
+package com.comp2042.view;
 
+import com.comp2042.*;
 import com.comp2042.model.DownData;
 import com.comp2042.model.ViewData;
 import javafx.animation.KeyFrame;
