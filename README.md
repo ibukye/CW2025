@@ -38,9 +38,13 @@ javafx.controls,javafx.fxml,javafx.media
   - Score : Manages score -> State
   - ViewData : State of a brick (brickData, xPosition, yPosition, nextBrickData)
 - **View** : GUI
-  - 
+  - GameOverPanel : UI component for game over
+  - GuiController : Initializes the GameScreen (refreshGameBackGround, refreshBrick, setOnKeyPressed)
+  - InputEventListener : Interface to process user input events from View
+  - Main : Entry point of the application
+  - NotificationPanel : UI component to show score bonus
 - **Controller** : Update Model & View (in between)
-- 
+
 ```
 com.comp2042
 |-- controller/
@@ -72,16 +76,16 @@ com.comp2042
 |    |-- ViewData
 |
 |-- view/
+|    |-- GameOverPanel
+|    |-- GuiController
+|    |-- InputEventListener
+|    |-- Main
+|    |-- NotificationPanel
 |
 |-- EventSource
 |-- EventType
 |-- GameController
-|-- GameOverPanel
-|-- GuiController
-|-- InputEventListener
-|-- Main
 |-- MoveEvent
-|-- NotificationPanel
 
 ```
 
@@ -115,7 +119,7 @@ com.comp2042
 ## TimeLine
 - [x] Create issues
 - [x] Directory Refactoring (Model)
-- [ ] Directory Refactoring (View)
+- [x] Directory Refactoring (View)
 - [ ] Directory Refactoring (Controller)
 - [ ] Code Refactoring
 - [ ] Code Modification (Modification)
