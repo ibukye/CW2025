@@ -1,6 +1,6 @@
 package com.comp2042.model;
 
-import com.comp2042.logic.bricks.Brick;
+import com.comp2042.model.bricks.Brick;
 
 public class BrickRotator {
 
