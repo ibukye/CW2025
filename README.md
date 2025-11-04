@@ -28,7 +28,8 @@ javafx.controls,javafx.fxml,javafx.media
 ## Directory Structure
 
 **MVC Design Pattern (Model-View-Controller)**
-- **Model** : State, Logic of Application (Data Structure, Rule, Computation)
+- **Model** : State, Logic of Application (Data Structure, Rule, Computation) 
+  - bricks : Model of the bricks and manages brick generation (Data Structure, Computation)
   - Board, SimpleBoard : State of game board & bricks (Moving of bricks, rotation, generate new brick, clear rows, score management)
   - BrickRotator : Rotational logic of brick
   - ClearRow : Computation (linesRemoved, newMatrix, scoreBonus)
@@ -44,25 +45,18 @@ javafx.controls,javafx.fxml,javafx.media
   - Main : Entry point of the application
   - NotificationPanel : UI component to show score bonus
 - **Controller** : Update Model & View (in between)
+  - EventSource : To identify where the command came from (USER, THREAD) 
+  - EventType : Command type from user (DOWN, LEFT, RIGHT, ROTATE)
+  - GameController : Implements InputEventListener, receives events from GuiController, and call methods of Board (onDownEvent, onLeftEvent, onRightEvent, onRotateEvent, createNewGame)
+  - MoveEvent : Controller-layer event object in MVC architecture that encapsulates What happened (EventType), Who caused it (EventSource)
 
 ```
 com.comp2042
 |-- controller/
-|
-|-- logic.bricks/
-|    |-- Brick
-|    |-- BrickGenerator
-|    |-- IBrick
-|    |-- JBrick
-|    |-- LBrick
-|    |-- OBrick
-|    |-- RandomBrickGenerator
-|    |-- SBrick
-|    |-- TBrick
-|    |-- RandomBrickGenerator
-|    |-- SBrick
-|    |-- TBrick
-|    |-- ZBrick
+|    |-- EventSource
+|    |-- EventType
+|    |-- GameController
+|    |-- MoveEvent
 |
 |-- model/
 |    |-- Board
@@ -74,6 +68,17 @@ com.comp2042
 |    |-- Score
 |    |-- SimpleBoard
 |    |-- ViewData
+|    |-- bricks/
+|       |-- Brick
+|       |-- BrickGenerator
+|       |-- IBrick
+|       |-- JBrick
+|       |-- LBrick
+|       |-- OBrick
+|       |-- RandomBrickGenerator
+|       |-- SBrick
+|       |-- TBrick
+|       |-- ZBrick
 |
 |-- view/
 |    |-- GameOverPanel
@@ -82,10 +87,7 @@ com.comp2042
 |    |-- Main
 |    |-- NotificationPanel
 |
-|-- EventSource
-|-- EventType
-|-- GameController
-|-- MoveEvent
+
 
 ```
 
@@ -120,7 +122,7 @@ com.comp2042
 - [x] Create issues
 - [x] Directory Refactoring (Model)
 - [x] Directory Refactoring (View)
-- [ ] Directory Refactoring (Controller)
+- [x] Directory Refactoring (Controller)
 - [ ] Code Refactoring
 - [ ] Code Modification (Modification)
 - [ ] Code Extension (Should Implement)
