@@ -2,6 +2,7 @@ package com.comp2042.view;
 
 import com.comp2042.controller.EventSource;
 import com.comp2042.controller.EventType;
+import com.comp2042.controller.InputHandler;
 import com.comp2042.controller.MoveEvent;
 import com.comp2042.model.DownData;
 import com.comp2042.model.ViewData;
@@ -77,6 +78,7 @@ public class GuiController implements Initializable {
         gamePanel.setFocusTraversable(true);
         gamePanel.requestFocus();
         // Keyboard input handle
+        /*
         gamePanel.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
@@ -102,7 +104,12 @@ public class GuiController implements Initializable {
                     newGame(null);
                 }
             }
-        });
+        });*/
+
+        // InputHandler
+        InputHandler inputHandler = new InputHandler(this);
+        gamePanel.setOnKeyPressed(inputHandler);
+
         gameOverPanel.setVisible(false);
 
         final Reflection reflection = new Reflection();
@@ -237,7 +244,8 @@ public class GuiController implements Initializable {
      *
      * @param event the downward move event.
      */
-    private void moveDown(MoveEvent event) {
+    // changed from private to public to use in InputHandler
+    public void moveDown(MoveEvent event) {
         if (isPause.getValue() == Boolean.FALSE) {
             DownData downData = eventListener.onDownEvent(event);
             if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
@@ -312,4 +320,22 @@ public class GuiController implements Initializable {
         }
         gamePanel.requestFocus();
     }
+
+    /**
+     * Gets the pause state.
+     * @return the isPause Boolean
+     */
+    public boolean isPause() { return isPause.get(); }
+
+    /**
+     * Gets the game over state.
+     * @return the isGameOver Boolean
+     */
+    public boolean isGameOver() { return isGameOver.get(); }
+
+    /**
+     * Gets the event listener (GameController).
+     * @return the InputEventListener
+     */
+    public InputEventListener getEventListener() { return this.eventListener; }
 }
