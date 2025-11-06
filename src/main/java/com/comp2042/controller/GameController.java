@@ -1,5 +1,6 @@
 package com.comp2042.controller;
 
+import com.comp2042.GameConfig;
 import com.comp2042.model.*;
 import com.comp2042.view.GuiController;
 import com.comp2042.view.InputEventListener;
@@ -10,7 +11,8 @@ import javafx.util.Duration;
 public class GameController implements InputEventListener {
 
     /** The logical game board model. */
-    private Board board = new SimpleBoard(25, 10);
+    // Original constructor for SimpleBoard -> SimpleBoard(int width, int height) -> ERROR
+    private Board board = new SimpleBoard(GameConfig.BOARD_HEIGHT, GameConfig.BOARD_WIDTH);
 
     /** The main game loop timeline. */
     private Timeline timeLine;
@@ -42,7 +44,7 @@ public class GameController implements InputEventListener {
     private void gameLoop() {
         if (timeLine != null) timeLine.stop();
         timeLine = new Timeline(new KeyFrame(
-                Duration.millis(400),
+                Duration.millis(GameConfig.GAME_SPEED_MS),
                 ae -> {
                     //onDownEvent(new MoveEvent(EventType.DOWN, EventSource.THREAD));
                     DownData downData = onDownEvent(new MoveEvent(EventType.DOWN, EventSource.THREAD));
