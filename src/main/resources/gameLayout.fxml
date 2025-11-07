@@ -15,6 +15,13 @@
         </center>
     </BorderPane>
 
+    <Group layoutX="250" layoutY="100">
+        <VBox spacing="5">
+            <Label text="Score" styleClass="score-label"/>
+            <Label fx:id="scoreLabel" text="0" styleClass="score-value"/>
+        </VBox>
+    </Group>
+
     <Group fx:id="groupNotification" layoutX="14" layoutY="203">
         <VBox alignment="CENTER">
             <GameOverPanel fx:id="gameOverPanel"/>

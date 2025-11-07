@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -50,6 +51,9 @@ public class GuiController implements Initializable {
 
     @FXML
     private GridPane brickPanel;
+
+    @FXML
+    private Label scoreLabel;
 
     @FXML
     private GameOverPanel gameOverPanel;
@@ -251,10 +255,12 @@ public class GuiController implements Initializable {
 
     /**
      * Binds the displayed score to the game’s score property.
+     * This method links the score value from the Model to the scoreLabel in the View.
      *
-     * @param integerProperty the score property to bind.
+     * @param integerProperty the score property from the Score object (Model).
      */
     public void bindScore(IntegerProperty integerProperty) {
+        scoreLabel.textProperty().bind(integerProperty.asString());
     }
 
     /**

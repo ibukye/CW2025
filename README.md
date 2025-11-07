@@ -98,8 +98,8 @@ com.comp2042
 ---
 
 ## TODO (Modification)
-- [x] Game Over Logic (not high enough) : Solved by changing GameConfig.BRICK_SPAWN_Y from 10 to 0
-- [ ] Display Score
+- [x] Game Over Logic (not high enough) : Solved by changing `GameConfig.BRICK_SPAWN_Y` from 10 to 0
+- [x] Display Score : Solved by adding label to the gameLayout.fxml and bind it to `GuiController.bindScore`
 - [ ] Display Next Brick
 
 ---
