@@ -13,6 +13,12 @@ public interface Board {
     boolean moveBrickDown();
 
     /**
+     * Moves the brick down instantly until it collides.
+     * @return The number of rows the brick was dropped.
+     */
+    int hardDrop();
+
+    /**
      * Attempts to move the current brick left by one unit.
      * @return true if the brick can move, false if collide
      */

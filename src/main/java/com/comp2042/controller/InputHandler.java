@@ -1,6 +1,9 @@
 package com.comp2042.controller;
 
+import com.comp2042.model.DownData;
+import com.comp2042.model.ViewData;
 import com.comp2042.view.GuiController;
+import com.comp2042.view.InputEventListener;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -15,13 +18,15 @@ import javafx.scene.input.KeyEvent;
 public class InputHandler implements EventHandler<KeyEvent> {
     // Reference to the GuiController
     private final GuiController guiController;
+    private final InputEventListener gameController;
 
     /**
      * Creates a new InputHandler.
      * @param controller The GuiController instance to interact with.
      */
-    public InputHandler(GuiController controller) {
+    public InputHandler(GuiController controller, InputEventListener gameController) {
         this.guiController = controller;
+        this.gameController = gameController;
     }
 
     /**
@@ -46,6 +51,10 @@ public class InputHandler implements EventHandler<KeyEvent> {
             }
             if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
                 guiController.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
+                keyEvent.consume();
+            }
+            if (keyEvent.getCode() == KeyCode.SPACE) {
+                ViewData viewData = gameController.onHardDropEvent();
                 keyEvent.consume();
             }
         }

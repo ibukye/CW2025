@@ -90,6 +90,19 @@ public class GameController implements InputEventListener {
     }
 
     /**
+     * Handles Hard Drop (move down instantly).
+     *
+     * @return DownData containing the final board state and score.
+     */
+    @Override
+    public ViewData onHardDropEvent() {
+        int moved_count = board.hardDrop();
+        board.hardDrop();
+        board.getScore().add(moved_count * 2);
+        return board.getViewData();
+    }
+
+    /**
      * Handles movement of the current brick to the left.
      *
      * @param event the move event.

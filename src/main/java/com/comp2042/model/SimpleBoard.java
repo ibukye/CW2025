@@ -62,6 +62,17 @@ public class SimpleBoard implements Board {
     }
 
     /**
+     * Moves the brick down instantly until it collides.
+     * @return The number of rows the brick was dropped.
+     */
+    @Override
+    public int hardDrop() {
+        int moved_count = 0;
+        while (moveBrickDown()) moved_count++;
+        return moved_count;
+    }
+
+    /**
      * Attempts to move the currently falling brick left by one unit.
      * Checks for collision against the left boundary or fixed background bricks.
      *

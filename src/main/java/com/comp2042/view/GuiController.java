@@ -114,7 +114,7 @@ public class GuiController implements Initializable {
 
 
         // InputHandler
-        InputHandler inputHandler = new InputHandler(this);
+        InputHandler inputHandler = new InputHandler(this, this.eventListener);
         gamePanel.setOnKeyPressed(inputHandler);
 
         gameOverPanel.setVisible(false);
@@ -253,6 +253,8 @@ public class GuiController implements Initializable {
      */
     public void setEventListener(InputEventListener eventListener) {
         this.eventListener = eventListener;
+        InputHandler inputHandler = new InputHandler(this, this.eventListener);
+        gamePanel.setOnKeyPressed(inputHandler);
     }
 
     /**
