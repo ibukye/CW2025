@@ -95,11 +95,22 @@ public class GameController implements InputEventListener {
      * @return DownData containing the final board state and score.
      */
     @Override
-    public ViewData onHardDropEvent() {
+    public DownData onHardDropEvent() {
         int moved_count = board.hardDrop();
-        board.hardDrop();
         board.getScore().add(moved_count * 2);
-        return board.getViewData();
+        // same logic as onDownEvent
+        board.mergeBrickToBackground();
+        ClearRow clearRow = board.clearRows();
+        if (clearRow.getLinesRemoved() > 0) {
+            board.getScore().add(clearRow.getScoreBonus());
+        }
+        if (board.createNewBrick()) {
+            timeLine.stop();
+            viewGuiController.gameOver();
+        }
+        viewGuiController.refreshGameBackground(board.getBoardMatrix());
+
+        return new DownData(clearRow, board.getViewData());
     }
 
     /**

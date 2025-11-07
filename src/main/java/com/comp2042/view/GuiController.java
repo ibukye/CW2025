@@ -246,6 +246,19 @@ public class GuiController implements Initializable {
         gamePanel.requestFocus();
     }
 
+    public void handleHardDrop() {
+        // ask Controller to run
+        DownData downData = eventListener.onHardDropEvent();
+        // Same as moveDown
+        if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
+            NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
+            groupNotification.getChildren().add(notificationPanel);
+            notificationPanel.showScore(groupNotification.getChildren());
+        }
+        refreshBrick(downData.getViewData());
+        gamePanel.requestFocus();
+    }
+
     /**
      * Sets the input event listener for the GUI controller.
      *

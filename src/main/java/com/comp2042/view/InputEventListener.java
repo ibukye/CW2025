@@ -39,7 +39,7 @@ public interface InputEventListener {
      * Handles Hard Drop (move down instantly).
      * @return DownData containing the final board state and score.
      */
-    ViewData onHardDropEvent();
+    DownData onHardDropEvent();
 
     /**
      * Stops the main game loop.

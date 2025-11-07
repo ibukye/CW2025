@@ -54,7 +54,7 @@ public class InputHandler implements EventHandler<KeyEvent> {
                 keyEvent.consume();
             }
             if (keyEvent.getCode() == KeyCode.SPACE) {
-                ViewData viewData = gameController.onHardDropEvent();
+                guiController.handleHardDrop();
                 keyEvent.consume();
             }
         }
