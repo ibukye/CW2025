@@ -1,33 +1,27 @@
 package com.comp2042.view;
 
 import com.comp2042.GameConfig;
-import com.comp2042.controller.EventSource;
-import com.comp2042.controller.EventType;
 import com.comp2042.controller.InputHandler;
 import com.comp2042.controller.MoveEvent;
 import com.comp2042.model.DownData;
 import com.comp2042.model.ViewData;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -60,6 +54,9 @@ public class GuiController implements Initializable {
     private Button pauseButton;
 
     @FXML
+    private Button restartButton;
+
+    @FXML
     private GameOverPanel gameOverPanel;
 
     private Rectangle[][] displayMatrix;
@@ -68,7 +65,11 @@ public class GuiController implements Initializable {
 
     private Rectangle[][] rectangles;
 
-    //private Timeline timeLine;
+    private Image pauseImg;
+    private Image resumeImg;
+    private Image restartImg;
+    private ImageView pauseIconView;
+    private ImageView resumeIconView;
 
     private final BooleanProperty isPause = new SimpleBooleanProperty();
 
@@ -84,36 +85,33 @@ public class GuiController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
+
+        // Load assets
+        try {
+            pauseImg = new Image(getClass().getResourceAsStream("/icons/pauseButton.png"));
+            resumeImg = new Image(getClass().getResourceAsStream("/icons/resumeButton.png"));
+            restartImg = new Image(getClass().getResourceAsStream("/icons/restartButton.png"));
+            pauseIconView = new ImageView(pauseImg);
+            resumeIconView = new ImageView(resumeImg);
+            ImageView restartIconView = new ImageView(restartImg);
+            pauseIconView.setFitWidth(25);
+            resumeIconView.setFitWidth(25);
+            restartIconView.setFitWidth(25);
+            pauseIconView.setPreserveRatio(true);
+            resumeIconView.setPreserveRatio(true);
+            restartIconView.setPreserveRatio(true);
+            pauseButton.setGraphic(pauseIconView);
+            restartButton.setGraphic(restartIconView);
+        } catch (Exception e) {
+            System.err.println("Failed to load icon img: " + e.getMessage());
+            pauseButton.setText("Pause");
+            restartButton.setText("Restart");
+        }
+
         gamePanel.setFocusTraversable(true);
         gamePanel.requestFocus();
-        // Keyboard input handle
-        /*
-        gamePanel.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (isPause.getValue() == Boolean.FALSE && isGameOver.getValue() == Boolean.FALSE) {
-                    if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
-                        refreshBrick(eventListener.onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
-                        keyEvent.consume();
-                    }
-                    if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
-                        refreshBrick(eventListener.onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER)));
-                        keyEvent.consume();
-                    }
-                    if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
-                        refreshBrick(eventListener.onRotateEvent(new MoveEvent(EventType.ROTATE, EventSource.USER)));
-                        keyEvent.consume();
-                    }
-                    if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
-                        moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
-                        keyEvent.consume();
-                    }
-                }
-                if (keyEvent.getCode() == KeyCode.N) {
-                    newGame(null);
-                }
-            }
-        });*/
+
+
 
         // InputHandler
         InputHandler inputHandler = new InputHandler(this);
@@ -293,6 +291,7 @@ public class GuiController implements Initializable {
         //eventListener.resumeGame();
         isPause.setValue(Boolean.FALSE);
         isGameOver.setValue(Boolean.FALSE);
+        pauseButton.setGraphic(pauseIconView);
     }
 
     /**
@@ -306,12 +305,13 @@ public class GuiController implements Initializable {
             // if playing -> pause
             eventListener.stopGame();
             isPause.setValue(Boolean.TRUE);
-            pauseButton.setText("Resume");
+            pauseButton.setGraphic(resumeIconView);
         } else {
             // if pause -> resume
             eventListener.resumeGame();
             isPause.setValue(Boolean.FALSE);
-            pauseButton.setText("Pause");
+            pauseButton.setGraphic(pauseIconView);
+
         }
         gamePanel.requestFocus();
     }

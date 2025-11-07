@@ -15,7 +15,7 @@
         </center>
     </BorderPane>
 
-    <Group layoutX="250" layoutY="100">
+    <Group layoutX="280" layoutY="100">
         <VBox spacing="5">
             <Label text="Score" styleClass="score-label"/>
             <Label fx:id="scoreLabel" text="0" styleClass="score-value"/>
@@ -28,10 +28,10 @@
         </VBox>
     </Group>
 
-    <Group layoutX="250" layoutY="300">
+    <Group layoutX="300" layoutY="470">
         <HBox spacing="10" alignment="CENTER">
-            <Button text="Pause" fx:id="pauseButton" onAction="#pauseGame"/>
-            <Button text="Restart" onAction="#newGame" />
+            <Button fx:id="pauseButton" onAction="#pauseGame"/>
+            <Button fx:id="restartButton" onAction="#newGame" />
         </HBox>
     </Group>
 
