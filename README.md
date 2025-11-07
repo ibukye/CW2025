@@ -111,6 +111,7 @@ com.comp2042
 - [x] **Pause/Resume function**
 - [ ] **Sound Effect/BGM**
 - [ ] **Custom Skin/Theme**
+- [x] **Hard Drop**
 - [ ] **Drop Position Forecast (Ghost Piece)**
 
 ** Difficulties **
@@ -165,13 +166,33 @@ com.comp2042
     3. Simplified `newGame()`, `gameOver()`, and `pauseGame()` to pass to `InputEventListener`
     4. Removed the BRICK_SIZE magic number
     5. Added handling of Pause/Resume and Restart button and its assets(icons)
+    6. Added `handleHardDrop()` method to update view after hard drop
   - Reason : To ensure SRP and Separation of Concern. 
+
 - com.comp2042.controller.GameController
-  - Changes : Added new methods `stopGame()` and `resumeGame()`
-  - Reason : To expand contact between View and Controller. This allows the View class to request stop/resume game.
+  - Changes 
+    1. This manages TimeLine (GameLoop)
+    2. Added new methods `stopGame()` and `resumeGame()`
+    3. Implemented `onHardDropEvent()` to handle hard drop (call `board.hardDrop()`, clear rows, and add score)
+  - Reason : To expand contact between View and Controller. This allows the View class to request stop/resume game. This class is now solely responsible for managing the game's progression, timing, and execute game logic
+
+- com.comp2042.view.InputEventListener (Interface)
+  - Changes
+    1. Added `stopGame()` and `resumeGame()`
+    2. Added `onHardDropEvent()`
+  - Reason : Same as above (GameController)
+
 - com.comp2042.model.SimpleBoard
-  - Changes : Replaced magic numbers for brick spawn point with `GameConfig.BRICK_SPAWN_X` and `GameConfig.BRICK_SPAWN_Y`
-  - Reason : To improve maintainability and easier understanding
+  - Changes 
+    1. Replaced magic numbers for brick spawn point with `GameConfig.BRICK_SPAWN_X` and `GameConfig.BRICK_SPAWN_Y`
+    2. Implemented `hardDrop()` method by repeatedly calling `moveBrickDown()` until collision occur. 
+  - Reason : To improve maintainability and easier understanding and to implement logic for hard drop
+
+- com.comp2042.model.Board (Interface)
+  - Changes : Added `hardDrop()` method
+  - Reason : To implement hard drop
+
+
 
 ---
 ## Unexpected Problems
