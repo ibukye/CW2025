@@ -48,6 +48,7 @@ javafx.controls,javafx.fxml,javafx.media
   - EventSource : To identify where the command came from (USER, THREAD) 
   - EventType : Command type from user (DOWN, LEFT, RIGHT, ROTATE)
   - GameController : Implements InputEventListener, receives events from GuiController, and call methods of Board (onDownEvent, onLeftEvent, onRightEvent, onRotateEvent, createNewGame)
+  - InputHandler : Controller for all keyboard input event
   - MoveEvent : Controller-layer event object in MVC architecture that encapsulates What happened (EventType), Who caused it (EventSource)
 
 ```
@@ -56,6 +57,7 @@ com.comp2042
 |    |-- EventSource
 |    |-- EventType
 |    |-- GameController
+|    |-- InputHandler
 |    |-- MoveEvent
 |
 |-- model/
@@ -87,6 +89,7 @@ com.comp2042
 |    |-- Main
 |    |-- NotificationPanel
 |
+|-- GameConfig
 
 
 ```
@@ -123,7 +126,7 @@ com.comp2042
 - [x] Directory Refactoring (Model)
 - [x] Directory Refactoring (View)
 - [x] Directory Refactoring (Controller)
-- [ ] Code Refactoring
+- [x] Code Refactoring
 - [ ] Code Modification (Modification)
 - [ ] Code Extension (Should Implement)
 
@@ -142,9 +145,31 @@ com.comp2042
 ## Features Not Implemented
 
 ## New Java Classes
+- com.comp2042.controller.InputHandler
+  - Purpose : To adhere to the Single Responsibility Principle (SRP). This class extracts all keyboard input handling logic from `GuiController`.
+  - Reason : `GuiController`'s responsibility is now only View (rendering, displaying). `InputHandler` own the Controller which detect and interpreting key input and translating them into game commands
+- com.comp2042.GameConfig
+  - Purpose : To organize and make the codes easy to read by extracting Magic Numbers.
+  - Reason : Hard coded values makes the code complicated to read since there's no explanation. To improve readability, maintainability, and makes it easy to adjust game difficulty later.
 
+
+---
 ## Modified Java Classes
+- com.comp2042.view.GuiController
+  - Changes
+    1. Removed internal TimeLine (GameLoop)
+    2. Removed all keyboard handling logic from `initialize()`
+    3. Simplified `newGame()`, `gameOver()`, and `pauseGame()` to pass to `InputEventListener`
+    4. Removed the BRICK_SIZE magic number
+  - Reason : To ensure SRP and Separation of Concern. 
+- com.comp2042.controller.GameController
+  - Changes : Added new methods `stopGame()` and `resumeGame()`
+  - Reason : To expand contact between View and Controller. This allows the View class to request stop/resume game.
+- com.comp2042.model.SimpleBoard
+  - Changes : Replaced magic numbers for brick spawn point with `GameConfig.BRICK_SPAWN_X` and `GameConfig.BRICK_SPAWN_Y`
+  - Reason : To improve maintainability and easier understanding
 
+---
 ## Unexpected Problems
 
 

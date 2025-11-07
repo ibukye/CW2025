@@ -37,4 +37,9 @@ public final class GameConfig {
      * The initial Y coordinate for spawning new brick
      */
     public static final int BRICK_SPAWN_Y = 10;
+
+    /**
+     * The size of all the bricks
+     */
+    public static final int BRICK_SIZE = 20;
 }
