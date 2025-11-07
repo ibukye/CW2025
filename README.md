@@ -108,7 +108,7 @@ com.comp2042
 - [ ] **Setting Screen (adjust volume, change key-binds)**
 - [ ] **Game Mode: Multi-Level (speed, difficulty)**
 - [ ] **High Score**
-- [ ] **Pause/Resume function**
+- [x] **Pause/Resume function**
 - [ ] **Sound Effect/BGM**
 - [ ] **Custom Skin/Theme**
 - [ ] **Drop Position Forecast (Ghost Piece)**
@@ -164,6 +164,7 @@ com.comp2042
     2. Removed all keyboard handling logic from `initialize()`
     3. Simplified `newGame()`, `gameOver()`, and `pauseGame()` to pass to `InputEventListener`
     4. Removed the BRICK_SIZE magic number
+    5. Added handling of Pause/Resume and Restart button and its assets(icons)
   - Reason : To ensure SRP and Separation of Concern. 
 - com.comp2042.controller.GameController
   - Changes : Added new methods `stopGame()` and `resumeGame()`
@@ -174,5 +175,5 @@ com.comp2042
 
 ---
 ## Unexpected Problems
-
+- Sometimes the bonus score doesn't come up
 
