@@ -98,7 +98,7 @@ com.comp2042
 ---
 
 ## TODO (Modification)
-- [ ] Game Over Logic (not high enough)
+- [x] Game Over Logic (not high enough) : Solved by changing GameConfig.BRICK_SPAWN_Y from 10 to 0
 - [ ] Display Score
 - [ ] Display Next Brick
 
@@ -140,9 +140,12 @@ com.comp2042
 
 ## Implemented and Working Properly
 
+
 ## Implemented but Not Working Properly
 
+
 ## Features Not Implemented
+
 
 ## New Java Classes
 - com.comp2042.controller.InputHandler
