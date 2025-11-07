@@ -27,6 +27,18 @@
             <GameOverPanel fx:id="gameOverPanel"/>
         </VBox>
     </Group>
+
+    <Group layoutX="250" layoutY="300">
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="Pause" fx:id="pauseButton" onAction="#pauseGame"/>
+            <Button text="Restart" onAction="#newGame" />
+        </HBox>
+    </Group>
+
+
+
+
+
     <stylesheets>
         <URL value="@window_style.css"/>
     </stylesheets>

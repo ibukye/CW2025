@@ -1,5 +1,6 @@
 package com.comp2042.view;
 
+import com.comp2042.GameConfig;
 import com.comp2042.controller.GameController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +23,7 @@ public class Main extends Application {
         GuiController c = fxmlLoader.getController();
 
         primaryStage.setTitle("TetrisJFX");
-        Scene scene = new Scene(root, 300, 510);
+        Scene scene = new Scene(root, GameConfig.WINDOW_WIDTH, GameConfig.WINDOW_HEIGHT);
         primaryStage.setScene(scene);
         primaryStage.show();
         new GameController(c);

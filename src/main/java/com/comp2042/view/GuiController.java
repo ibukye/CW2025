@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
 import javafx.scene.input.KeyCode;
@@ -54,6 +55,9 @@ public class GuiController implements Initializable {
 
     @FXML
     private Label scoreLabel;
+
+    @FXML
+    private Button pauseButton;
 
     @FXML
     private GameOverPanel gameOverPanel;
@@ -293,6 +297,7 @@ public class GuiController implements Initializable {
 
     /**
      * Toggles between pause and resume states.
+     * Updates the pauseButton text accordingly.
      *
      * @param actionEvent the event triggering the pause/resume action.
      */
@@ -301,10 +306,12 @@ public class GuiController implements Initializable {
             // if playing -> pause
             eventListener.stopGame();
             isPause.setValue(Boolean.TRUE);
+            pauseButton.setText("Resume");
         } else {
             // if pause -> resume
             eventListener.resumeGame();
             isPause.setValue(Boolean.FALSE);
+            pauseButton.setText("Pause");
         }
         gamePanel.requestFocus();
     }

@@ -11,8 +11,13 @@ public final class GameConfig {
     // No need to create an instance for this just read from this file
     private GameConfig() {}
 
-    // Board dimensions
+    /**
+     * Width and Height of the Application Window
+     */
+    public static final int WINDOW_WIDTH = 400;
+    public static final int WINDOW_HEIGHT = 510;
 
+    // Board dimensions
     /**
      * Height of the game board matrix.
      */
