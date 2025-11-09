@@ -42,24 +42,6 @@ public class InputHandler implements EventHandler<KeyEvent> {
     @Override
     public void handle(KeyEvent keyEvent) {
         if (guiController.isPause() == Boolean.FALSE && guiController.isGameOver() == Boolean.FALSE) {
-
-            /*if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
-                guiController.refreshBrick(guiController.getEventListener().onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
-                keyEvent.consume();
-            }
-            if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
-                guiController.refreshBrick(guiController.getEventListener().onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER)));
-                keyEvent.consume();
-            }
-            if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
-                guiController.refreshBrick(guiController.getEventListener().onRotateEvent(new MoveEvent(EventType.ROTATE, EventSource.USER)));
-                keyEvent.consume();
-            }
-            if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
-                guiController.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
-                keyEvent.consume();
-            }*/
-
             // CAPS : LEFT MOST
             if (keyEvent.getCode() == KeyCode.CAPS) {
                 ViewData data = gameController.onLeftMostEvnet();
@@ -84,7 +66,6 @@ public class InputHandler implements EventHandler<KeyEvent> {
                 keyEvent.consume();
             }
 
-
             // --- ROTATION ---
             // S : ROTATE LEFT
             if (keyEvent.getCode() == KeyCode.S) {
@@ -96,8 +77,6 @@ public class InputHandler implements EventHandler<KeyEvent> {
                 guiController.refreshBrick(guiController.getEventListener().onRotateRightEvent());
                 keyEvent.consume();
             }
-
-
 
             // --- DOUBLE SPACE LOGIC ---
             if (keyEvent.getCode() == KeyCode.SPACE) {
@@ -118,19 +97,6 @@ public class InputHandler implements EventHandler<KeyEvent> {
                     lastSpacePressTime = now;   // record the pressed time
                 }
             }
-
-
-            // DOWN
-            /*if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
-                guiController.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
-                keyEvent.consume();
-            }*/
-
-
-            /*if (keyEvent.getCode() == KeyCode.SPACE) {
-                guiController.handleHardDrop();
-                keyEvent.consume();
-            }*/
         }
         if (keyEvent.getCode() == KeyCode.N) {
             guiController.newGame(null);

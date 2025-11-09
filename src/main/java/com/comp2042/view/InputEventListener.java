@@ -20,6 +20,10 @@ public interface InputEventListener {
      */
     ViewData onLeftEvent(MoveEvent event);
 
+    /**
+     * Handles moving the current brick instantly to the far left.
+     * @return The updated {@link ViewData}.
+     */
     ViewData onLeftMostEvnet();
 
     /**
@@ -29,6 +33,10 @@ public interface InputEventListener {
      */
     ViewData onRightEvent(MoveEvent event);
 
+    /**
+     * Handles moving the current brick instantly to the far right.
+     * @return The updated {@link ViewData}.
+     */
     ViewData onRightMostEvent();
 
     /**
@@ -39,6 +47,10 @@ public interface InputEventListener {
      */
     ViewData onRotateEvent(MoveEvent event);
 
+    /**
+     * Handles rotation of the current brick 90 degrees right.
+     * @return The updated {@link ViewData}.
+     */
     ViewData onRotateRightEvent();
 
     /**

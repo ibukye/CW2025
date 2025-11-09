@@ -92,6 +92,9 @@ public class SimpleBoard implements Board {
         }
     }
 
+    /**
+     * Moves the brick instantly to the far left boundary or until it hits another brick.
+     */
     @Override
     public void moveBrickLeftMost() {
         // go left until collide
@@ -118,6 +121,9 @@ public class SimpleBoard implements Board {
         }
     }
 
+    /**
+     * Moves the brick instantly to the far right boundary or until it hits another brick.
+     */
     @Override
     public void moveBrickRightMost() {
         // move right until collide
@@ -152,16 +158,11 @@ public class SimpleBoard implements Board {
     @Override
     public boolean rotateRightBrick() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
-        /*NextShapeInfo nextShape = brickRotator.getNextShape();
-        boolean conflict = MatrixOperations.intersect(currentMatrix, nextShape.getShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
-        if (conflict) {
-            return false;
-        } else {
-            brickRotator.setCurrentShape(nextShape.getPosition());
-            return true;
-        }*/
-        System.out.println("Rotate RIght");
-        return false;
+        NextShapeInfo prevShape = brickRotator.getPrevShape();
+        boolean conflict = MatrixOperations.intersect(currentMatrix, prevShape.getShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
+        if (conflict) { return false; }
+        else { brickRotator.setCurrentShape(prevShape.getPosition()); return true; }
+        //System.out.println("Rotate RIght");
     }
 
     /**
