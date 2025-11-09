@@ -50,12 +50,12 @@ public class InputHandler implements EventHandler<KeyEvent> {
                 keyEvent.consume();
             }
             // F : LEFT
-            if (keyEvent.getCode() == KeyCode.F) {
+            if (keyEvent.getCode() == KeyCode.F || keyEvent.getCode() == KeyCode.LEFT) {
                 guiController.refreshBrick(guiController.getEventListener().onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
                 keyEvent.consume();
             }
             // J : RIGHT
-            if (keyEvent.getCode() == KeyCode.J) {
+            if (keyEvent.getCode() == KeyCode.J || keyEvent.getCode() == KeyCode.RIGHT) {
                 guiController.refreshBrick(guiController.getEventListener().onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER)));
                 keyEvent.consume();
             }
@@ -68,7 +68,7 @@ public class InputHandler implements EventHandler<KeyEvent> {
 
             // --- ROTATION ---
             // S : ROTATE LEFT
-            if (keyEvent.getCode() == KeyCode.S) {
+            if (keyEvent.getCode() == KeyCode.S || keyEvent.getCode() == KeyCode.UP) {
                 guiController.refreshBrick(guiController.getEventListener().onRotateEvent(new MoveEvent(EventType.ROTATE, EventSource.USER)));
                 keyEvent.consume();
             }

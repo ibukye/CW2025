@@ -20,6 +20,7 @@ import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -72,6 +73,10 @@ public class GuiController implements Initializable {
     private ImageView pauseIconView;
     private ImageView resumeIconView;
 
+    // MediaPlayer
+    private MediaPlayer clearRowSoundPlayer;
+    private MediaPlayer speedUpSoundPlayer;
+
     private final BooleanProperty isPause = new SimpleBooleanProperty();
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
@@ -121,6 +126,26 @@ public class GuiController implements Initializable {
         reflection.setFraction(0.8);
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
+    }
+
+    /**
+     * receives MediaPlayer from GameController
+     * @param clearRowSoundPlayer Line Clear Sound
+     * @param speedUpSoundPlayer Speed Up Sound
+     */
+    public void setupSoundPlayers(MediaPlayer clearRowSoundPlayer, MediaPlayer speedUpSoundPlayer) {
+        this.clearRowSoundPlayer = clearRowSoundPlayer;
+        this.speedUpSoundPlayer = speedUpSoundPlayer;
+    }
+
+    /**
+     * play the MediaPlayer
+     * @param player MediaPlayer
+     */
+    private void playSound(MediaPlayer player) {
+        // Stop the previous media
+        player.stop();
+        player.play();
     }
 
     /**
@@ -267,6 +292,7 @@ public class GuiController implements Initializable {
                 NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
                 groupNotification.getChildren().add(notificationPanel);
                 notificationPanel.showScore(groupNotification.getChildren());
+                playSound(clearRowSoundPlayer);
             }
             refreshBrick(downData.getViewData());
         }
@@ -281,6 +307,7 @@ public class GuiController implements Initializable {
             NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
             groupNotification.getChildren().add(notificationPanel);
             notificationPanel.showScore(groupNotification.getChildren());
+            playSound(clearRowSoundPlayer);
         }
         refreshBrick(downData.getViewData());
         gamePanel.requestFocus();

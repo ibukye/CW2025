@@ -8,6 +8,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.net.URL;
+
 public class GameController implements InputEventListener {
 
     /** The logical game board model. */
@@ -25,6 +29,10 @@ public class GameController implements InputEventListener {
     // current game speed with lines
     private double currentGameSpeed;
 
+    // MediaPlayer field
+    private MediaPlayer clearRowSoundPlayer;
+    private MediaPlayer speedUpSoundPlayer;
+
     /**
      * @param c the {@link GuiController} instance controlling the UI.
      * @param difficulty The selected difficulty (Easy, Normal, Hard)
@@ -34,6 +42,8 @@ public class GameController implements InputEventListener {
         this.difficulty = difficulty;
         // initialize with difficulty
         initializeDifficulty(difficulty);
+        // initialize sound
+        initializeSounds();
 
         board.createNewBrick();
         viewGuiController.setEventListener(this);
@@ -61,6 +71,24 @@ public class GameController implements InputEventListener {
                 // Normal + obstacle
                 break;
         }
+    }
+
+    /**
+     * Loads sound files into MediaPlayer objects and passes them to the GuiController.
+     */
+    private void initializeSounds() {
+        try {
+            URL clearSoundURL = getClass().getResource("/sounds/clearRowSound.mp3");
+            URL speedUpSoundURL = getClass().getResource("/sounds/speedUpSound.mp3");
+
+            Media clearMedia = new Media(clearSoundURL.toExternalForm());
+            this.clearRowSoundPlayer = new MediaPlayer(clearMedia);
+            Media speedUpMedia = new Media(speedUpSoundURL.toExternalForm());
+            this.speedUpSoundPlayer = new MediaPlayer(speedUpMedia);
+        } catch (Exception e) {
+            System.err.println("Failed to load sounds : " + e.getMessage());
+        }
+        viewGuiController.setupSoundPlayers(this.clearRowSoundPlayer, this.speedUpSoundPlayer);
     }
 
     /**
@@ -160,7 +188,11 @@ public class GameController implements InputEventListener {
         if (totalLines % 5 == 0) {
             // speed up -> 90% of original
             double newSpeed = this.currentGameSpeed * 0.9;
-            this.currentGameSpeed = newSpeed;
+            if (newSpeed != this.currentGameSpeed) {
+                this.currentGameSpeed = newSpeed;
+                c.playSound(speedUpSoundPlayer);
+            }
+
             gameLoop();
         }
     }
