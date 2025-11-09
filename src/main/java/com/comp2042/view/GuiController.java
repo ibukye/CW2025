@@ -142,7 +142,7 @@ public class GuiController implements Initializable {
      * play the MediaPlayer
      * @param player MediaPlayer
      */
-    private void playSound(MediaPlayer player) {
+    public void playSound(MediaPlayer player) {
         // Stop the previous media
         player.stop();
         player.play();
@@ -311,6 +311,17 @@ public class GuiController implements Initializable {
         }
         refreshBrick(downData.getViewData());
         gamePanel.requestFocus();
+    }
+
+    /**
+     *
+     */
+    public void showSpeedUpNotification() {
+        NotificationPanel speedUpPanel = new NotificationPanel("Speed UP!");
+        // move Y coordinates
+        speedUpPanel.setLayoutY(30);
+        groupNotification.getChildren().add(speedUpPanel);
+        speedUpPanel.showScore(groupNotification.getChildren());
     }
 
     /**

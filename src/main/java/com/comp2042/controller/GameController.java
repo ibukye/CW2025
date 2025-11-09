@@ -128,6 +128,7 @@ public class GameController implements InputEventListener {
     public DownData onDownEvent(MoveEvent event) {
         boolean canMove = board.moveBrickDown();
         ClearRow clearRow = null;
+        // level-up flag
         if (!canMove) {
             board.mergeBrickToBackground();
             clearRow = board.clearRows();
@@ -190,10 +191,10 @@ public class GameController implements InputEventListener {
             double newSpeed = this.currentGameSpeed * 0.9;
             if (newSpeed != this.currentGameSpeed) {
                 this.currentGameSpeed = newSpeed;
-                c.playSound(speedUpSoundPlayer);
+                viewGuiController.playSound(speedUpSoundPlayer);
+                viewGuiController.showSpeedUpNotification();
+                gameLoop();
             }
-
-            gameLoop();
         }
     }
 
