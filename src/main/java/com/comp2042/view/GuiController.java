@@ -375,9 +375,13 @@ public class GuiController implements Initializable {
      */
     @FXML
     private void goBackToMenu(ActionEvent actionEvent) {
+        // Need to stop game when the button is pressed
+        eventListener.stopGame();
+        isPause.setValue(Boolean.TRUE);
+        // Show the pop-up
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText("Are you sure you want to go back to menu?");
-
+        // Wait for user input
         Optional<ButtonType> response = alert.showAndWait();
 
         if (response.isPresent() && response.get() == ButtonType.OK) {
@@ -385,7 +389,8 @@ public class GuiController implements Initializable {
             mainApp.showMainMenuScreen();
         } else {
             // No -> resume the game
-
+            eventListener.resumeGame();
+            isPause.setValue(Boolean.FALSE);
         }
     }
 
