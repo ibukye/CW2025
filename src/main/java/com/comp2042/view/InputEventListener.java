@@ -20,12 +20,16 @@ public interface InputEventListener {
      */
     ViewData onLeftEvent(MoveEvent event);
 
+    ViewData onLeftMostEvnet();
+
     /**
      * Handles movement of the current brick to the right.
      * @param event the move event.
      * @return the updated {@link ViewData}.
      */
     ViewData onRightEvent(MoveEvent event);
+
+    ViewData onRightMostEvent();
 
     /**
      * Handles rotation of the current brick.
@@ -34,6 +38,8 @@ public interface InputEventListener {
      * @return the updated {@link ViewData}.
      */
     ViewData onRotateEvent(MoveEvent event);
+
+    ViewData onRotateRightEvent();
 
     /**
      * Handles Hard Drop (move down instantly).

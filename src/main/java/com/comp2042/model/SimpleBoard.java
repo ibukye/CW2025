@@ -92,6 +92,12 @@ public class SimpleBoard implements Board {
         }
     }
 
+    @Override
+    public void moveBrickLeftMost() {
+        // go left until collide
+        while(moveBrickLeft()) {}
+    }
+
     /**
      * Attempts to move the currently falling brick right by one unit.
      * Checks for collision against the right boundary or fixed background bricks.
@@ -112,6 +118,12 @@ public class SimpleBoard implements Board {
         }
     }
 
+    @Override
+    public void moveBrickRightMost() {
+        // move right until collide
+        while(moveBrickRight()) {}
+    }
+
     /**
      * Attempts to rotate the currently falling brick 90 degrees left.
      * Checks for collision against boundaries or fixed background bricks after rotation.
@@ -129,6 +141,27 @@ public class SimpleBoard implements Board {
             brickRotator.setCurrentShape(nextShape.getPosition());
             return true;
         }
+    }
+
+    /**
+     * Attempts to rotate the currently falling brick 90 degrees right.
+     * Checks for collision against boundaries or fixed background bricks after rotation.
+     *
+     * @return true if the rotation was successful, false if a collision occurred.
+     */
+    @Override
+    public boolean rotateRightBrick() {
+        int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
+        /*NextShapeInfo nextShape = brickRotator.getNextShape();
+        boolean conflict = MatrixOperations.intersect(currentMatrix, nextShape.getShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
+        if (conflict) {
+            return false;
+        } else {
+            brickRotator.setCurrentShape(nextShape.getPosition());
+            return true;
+        }*/
+        System.out.println("Rotate RIght");
+        return false;
     }
 
     /**

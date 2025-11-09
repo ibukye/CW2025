@@ -25,16 +25,32 @@ public interface Board {
     boolean moveBrickLeft();
 
     /**
+     * Moves the brick all the way to the left until it collides.
+     */
+    void moveBrickLeftMost();
+
+    /**
      * Attempts to move the current brick right by one unit.
      * @return true if the brick can move, false if collide
      */
     boolean moveBrickRight();
 
     /**
+     * Moves the brick all the way to the right until it collides.
+     */
+    void moveBrickRightMost();
+
+    /**
      * Attempts to rotate the current brick left by 90 degrees.
      * @return true if the brick can move, false if collide
      */
     boolean rotateLeftBrick();
+
+    /**
+     * Attempts to rotate the currently falling brick 90 degrees right.
+     * @return true if the rotation was successful, false if a collision occurred.
+     */
+    boolean rotateRightBrick();
 
     /**
      * Generates a new random brick, sets it as the currently falling brick,

@@ -20,6 +20,11 @@ public class InputHandler implements EventHandler<KeyEvent> {
     private final GuiController guiController;
     private final InputEventListener gameController;
 
+    // TimeStamp for detecting double space
+    private long lastSpacePressTime = 0;
+    // Double-tap detection time (ms)
+    private static final long DOUBLE_TAP_THRESHOLD = 300;
+
     /**
      * Creates a new InputHandler.
      * @param controller The GuiController instance to interact with.
@@ -37,7 +42,8 @@ public class InputHandler implements EventHandler<KeyEvent> {
     @Override
     public void handle(KeyEvent keyEvent) {
         if (guiController.isPause() == Boolean.FALSE && guiController.isGameOver() == Boolean.FALSE) {
-            if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
+
+            /*if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
                 guiController.refreshBrick(guiController.getEventListener().onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
                 keyEvent.consume();
             }
@@ -52,14 +58,104 @@ public class InputHandler implements EventHandler<KeyEvent> {
             if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
                 guiController.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
                 keyEvent.consume();
-            }
-            if (keyEvent.getCode() == KeyCode.SPACE) {
-                guiController.handleHardDrop();
+            }*/
+
+            // CAPS : LEFT MOST
+            if (keyEvent.getCode() == KeyCode.CAPS) {
+                ViewData data = gameController.onLeftMostEvnet();
+                guiController.refreshBrick(data);
+                //guiController.refreshBrick(guiController.getEventListener().onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
                 keyEvent.consume();
             }
+            // F : LEFT
+            if (keyEvent.getCode() == KeyCode.F) {
+                guiController.refreshBrick(guiController.getEventListener().onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
+                keyEvent.consume();
+            }
+            // J : RIGHT
+            if (keyEvent.getCode() == KeyCode.J) {
+                guiController.refreshBrick(guiController.getEventListener().onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER)));
+                keyEvent.consume();
+            }
+            // ENTER : RIGHT MOST
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                ViewData data = gameController.onRightMostEvent();
+                guiController.refreshBrick(data);
+                keyEvent.consume();
+            }
+
+
+            // --- ROTATION ---
+            // S : ROTATE LEFT
+            if (keyEvent.getCode() == KeyCode.S) {
+                guiController.refreshBrick(guiController.getEventListener().onRotateEvent(new MoveEvent(EventType.ROTATE, EventSource.USER)));
+                keyEvent.consume();
+            }
+            // L : ROTATE RIGHT
+            if (keyEvent.getCode() == KeyCode.L) {
+                guiController.refreshBrick(guiController.getEventListener().onRotateRightEvent());
+                keyEvent.consume();
+            }
+
+
+
+            // --- DOUBLE SPACE LOGIC ---
+            if (keyEvent.getCode() == KeyCode.SPACE) {
+                long now = System.currentTimeMillis();
+
+                if (now - lastSpacePressTime < DOUBLE_TAP_THRESHOLD) {
+                    // DOUBLE SPACE -> HARD DROP
+                    guiController.handleHardDrop();
+                    keyEvent.consume();
+
+                    // Reset timer
+                    lastSpacePressTime = 0;
+                } else {
+                    // DOWN
+                    guiController.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
+                    keyEvent.consume();
+
+                    lastSpacePressTime = now;   // record the pressed time
+                }
+            }
+
+
+            // DOWN
+            /*if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
+                guiController.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
+                keyEvent.consume();
+            }*/
+
+
+            /*if (keyEvent.getCode() == KeyCode.SPACE) {
+                guiController.handleHardDrop();
+                keyEvent.consume();
+            }*/
         }
         if (keyEvent.getCode() == KeyCode.N) {
             guiController.newGame(null);
         }
     }
 }
+
+
+
+/*
+
+CAPS : Left most
+
+S : Rotate Left
+
+F : Move left
+
+J : Move right
+
+L : Rotate right
+
+ENTER : Right most
+
+
+SPACE : Go down
+DOUBLE SPACE : Hard drop
+
+ */
