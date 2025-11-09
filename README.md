@@ -106,7 +106,7 @@ com.comp2042
 
 ## TODO (Should Implement)
 - [ ] **Setting Screen (adjust volume, change key-binds)**
-- [ ] **Game Mode: Multi-Level (speed, difficulty)**
+- [x] **Game Mode: Multi-Level (speed, difficulty)**
 - [ ] **High Score**
 - [x] **Pause/Resume function**
 - [ ] **Sound Effect/BGM**
@@ -140,7 +140,8 @@ com.comp2042
 
 
 ## Implemented and Working Properly
-
+- Custom Keybindings: Implemented a new, advanced keybinding scheme (CAPS, S, F, J, L, ENTER) for enhanced playability.
+- Double-Tap Hard Drop: Implemented a timestamp-based double-space detection in the InputHandler to distinguish between Soft Drop (single space) and Hard Drop (double space).
 
 ## Implemented but Not Working Properly
 
@@ -174,23 +175,44 @@ com.comp2042
     1. This manages TimeLine (GameLoop)
     2. Added new methods `stopGame()` and `resumeGame()`
     3. Implemented `onHardDropEvent()` to handle hard drop (call `board.hardDrop()`, clear rows, and add score)
-  - Reason : To expand contact between View and Controller. This allows the View class to request stop/resume game. This class is now solely responsible for managing the game's progression, timing, and execute game logic
+    4. Implemented `onRotateRightEvent()`, `onLeftMostEvent()`, and `onRightMostEvent()`
+  - Reason : 
+    - To expand contact between View and Controller. This allows the View class to request stop/resume game. This class is now solely responsible for managing the game's progression, timing, and execute game logic
+    - To provide new action requested by `InputHandler` 
 
 - com.comp2042.view.InputEventListener (Interface)
   - Changes
     1. Added `stopGame()` and `resumeGame()`
     2. Added `onHardDropEvent()`
+    3. Added `onRotateRightEvent()`, `onLeftMostEvent()`, and `onRightMostEvent()`
   - Reason : Same as above (GameController)
 
 - com.comp2042.model.SimpleBoard
   - Changes 
     1. Replaced magic numbers for brick spawn point with `GameConfig.BRICK_SPAWN_X` and `GameConfig.BRICK_SPAWN_Y`
     2. Implemented `hardDrop()` method by repeatedly calling `moveBrickDown()` until collision occur. 
-  - Reason : To improve maintainability and easier understanding and to implement logic for hard drop
+    3. Implemented `rotateRightBrick()` using `brickRotator.getPrevShape()`
+    4. Implemented `moveBrickLeftMost()` using while loop to call `moveBrickLeft()`
+    5. Implemented `moveBrickRightMost()` using while loop to call `moveBrickRight()`
+    - To improve maintainability and easier understanding and to implement logic for hard drop
+    - To define new brick movements in the Model
 
 - com.comp2042.model.Board (Interface)
-  - Changes : Added `hardDrop()` method
-  - Reason : To implement hard drop
+  - Changes 
+    1. Added `hardDrop()` method
+    2. Added `rotateRightBrick()`, `moveBrickLeftMost()`, and `moveBrickRightMost()`
+  - Reason : To implement hard drop and new movements
+
+- com.comp2042.controller.InputHandler
+  - Changes
+    1. Re-mapped all keyboard inputs to new keybinding (S,F,J,L,etc.)
+    2. Added a timestamp(`lastSpacePressTime`) to detect double-tap space for hard drop
+    3. Added Double tap detection for detecting either moveDown or hardDrop
+  - Reason : To implement the innovative feature design of custom controls, separating it from the default key layout
+
+- com.comp2042.model.BrickRotator
+  - Change : Added `getPrevShape()` using decrement the index and handle error of out of bounds
+  - Reason : To provide rotation right logic for `rotateRightBrick()`
 
 
 
