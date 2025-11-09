@@ -391,6 +391,7 @@ public class GuiController implements Initializable {
             // No -> resume the game
             eventListener.resumeGame();
             isPause.setValue(Boolean.FALSE);
+            gamePanel.requestFocus();   // returns the focus to the game panel
         }
     }
 
