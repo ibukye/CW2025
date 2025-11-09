@@ -65,6 +65,8 @@ public class GuiController implements Initializable {
 
     private Rectangle[][] rectangles;
 
+    private Main mainApp;
+
     private Image pauseImg;
     private Image resumeImg;
     private Image restartImg;
@@ -123,6 +125,15 @@ public class GuiController implements Initializable {
         reflection.setFraction(0.8);
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
+    }
+
+    /**
+     * Set the reference to the main application.
+     *
+     * @param mainApp Instance of Main Application
+     */
+    public void setMainApp(Main mainApp) {
+        this.mainApp = mainApp;
     }
 
     /**

@@ -19,14 +19,19 @@ public class GameController implements InputEventListener {
 
     /** Reference to the GUI controller for updating the view. */
     private final GuiController viewGuiController;
+    // Get Difficulty
+    private Difficulty difficulty;
 
     /**
-     * Constructor for a new {@code GameController} and initializes the game.
-     *
      * @param c the {@link GuiController} instance controlling the UI.
+     * @param difficulty The selected difficulty (Easy, Normal, Hard)
      */
-    public GameController(GuiController c) {
+    public GameController(GuiController c, Difficulty difficulty) {
         viewGuiController = c;
+        this.difficulty = difficulty;
+        // initialize with difficulty
+        initializeDifficulty(difficulty);
+
         board.createNewBrick();
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
@@ -35,6 +40,23 @@ public class GameController implements InputEventListener {
         gameLoop();
     }
 
+    /**
+     * Sets game parameters based on the selected difficulty.
+     * @param difficulty The selected difficulty.
+     */
+    private void initializeDifficulty(Difficulty difficulty) {
+        switch (difficulty) {
+            case EASY:
+                // speed = 400ms, no change
+                break;
+            case NORMAL:
+                // speed up with clear lines
+                break;
+            case HARD:
+                // Normal + obstacle
+                break;
+        }
+    }
 
     /**
      * Initializes and starts the main game loop.
@@ -43,8 +65,13 @@ public class GameController implements InputEventListener {
      */
     private void gameLoop() {
         if (timeLine != null) timeLine.stop();
+
+        // set speed (constant for now)
+        double gameSpeed = GameConfig.GAME_SPEED_MS;
+        if (this.difficulty == Difficulty.NORMAL || this.difficulty == Difficulty.HARD) gameSpeed = 300;
+
         timeLine = new Timeline(new KeyFrame(
-                Duration.millis(GameConfig.GAME_SPEED_MS),
+                Duration.millis(gameSpeed),
                 ae -> {
                     //onDownEvent(new MoveEvent(EventType.DOWN, EventSource.THREAD));
                     DownData downData = onDownEvent(new MoveEvent(EventType.DOWN, EventSource.THREAD));
