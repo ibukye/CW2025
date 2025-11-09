@@ -48,10 +48,10 @@ public class GameController implements InputEventListener {
      * @param difficulty The selected difficulty.
      */
     private void initializeDifficulty(Difficulty difficulty) {
+        this.currentGameSpeed = GameConfig.GAME_SPEED_MS;
         switch (difficulty) {
             case EASY:
                 // speed = 400ms, no change
-                this.currentGameSpeed = GameConfig.GAME_SPEED_MS;
                 break;
             case NORMAL:
                 // speed up with clear lines
@@ -106,6 +106,7 @@ public class GameController implements InputEventListener {
             if (clearRow.getLinesRemoved() > 0) {   // When row cleared
                 board.getScore().add(clearRow.getScoreBonus());
                 board.getScore().addToTotalLines(clearRow.getLinesRemoved());
+                checkSpeedUp(); // check for speed up
             }
             if (board.createNewBrick()) {
                 timeLine.stop();
@@ -137,6 +138,7 @@ public class GameController implements InputEventListener {
         if (clearRow.getLinesRemoved() > 0) {
             board.getScore().add(clearRow.getScoreBonus());
             board.getScore().addToTotalLines(clearRow.getLinesRemoved());
+            checkSpeedUp(); // check for speed up
         }
         if (board.createNewBrick()) {
             timeLine.stop();
