@@ -12,7 +12,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
@@ -23,7 +25,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
+import javax.swing.*;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -55,6 +59,8 @@ public class GuiController implements Initializable {
 
     @FXML
     private Button restartButton;
+    @FXML
+    private Button goBackToMenuButton;
 
     @FXML
     private GameOverPanel gameOverPanel;
@@ -359,4 +365,29 @@ public class GuiController implements Initializable {
      * @return the InputEventListener
      */
     public InputEventListener getEventListener() { return this.eventListener; }
+
+
+    /**
+     * Handles the "Back to Menu" button action.
+     * Shows a confirmation dialog before stopping the game and returning to the main menu.
+     *
+     * @param actionEvent The event triggering this action.
+     */
+    @FXML
+    private void goBackToMenu(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("Are you sure you want to go back to menu?");
+
+        Optional<ButtonType> response = alert.showAndWait();
+
+        if (response.isPresent() && response.get() == ButtonType.OK) {
+            // OK is pressed -> go to main menu
+            mainApp.showMainMenuScreen();
+        } else {
+            // No -> resume the game
+
+        }
+    }
+
+
 }

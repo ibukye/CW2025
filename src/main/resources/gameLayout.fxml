@@ -32,6 +32,8 @@
         <HBox spacing="10" alignment="CENTER">
             <Button fx:id="pauseButton" onAction="#pauseGame"/>
             <Button fx:id="restartButton" onAction="#newGame" />
+
+            <Button fx:id="backButton" onAction="#goBackToMenu" />
         </HBox>
     </Group>
 
