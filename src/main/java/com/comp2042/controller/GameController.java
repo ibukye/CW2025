@@ -22,6 +22,9 @@ public class GameController implements InputEventListener {
     // Get Difficulty
     private Difficulty difficulty;
 
+    // current game speed with lines
+    private double currentGameSpeed;
+
     /**
      * @param c the {@link GuiController} instance controlling the UI.
      * @param difficulty The selected difficulty (Easy, Normal, Hard)
@@ -48,9 +51,11 @@ public class GameController implements InputEventListener {
         switch (difficulty) {
             case EASY:
                 // speed = 400ms, no change
+                this.currentGameSpeed = GameConfig.GAME_SPEED_MS;
                 break;
             case NORMAL:
                 // speed up with clear lines
+                //this.currentGameSpeed =
                 break;
             case HARD:
                 // Normal + obstacle
@@ -67,11 +72,11 @@ public class GameController implements InputEventListener {
         if (timeLine != null) timeLine.stop();
 
         // set speed (constant for now)
-        double gameSpeed = GameConfig.GAME_SPEED_MS;
-        if (this.difficulty == Difficulty.NORMAL || this.difficulty == Difficulty.HARD) gameSpeed = 300;
+        //double gameSpeed = GameConfig.GAME_SPEED_MS;
+        //if (this.difficulty == Difficulty.NORMAL || this.difficulty == Difficulty.HARD) gameSpeed = 300;
 
         timeLine = new Timeline(new KeyFrame(
-                Duration.millis(gameSpeed),
+                Duration.millis(this.currentGameSpeed),
                 ae -> {
                     //onDownEvent(new MoveEvent(EventType.DOWN, EventSource.THREAD));
                     DownData downData = onDownEvent(new MoveEvent(EventType.DOWN, EventSource.THREAD));
@@ -98,8 +103,9 @@ public class GameController implements InputEventListener {
         if (!canMove) {
             board.mergeBrickToBackground();
             clearRow = board.clearRows();
-            if (clearRow.getLinesRemoved() > 0) {
+            if (clearRow.getLinesRemoved() > 0) {   // When row cleared
                 board.getScore().add(clearRow.getScoreBonus());
+                board.getScore().addToTotalLines(clearRow.getLinesRemoved());
             }
             if (board.createNewBrick()) {
                 timeLine.stop();
@@ -130,6 +136,7 @@ public class GameController implements InputEventListener {
         ClearRow clearRow = board.clearRows();
         if (clearRow.getLinesRemoved() > 0) {
             board.getScore().add(clearRow.getScoreBonus());
+            board.getScore().addToTotalLines(clearRow.getLinesRemoved());
         }
         if (board.createNewBrick()) {
             timeLine.stop();
@@ -138,6 +145,22 @@ public class GameController implements InputEventListener {
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
 
         return new DownData(clearRow, board.getViewData());
+    }
+
+    /**
+     * Checks if the line clear count has reached the next level threshold
+     * and increases the game speed if necessary.
+     */
+    private void checkSpeedUp() {
+        // no speed change in EASY mode
+        if (this.difficulty == Difficulty.EASY) { return; }
+        int totalLines = board.getScore().getTotalLinesCleared();
+        if (totalLines % 5 == 0) {
+            // speed up -> 90% of original
+            double newSpeed = this.currentGameSpeed * 0.9;
+            this.currentGameSpeed = newSpeed;
+            gameLoop();
+        }
     }
 
     /**
