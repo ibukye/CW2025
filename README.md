@@ -113,6 +113,7 @@ com.comp2042
 - [ ] **Custom Skin/Theme**
 - [x] **Hard Drop**
 - [ ] **Drop Position Forecast (Ghost Piece)**
+- [x] **Multiple Next Bricks**
 
 ** Difficulties **
 - Easy : No modification

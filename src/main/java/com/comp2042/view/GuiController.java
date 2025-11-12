@@ -68,14 +68,18 @@ public class GuiController implements Initializable {
     private Button goBackToMenuButton;
     @FXML
     private GameOverPanel gameOverPanel;
+    @FXML
+    private GridPane ghostBrickPanel;
 
     private Rectangle[][] displayMatrix;
     private Rectangle[][] nextBrickRectangles;
     // next bricks
     private Rectangle[][] nextBrickRectangles2;
     private Rectangle[][] nextBrickRectangles3;
-    private Rectangle[][] nextBrickRectangles4
-            ;
+    private Rectangle[][] nextBrickRectangles4;
+
+    private Rectangle[][] ghostRectangles;
+
     private InputEventListener eventListener;
     private Rectangle[][] rectangles;
     private Main mainApp;
@@ -192,6 +196,17 @@ public class GuiController implements Initializable {
             }
         }
 
+        // initialize the ghost panel
+        ghostRectangles = initializeNextBrickPanel(ghostBrickPanel, GameConfig.BRICK_SIZE);
+        // set color for ghost piece
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                ghostRectangles[i][j].setFill(Color.rgb(100, 100, 100, 0.5));
+                ghostRectangles[i][j].setVisible(false);
+            }
+        }
+
+
         // nextBrick panel initialization (4x4)
         /*nextBrickRectangles = new Rectangle[4][4];
         for (int i = 0; i < 4; i++) {
@@ -289,6 +304,7 @@ public class GuiController implements Initializable {
      */
     public void refreshBrick(ViewData brick) {
         if (isPause.getValue() == Boolean.FALSE) {
+           // refresh the dropping brick
             brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * GameConfig.BRICK_SIZE);
             brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * GameConfig.BRICK_SIZE);
             for (int i = 0; i < brick.getBrickData().length; i++) {
@@ -296,6 +312,23 @@ public class GuiController implements Initializable {
                     setRectangleData(brick.getBrickData()[i][j], rectangles[i][j]);
                 }
             }
+
+            // update ghost piece
+            int[][] ghostBrick = brick.getBrickData();
+
+            // X coordinate is the same as dropping brick
+            ghostBrickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * GameConfig.BRICK_SIZE);
+            // Y coordinate -> get from ViewData
+            ghostBrickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getGhostYPosition() * brickPanel.getHgap() + brick.getGhostYPosition() * GameConfig.BRICK_SIZE);
+
+            // Update the ghost brick shape
+            for (int i = 0; i < brick.getBrickData().length; i++) {
+                for (int j = 0; j < brick.getBrickData()[i].length; j++) {
+                    // if there is a block in the 4x4 panel -> set visible true
+                    ghostRectangles[i][j].setVisible(ghostBrick[i][j] != 0);
+                }
+            }
+
             // call next brick display method
             displayNextBricks(brick.getNextBrickData());
         }

@@ -191,6 +191,20 @@ public class SimpleBoard implements Board {
         return currentGameMatrix;
     }
 
+
+    private int calculateGhostY() {
+        int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
+        int[][] shape = brickRotator.getCurrentShape();
+        int currentX = (int) currentOffset.getX();
+        int currentY = (int) currentOffset.getY();
+
+        // increase the Y coordinates until it collide
+        while (!MatrixOperations.intersect(currentMatrix, shape, currentX, currentY+1)) {
+            currentY++;
+        }
+        return currentY;
+    }
+
     /**
      * Generates and retrieves the current view data for the falling brick and the next brick preview.
      *
@@ -199,12 +213,14 @@ public class SimpleBoard implements Board {
     @Override
     public ViewData getViewData() {
         List<int[][]> nextShape = ((RandomBrickGenerator) brickGenerator).getNextBrickShape();
+        int ghostY = calculateGhostY();
 
         return new ViewData(
                 brickRotator.getCurrentShape(),
                 (int) currentOffset.getX(),
                 (int) currentOffset.getY(),
-                nextShape
+                nextShape,
+                ghostY
         );
 
         //return new ViewData(brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY(), brickGenerator.getNextBrick().getShapeMatrix().get(0));
