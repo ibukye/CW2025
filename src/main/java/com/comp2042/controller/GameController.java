@@ -52,7 +52,7 @@ public class GameController implements InputEventListener {
 
         // initialize HighScoreManager and pass to GUI
         this.highScoreManager = new HighScoreManager();
-        viewGuiController.displayHighScore(highScoreManager.getHighScore()); // Display high score to the GUI
+        viewGuiController.updateHighScore(highScoreManager.getHighScore()); // Display high score to the GUI
 
         board.createNewBrick();
         viewGuiController.setEventListener(this);
@@ -65,12 +65,12 @@ public class GameController implements InputEventListener {
     /**
      * Saves the current game score, updating the high score if necessary.
      */
-    private void saveGameScore() {
-        int finalScore = board.getScore();
+    public void saveGameScore() {
+        int finalScore = board.getScore().getScore();
         boolean newHighScore = highScoreManager.saveHighScore(finalScore);
 
         if (newHighScore) {
-            viewGuiController.displayHighScore(highScoreManager.getHighScore());
+            viewGuiController.updateHighScore(highScoreManager.getHighScore());
         }
     }
 

@@ -73,4 +73,9 @@ public interface InputEventListener {
      * Starts a new game by resetting the board and refreshing the view.
      */
     void createNewGame();
+
+    /**
+     * Saves the current game score to the high score file.
+     */
+    void saveGameScore();
 }

@@ -26,6 +26,8 @@ public final class Score {
         score.setValue(score.getValue() + i);
     }
 
+    public int getScore() { return score.get(); }
+
     public void reset() {
         score.setValue(0);
     }

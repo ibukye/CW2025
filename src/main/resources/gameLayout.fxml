@@ -26,6 +26,8 @@
         <VBox spacing="5">
             <Label text="Score" styleClass="score-label"/>
             <Label fx:id="scoreLabel" text="0" styleClass="score-value"/>
+            <Label text="High Score" styleClass="score-label"/>
+            <Label fx:id="highScoreLabel" text="0" styleClass="score-value"/>
         </VBox>
     </Group>
 

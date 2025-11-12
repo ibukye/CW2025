@@ -51,6 +51,8 @@ public class GuiController implements Initializable {
     @FXML
     private Label scoreLabel;
     @FXML
+    private Label highScoreLabel;
+    @FXML
     private GridPane nextBrickPanel;
     @FXML
     private Button pauseButton;
@@ -346,12 +348,22 @@ public class GuiController implements Initializable {
     }
 
     /**
+     * Updates the High Score label with new high score.
+     * @param score New high score.
+     */
+    public void updateHighScore(int score) {
+        highScoreLabel.setText(String.valueOf(score));
+    }
+
+    /**
      * Displays the game over panel and stops the game.
      */
     public void gameOver() {
         //timeLine.stop();
         //pauseGame(null);
         //eventListener.stopGame();   // call from interface (Separation of Concerns)
+        // Ask for save score to GameController (eventListener)
+        eventListener.saveGameScore();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
     }
