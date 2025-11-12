@@ -19,6 +19,10 @@
         <VBox>
             <Label text="Next" styleClass="next-brick-label"/>
             <GridPane fx:id="nextBrickPanel" hgap="1" vgap="1" />
+
+            <GridPane fx:id="nextBrickPanel2" hgap="1" vgap="1" />
+            <GridPane fx:id="nextBrickPanel3" hgap="1" vgap="1" />
+            <GridPane fx:id="nextBrickPanel4" hgap="1" vgap="1" />
         </VBox>
     </Group>
 

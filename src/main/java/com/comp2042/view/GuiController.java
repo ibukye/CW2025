@@ -26,10 +26,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.List;
 
 /**
  * The {@code GuiController} class handles all GUI interactions
@@ -55,6 +55,12 @@ public class GuiController implements Initializable {
     @FXML
     private GridPane nextBrickPanel;
     @FXML
+    private GridPane nextBrickPanel2;
+    @FXML
+    private GridPane nextBrickPanel3;
+    @FXML
+    private GridPane nextBrickPanel4;
+    @FXML
     private Button pauseButton;
     @FXML
     private Button restartButton;
@@ -65,6 +71,11 @@ public class GuiController implements Initializable {
 
     private Rectangle[][] displayMatrix;
     private Rectangle[][] nextBrickRectangles;
+    // next bricks
+    private Rectangle[][] nextBrickRectangles2;
+    private Rectangle[][] nextBrickRectangles3;
+    private Rectangle[][] nextBrickRectangles4
+            ;
     private InputEventListener eventListener;
     private Rectangle[][] rectangles;
     private Main mainApp;
@@ -119,8 +130,8 @@ public class GuiController implements Initializable {
         gamePanel.requestFocus();
 
         // InputHandler
-        InputHandler inputHandler = new InputHandler(this, this.eventListener);
-        gamePanel.setOnKeyPressed(inputHandler);
+        //InputHandler inputHandler = new InputHandler(this, this.eventListener);
+        //gamePanel.setOnKeyPressed(inputHandler);
 
         //
         gameOverPanel.setMainMenu(() -> {
@@ -182,7 +193,7 @@ public class GuiController implements Initializable {
         }
 
         // nextBrick panel initialization (4x4)
-        nextBrickRectangles = new Rectangle[4][4];
+        /*nextBrickRectangles = new Rectangle[4][4];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 Rectangle rectangle = new Rectangle(12, 12);
@@ -190,7 +201,11 @@ public class GuiController implements Initializable {
                 // Place to the panel (component, x, y)
                 nextBrickPanel.add(rectangle, j, i);
             }
-        }
+        }*/
+        nextBrickRectangles = initializeNextBrickPanel(nextBrickPanel, 12);
+        nextBrickRectangles2 = initializeNextBrickPanel(nextBrickPanel2, 10);
+        nextBrickRectangles3 = initializeNextBrickPanel(nextBrickPanel3, 10);
+        nextBrickRectangles4 = initializeNextBrickPanel(nextBrickPanel4, 10);
 
         rectangles = new Rectangle[brick.getBrickData().length][brick.getBrickData()[0].length];
         for (int i = 0; i < brick.getBrickData().length; i++) {
@@ -205,19 +220,45 @@ public class GuiController implements Initializable {
         brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * GameConfig.BRICK_SIZE);
     }
 
-    private void displayNextBrick(int[][] nextBrick) {
+
+    private void displayNextBricks(List<int[][]> nextBricks) {
+        // Panel 1
+        displayNextBrick(nextBricks.get(0), nextBrickRectangles);
+        // Panel 2
+        displayNextBrick(nextBricks.get(1), nextBrickRectangles2);
+        // Panel 3
+        displayNextBrick(nextBricks.get(2), nextBrickRectangles3);
+        // Panel 4
+        displayNextBrick(nextBricks.get(3), nextBrickRectangles4);
+
+    }
+
+    private void displayNextBrick(int[][] nextBrick, Rectangle[][] rects) {
         // need to initialize the panel to not overwrite
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                nextBrickRectangles[i][j].setFill(Color.TRANSPARENT);
+                rects[i][j].setFill(Color.TRANSPARENT);
             }
         }
         // set the next brick
         for (int i = 0; i < nextBrick.length; i++) {
             for (int j = 0; j < nextBrick[i].length; j++) {
-                if (nextBrick[i][j] != 0) setRectangleData(nextBrick[i][j], nextBrickRectangles[i][j]);
+                if (nextBrick[i][j] != 0) setRectangleData(nextBrick[i][j], rects[i][j]);
             }
         }
+    }
+
+    // To efficiently initialize brickpanel with size
+    private Rectangle[][] initializeNextBrickPanel(GridPane panel, double size) {
+        Rectangle[][] rectangles = new Rectangle[4][4];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                Rectangle rectangle = new Rectangle(size, size);
+                rectangles[i][j] = rectangle;
+                panel.add(rectangle, j, i);
+            }
+        }
+        return rectangles;
     }
 
     /**
@@ -256,7 +297,7 @@ public class GuiController implements Initializable {
                 }
             }
             // call next brick display method
-            displayNextBrick(brick.getNextBrickData());
+            displayNextBricks(brick.getNextBrickData());
         }
     }
 

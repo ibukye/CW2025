@@ -6,6 +6,7 @@ import com.comp2042.model.bricks.BrickGenerator;
 import com.comp2042.model.bricks.RandomBrickGenerator;
 
 import java.awt.*;
+import java.util.List;
 
 
 /**
@@ -197,7 +198,16 @@ public class SimpleBoard implements Board {
      */
     @Override
     public ViewData getViewData() {
-        return new ViewData(brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY(), brickGenerator.getNextBrick().getShapeMatrix().get(0));
+        List<int[][]> nextShape = ((RandomBrickGenerator) brickGenerator).getNextBrickShape();
+
+        return new ViewData(
+                brickRotator.getCurrentShape(),
+                (int) currentOffset.getX(),
+                (int) currentOffset.getY(),
+                nextShape
+        );
+
+        //return new ViewData(brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY(), brickGenerator.getNextBrick().getShapeMatrix().get(0));
     }
 
     /**
