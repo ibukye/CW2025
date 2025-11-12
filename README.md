@@ -107,7 +107,7 @@ com.comp2042
 ## TODO (Should Implement)
 - [ ] **Setting Screen (adjust volume, change key-binds)**
 - [x] **Game Mode: Multi-Level (speed, difficulty)**
-- [ ] **High Score**
+- [x] **High Score**
 - [x] **Pause/Resume function**
 - [x] **Sound Effect(/BGM)**
 - [ ] **Custom Skin/Theme**
@@ -156,7 +156,9 @@ com.comp2042
 - com.comp2042.GameConfig
   - Purpose : To organize and make the codes easy to read by extracting Magic Numbers.
   - Reason : Hard coded values makes the code complicated to read since there's no explanation. To improve readability, maintainability, and makes it easy to adjust game difficulty later.
-
+- com.comp2042.model.HighScoreManager
+  - Purpose : To manage high score data.
+  - Reason : To adhere to SRP by separating the file I/O logic (reading/writing `highscore.txt`) from the `GameController`.
 
 ---
 ## Modified Java Classes
@@ -171,7 +173,11 @@ com.comp2042
     7. Added `GridPane nextBrickPanel` and `Rectangle[][] nextBrickRectangle` to display the next piece
     8. Implemented: `displayNextBrick()`
     9. Modified `refreshBrick()` to call `displayNextBrick(brick.getNextBrickData())`
-  - Reason : To ensure SRP and Separation of Concern, and to implement new UI features (Next Brick, Level Up Notification)
+    10. Added `MediaPlayer` and `setupSoundPlayer()` method to receive them from the `GameController`
+    11. Implemented `playSound()` method and called it in `moveDown()` and `handleHardDrop()` for line clears
+    12. Added `highScoreLabel` and `updateHighScore()` method to display high score
+    13. Modified `gameOver()` to call `eventListener.saveGameScore()`
+  - Reason : To ensure SRP and Separation of Concern, and to implement new UI features (Next Brick, Sounds, Level Up Notification, High Score display)
 
 - com.comp2042.controller.GameController
   - Changes 
@@ -182,16 +188,22 @@ com.comp2042
     5. Added `currentGameSpeed` to manage level progression
     6. Implemented `checkSpeedUp()` to manage the speed increase logic and restart the `Timeline` at a faster speed
     7. Modified `onDownEvent()` and `onHardDropEvent()` to call `checkSpeedUp()`
+    8. Added `HighScoreManager` field
+    9. Modified constructor to initialize `HighScoreManager` and pass the high score to `viewGuiController.updateHighScore()`
+    10. Implemented `saveGameScore()` method to save the score on game over
+    11. Implemented `initializeSounds()` to load `MediaPlayer` objects (for line clear and speed(level) up) and pass them to the `GuiController`
   - Reason : 
     - To expand contact between View and Controller. This allows the View class to request stop/resume game. This class is now solely responsible for managing the game's progression, timing, and execute game logic
     - To provide new action requested by `InputHandler` 
     - To implement the "Game Mode: Multi-Level" logic by managing game speed
+    - To manage game state persistence (High Score) and sound resource loading
 
 - com.comp2042.view.InputEventListener (Interface)
   - Changes
     1. Added `stopGame()` and `resumeGame()`
     2. Added `onHardDropEvent()`
     3. Added `onRotateRightEvent()`, `onLeftMostEvent()`, and `onRightMostEvent()`
+    4. Added `saveGameScore()` method
   - Reason : Same as above (GameController)
 
 - com.comp2042.model.SimpleBoard
@@ -224,10 +236,12 @@ com.comp2042
 - com.comp2042.model.Score
   - Changes
     1. Added `totalLinesCleared`
-    2. Added: `addLines()` and `getTotalLinesCleared()`
+    2. Added `addLines()` and `getTotalLinesCleared()`
+    3. Added `getScore()` method to retrieve the final score for saving
   - Reason : To track the cumulative number of lines cleared, which is required for the "Game Mode: Multi-Level" speed up logic
 
 ---
 ## Unexpected Problems
 - Sometimes the bonus score and row cleared sound doesn't come up
+  - Predicted Reason: previous notification panel is still remains
 
