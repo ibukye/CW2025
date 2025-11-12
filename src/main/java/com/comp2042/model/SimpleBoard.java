@@ -181,6 +181,18 @@ public class SimpleBoard implements Board {
         return MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
     }
 
+    // 5 column will be embbed by some bricks
+    public void initializeWithObstacles() {
+        // place obstacles to the bottom of the gamescreen
+        for (int y = 20; y < 25 && y < width; y++) {
+            for (int x = 0; x < width && x < height; x++) {
+                if (Math.random() < 0.6) {
+                    currentGameMatrix[y][x] = 8;  // 8th bricks for obstacle
+                }
+            }
+        }
+    }
+
     /**
      * Retrieves the current state of the game board matrix (fixed background bricks).
      *

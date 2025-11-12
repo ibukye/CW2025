@@ -61,6 +61,12 @@ public interface Board {
     boolean createNewBrick();
 
     /**
+     * Sets up the board with pre-placed obstacles for Hard mode.
+     * This is called by GameController *before* the first brick is created.
+     */
+    void initializeWithObstacles();
+
+    /**
      * Retrieves the current state of the game board matrix (fixed background bricks).
      *
      * @return The 2D array representing the merged blocks.

@@ -190,7 +190,8 @@ public class GuiController implements Initializable {
         for (int i = 2; i < boardMatrix.length; i++) {
             for (int j = 0; j < boardMatrix[i].length; j++) {
                 Rectangle rectangle = new Rectangle(GameConfig.BRICK_SIZE, GameConfig.BRICK_SIZE);
-                rectangle.setFill(Color.TRANSPARENT);
+                //rectangle.setFill(Color.TRANSPARENT);
+                setRectangleData(boardMatrix[i][j], rectangle);
                 displayMatrix[i][j] = rectangle;
                 gamePanel.add(rectangle, j, i - 2);
             }
@@ -291,6 +292,7 @@ public class GuiController implements Initializable {
             case 5 -> Color.RED;
             case 6 -> Color.BEIGE;
             case 7 -> Color.BURLYWOOD;
+            case 8 -> Color.GRAY;   // For obstacles
             default -> Color.WHITE;
 
         };

@@ -92,6 +92,7 @@ public class GameController implements InputEventListener {
                 break;
             case HARD:
                 // Normal + obstacle
+                board.initializeWithObstacles();
                 break;
         }
     }
@@ -295,6 +296,10 @@ public class GameController implements InputEventListener {
     @Override
     public void createNewGame() {
         board.newGame();
+
+        // check the difficulty
+        if (this.difficulty == Difficulty.HARD) board.initializeWithObstacles();
+
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
         timeLine.play();
     }
