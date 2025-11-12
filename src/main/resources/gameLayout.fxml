@@ -15,7 +15,7 @@
         </center>
     </BorderPane>
 
-    <Group layoutX="250" layoutY="20" styleClass="next-brick-container">
+    <Group layoutX="280" layoutY="20" styleClass="next-brick-container">
         <VBox>
             <Label text="Next" styleClass="next-brick-label"/>
             <GridPane fx:id="nextBrickPanel" hgap="1" vgap="1" />
@@ -26,7 +26,7 @@
         </VBox>
     </Group>
 
-    <Group layoutX="280" layoutY="100">
+    <Group layoutX="280" layoutY="280">
         <VBox spacing="5">
             <Label text="Score" styleClass="score-label"/>
             <Label fx:id="scoreLabel" text="0" styleClass="score-value"/>

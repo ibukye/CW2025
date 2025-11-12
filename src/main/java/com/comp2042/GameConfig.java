@@ -15,7 +15,7 @@ public final class GameConfig {
      * Width and Height of the Application Window
      */
     public static final int WINDOW_WIDTH = 400;
-    public static final int WINDOW_HEIGHT = 510;
+    public static final int WINDOW_HEIGHT = 600;
 
     // Board dimensions
     /**

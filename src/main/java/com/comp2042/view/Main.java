@@ -56,7 +56,7 @@ public class Main extends Application {
             Parent root = fxmlLoader.load();
             GuiController c = fxmlLoader.getController();
             c.setMainApp(this);
-            primaryStage.setScene(new Scene(root));
+            primaryStage.setScene(new Scene(root, GameConfig.WINDOW_WIDTH, GameConfig.WINDOW_HEIGHT));
             // handles selected difficulty (pass Difficulty Enum to GameController)
             new GameController(c, difficulty);
         } catch (IOException e) { e.printStackTrace(); }
