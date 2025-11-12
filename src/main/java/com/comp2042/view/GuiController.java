@@ -122,6 +122,11 @@ public class GuiController implements Initializable {
         InputHandler inputHandler = new InputHandler(this, this.eventListener);
         gamePanel.setOnKeyPressed(inputHandler);
 
+        //
+        gameOverPanel.setMainMenu(() -> {
+            mainApp.showMainMenuScreen();
+        });
+
         gameOverPanel.setVisible(false);
 
         final Reflection reflection = new Reflection();
