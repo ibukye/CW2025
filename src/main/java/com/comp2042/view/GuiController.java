@@ -201,8 +201,7 @@ public class GuiController implements Initializable {
         // set color for ghost piece
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                ghostRectangles[i][j].setFill(Color.rgb(100, 100, 100, 0.5));
-                ghostRectangles[i][j].setVisible(false);
+                ghostRectangles[i][j].setFill(Color.TRANSPARENT);
             }
         }
 
@@ -322,10 +321,12 @@ public class GuiController implements Initializable {
             ghostBrickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getGhostYPosition() * brickPanel.getHgap() + brick.getGhostYPosition() * GameConfig.BRICK_SIZE);
 
             // Update the ghost brick shape
-            for (int i = 0; i < brick.getBrickData().length; i++) {
-                for (int j = 0; j < brick.getBrickData()[i].length; j++) {
-                    // if there is a block in the 4x4 panel -> set visible true
-                    ghostRectangles[i][j].setVisible(ghostBrick[i][j] != 0);
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    // if there is a block in the 4x4 panel -> pass the brick color
+                    if (i < ghostBrick.length && j < ghostBrick[i].length && ghostBrick[i][j] != 0) setRectangleData(ghostBrick[i][j], ghostRectangles[i][j]);
+                    // set as transparent
+                    else { setRectangleData(0, ghostRectangles[i][j]); }
                 }
             }
 
