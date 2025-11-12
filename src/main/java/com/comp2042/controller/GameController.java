@@ -33,6 +33,9 @@ public class GameController implements InputEventListener {
     private MediaPlayer clearRowSoundPlayer;
     private MediaPlayer speedUpSoundPlayer;
 
+    // HighScoreManager reference
+    private HighScoreManager highScoreManager;
+
     /**
      * @param c the {@link GuiController} instance controlling the UI.
      * @param difficulty The selected difficulty (Easy, Normal, Hard)
@@ -40,10 +43,16 @@ public class GameController implements InputEventListener {
     public GameController(GuiController c, Difficulty difficulty) {
         viewGuiController = c;
         this.difficulty = difficulty;
+
         // initialize with difficulty
         initializeDifficulty(difficulty);
+
         // initialize sound
         initializeSounds();
+
+        // initialize HighScoreManager and pass to GUI
+        this.highScoreManager = new HighScoreManager();
+        viewGuiController.displayHighScore(highScoreManager.getHighScore()); // Display high score to the GUI
 
         board.createNewBrick();
         viewGuiController.setEventListener(this);
@@ -51,6 +60,18 @@ public class GameController implements InputEventListener {
         viewGuiController.bindScore(board.getScore().scoreProperty());
 
         gameLoop();
+    }
+
+    /**
+     * Saves the current game score, updating the high score if necessary.
+     */
+    private void saveGameScore() {
+        int finalScore = board.getScore();
+        boolean newHighScore = highScoreManager.saveHighScore(finalScore);
+
+        if (newHighScore) {
+            viewGuiController.displayHighScore(highScoreManager.getHighScore());
+        }
     }
 
     /**
