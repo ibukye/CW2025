@@ -109,7 +109,7 @@ com.comp2042
 - [x] **Game Mode: Multi-Level (speed, difficulty)**
 - [ ] **High Score**
 - [x] **Pause/Resume function**
-- [ ] **Sound Effect/BGM**
+- [x] **Sound Effect(/BGM)**
 - [ ] **Custom Skin/Theme**
 - [x] **Hard Drop**
 - [ ] **Drop Position Forecast (Ghost Piece)**
@@ -168,7 +168,10 @@ com.comp2042
     4. Removed the BRICK_SIZE magic number
     5. Added handling of Pause/Resume and Restart button and its assets(icons)
     6. Added `handleHardDrop()` method to update view after hard drop
-  - Reason : To ensure SRP and Separation of Concern. 
+    7. Added `GridPane nextBrickPanel` and `Rectangle[][] nextBrickRectangle` to display the next piece
+    8. Implemented: `displayNextBrick()`
+    9. Modified `refreshBrick()` to call `displayNextBrick(brick.getNextBrickData())`
+  - Reason : To ensure SRP and Separation of Concern, and to implement new UI features (Next Brick, Level Up Notification)
 
 - com.comp2042.controller.GameController
   - Changes 
@@ -176,9 +179,13 @@ com.comp2042
     2. Added new methods `stopGame()` and `resumeGame()`
     3. Implemented `onHardDropEvent()` to handle hard drop (call `board.hardDrop()`, clear rows, and add score)
     4. Implemented `onRotateRightEvent()`, `onLeftMostEvent()`, and `onRightMostEvent()`
+    5. Added `currentGameSpeed` to manage level progression
+    6. Implemented `checkSpeedUp()` to manage the speed increase logic and restart the `Timeline` at a faster speed
+    7. Modified `onDownEvent()` and `onHardDropEvent()` to call `checkSpeedUp()`
   - Reason : 
     - To expand contact between View and Controller. This allows the View class to request stop/resume game. This class is now solely responsible for managing the game's progression, timing, and execute game logic
     - To provide new action requested by `InputHandler` 
+    - To implement the "Game Mode: Multi-Level" logic by managing game speed
 
 - com.comp2042.view.InputEventListener (Interface)
   - Changes
@@ -214,9 +221,13 @@ com.comp2042
   - Change : Added `getPrevShape()` using decrement the index and handle error of out of bounds
   - Reason : To provide rotation right logic for `rotateRightBrick()`
 
-
+- com.comp2042.model.Score
+  - Changes
+    1. Added `totalLinesCleared`
+    2. Added: `addLines()` and `getTotalLinesCleared()`
+  - Reason : To track the cumulative number of lines cleared, which is required for the "Game Mode: Multi-Level" speed up logic
 
 ---
 ## Unexpected Problems
-- Sometimes the bonus score doesn't come up
+- Sometimes the bonus score and row cleared sound doesn't come up
 
