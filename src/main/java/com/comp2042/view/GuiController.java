@@ -291,9 +291,10 @@ public class GuiController implements Initializable {
         if (isPause.getValue() == Boolean.FALSE) {
             DownData downData = eventListener.onDownEvent(event);
             if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
-                NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
-                groupNotification.getChildren().add(notificationPanel);
-                notificationPanel.showScore(groupNotification.getChildren());
+                //NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
+                //groupNotification.getChildren().add(notificationPanel);
+                //notificationPanel.showScore(groupNotification.getChildren());
+                showNotification("+" + downData.getClearRow().getScoreBonus(), 0);
                 playSound(clearRowSoundPlayer);
             }
             refreshBrick(downData.getViewData());
@@ -306,9 +307,10 @@ public class GuiController implements Initializable {
         DownData downData = eventListener.onHardDropEvent();
         // Same as moveDown
         if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
-            NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
-            groupNotification.getChildren().add(notificationPanel);
-            notificationPanel.showScore(groupNotification.getChildren());
+            //NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
+            //groupNotification.getChildren().add(notificationPanel);
+            //notificationPanel.showScore(groupNotification.getChildren());
+            showNotification("+" + downData.getClearRow().getScoreBonus(), 0);
             playSound(clearRowSoundPlayer);
         }
         refreshBrick(downData.getViewData());
@@ -316,12 +318,14 @@ public class GuiController implements Initializable {
     }
 
     /**
-     *
+     * To display a generalized notification panel
+     * @param text text to display on the notification
+     * @param yOffset offset for y (0 = bonus score, 30 = speed up)
      */
-    public void showSpeedUpNotification() {
-        NotificationPanel speedUpPanel = new NotificationPanel("Speed UP!");
+    public void showNotification(String text, double yOffset) {
+        NotificationPanel speedUpPanel = new NotificationPanel(text);
         // move Y coordinates
-        speedUpPanel.setLayoutY(30);
+        speedUpPanel.setLayoutY(yOffset);
         groupNotification.getChildren().add(speedUpPanel);
         speedUpPanel.showScore(groupNotification.getChildren());
     }

@@ -71,6 +71,8 @@ public class GameController implements InputEventListener {
 
         if (newHighScore) {
             viewGuiController.updateHighScore(highScoreManager.getHighScore());
+            // show the notification
+            viewGuiController.showNotification("New High Score!", 0);
         }
     }
 
@@ -212,8 +214,10 @@ public class GameController implements InputEventListener {
             double newSpeed = this.currentGameSpeed * 0.9;
             if (newSpeed != this.currentGameSpeed) {
                 this.currentGameSpeed = newSpeed;
+                this.currentGameSpeed = newSpeed;
                 viewGuiController.playSound(speedUpSoundPlayer);
-                viewGuiController.showSpeedUpNotification();
+                //viewGuiController.showSpeedUpNotification();
+                viewGuiController.showNotification("Speed UP!", 30);
                 gameLoop();
             }
         }
