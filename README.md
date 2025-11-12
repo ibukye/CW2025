@@ -112,7 +112,7 @@ com.comp2042
 - [x] **Sound Effect(/BGM)**
 - [ ] **Custom Skin/Theme**
 - [x] **Hard Drop**
-- [ ] **Drop Position Forecast (Ghost Piece)**
+- [x] **Drop Position Forecast (Ghost Piece)**
 - [x] **Multiple Next Bricks**
 
 ** Difficulties **
