@@ -100,7 +100,7 @@ com.comp2042
 ## TODO (Modification)
 - [x] Game Over Logic (not high enough) : Solved by changing `GameConfig.BRICK_SPAWN_Y` from 10 to 0
 - [x] Display Score : Solved by adding label to the gameLayout.fxml and bind it to `GuiController.bindScore`
-- [x] Display Next Brick
+- [x] Display Next Brick : Extended to 4 upcoming bricks
 
 ---
 
@@ -109,8 +109,7 @@ com.comp2042
 - [x] **Game Mode: Multi-Level (speed, difficulty)**
 - [x] **High Score**
 - [x] **Pause/Resume function**
-- [x] **Sound Effect(/BGM)**
-- [ ] **Custom Skin/Theme**
+- [x] **Sound Effect**
 - [x] **Hard Drop**
 - [x] **Drop Position Forecast (Ghost Piece)**
 - [x] **Multiple Next Bricks**
@@ -143,6 +142,8 @@ com.comp2042
 ## Implemented and Working Properly
 - Custom Keybindings: Implemented a new, advanced keybinding scheme (CAPS, S, F, J, L, ENTER) for enhanced playability.
 - Double-Tap Hard Drop: Implemented a timestamp-based double-space detection in the InputHandler to distinguish between Soft Drop (single space) and Hard Drop (double space).
+- Ghost Piece (Drop Forecast): A semi-transparent forecast of the landing position is now rendered in the correct color
+- Multiple Next Bricks: There are 4 upcoming bricks now
 
 ## Implemented but Not Working Properly
 
@@ -178,7 +179,9 @@ com.comp2042
     11. Implemented `playSound()` method and called it in `moveDown()` and `handleHardDrop()` for line clears
     12. Added `highScoreLabel` and `updateHighScore()` method to display high score
     13. Modified `gameOver()` to call `eventListener.saveGameScore()`
-  - Reason : To ensure SRP and Separation of Concern, and to implement new UI features (Next Brick, Sounds, Level Up Notification, High Score display)
+    14. Added @FXML fields for `nextBrickPanel2, 3, 4` and `ghostBrickPanel`
+    15. Added Rectangle fields for upcoming panel and ghost panel
+  - Reason : To ensure SRP and Separation of Concern, and to implement new UI features (Ghost Piece, Multiple Next Bricks, Sounds, Level Up Notification, High Score display)
 
 - com.comp2042.controller.GameController
   - Changes 
@@ -193,6 +196,7 @@ com.comp2042
     9. Modified constructor to initialize `HighScoreManager` and pass the high score to `viewGuiController.updateHighScore()`
     10. Implemented `saveGameScore()` method to save the score on game over
     11. Implemented `initializeSounds()` to load `MediaPlayer` objects (for line clear and speed(level) up) and pass them to the `GuiController`
+    12. 
   - Reason : 
     - To expand contact between View and Controller. This allows the View class to request stop/resume game. This class is now solely responsible for managing the game's progression, timing, and execute game logic
     - To provide new action requested by `InputHandler` 
@@ -214,8 +218,11 @@ com.comp2042
     3. Implemented `rotateRightBrick()` using `brickRotator.getPrevShape()`
     4. Implemented `moveBrickLeftMost()` using while loop to call `moveBrickLeft()`
     5. Implemented `moveBrickRightMost()` using while loop to call `moveBrickRight()`
+    6. Implemented `calculateGhostY()` to calculate Y coordinate for ghost piece
+    7. Modified `getViewData()` to call `calculateGhostY()` and `brickGenerator.getNextBrickShapes()`, passing them to the `ViewData` constructor
     - To improve maintainability and easier understanding and to implement logic for hard drop
     - To define new brick movements in the Model
+    - To provide model-side logic for Ghost Piece and Multiple Next Bricks features
 
 - com.comp2042.model.Board (Interface)
   - Changes 
@@ -241,7 +248,23 @@ com.comp2042
     3. Added `getScore()` method to retrieve the final score for saving
   - Reason : To track the cumulative number of lines cleared, which is required for the "Game Mode: Multi-Level" speed up logic
 
+- com.comp2042.model.ViewData
+  - Changes
+    1. Added `ghostYPosition`
+    2. Changed `nextBrickData` from `int[][]` to `List<int[][]>` to store multiple bricks
+  - Reason : To pass the necessary data for the Ghost Piece and Multiple Next Bricks from Model to View
+- com.comp2042.model.bricks.RandomBrickGenerator
+  - Changes
+    1. Re-implemented to use a `upcomingBricks` (size=4) 
+    2. `getBrick()` polls from the queue and adds new brick
+    3. Added `getNextBrickShapes()` for the UI
+  - Reason: To support the Multiple Next Bricks feature by managing a queue fo upcoming pieces
+
+
 ---
+
+
+
 ## Unexpected Problems
 - Sometimes the bonus score and row cleared sound doesn't come up
   - Predicted Reason: previous notification panel is still remains
