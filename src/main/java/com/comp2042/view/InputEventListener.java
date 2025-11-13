@@ -24,7 +24,7 @@ public interface InputEventListener {
      * Handles moving the current brick instantly to the far left.
      * @return The updated {@link ViewData}.
      */
-    ViewData onLeftMostEvnet();
+    ViewData onLeftMostEvent();
 
     /**
      * Handles movement of the current brick to the right.
@@ -58,6 +58,8 @@ public interface InputEventListener {
      * @return DownData containing the final board state and score.
      */
     DownData onHardDropEvent();
+
+    ViewData onHoldEvent();
 
     /**
      * Stops the main game loop.

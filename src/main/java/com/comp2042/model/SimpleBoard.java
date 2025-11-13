@@ -4,7 +4,6 @@ import com.comp2042.GameConfig;
 import com.comp2042.model.bricks.Brick;
 import com.comp2042.model.bricks.BrickGenerator;
 import com.comp2042.model.bricks.RandomBrickGenerator;
-import com.sun.javafx.scene.PointLightHelper;
 
 import java.awt.*;
 import java.util.List;
@@ -243,13 +242,11 @@ public class SimpleBoard implements Board {
                 ghostY,
                 holdingShape
         );
-
-        //return new ViewData(brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY(), brickGenerator.getNextBrick().getShapeMatrix().get(0));
     }
 
 
     @Override
-    public boolean holdBrick() {
+    public boolean swapHoldBrick() {
         // if alrd swapped
         if (!canSwap) { return false; }
         // Swap
@@ -260,6 +257,7 @@ public class SimpleBoard implements Board {
             // 1st time to swap
             holdingBrick = prevBrick;
             createNewBrick();   // get new brick from queue
+            canSwap = false;
         } else {
             // after 2nd time
             Brick brickFromHold = holdingBrick;
@@ -316,6 +314,8 @@ public class SimpleBoard implements Board {
     public void newGame() {
         currentGameMatrix = new int[width][height];
         score.reset();
+        canSwap = true;
+        holdingBrick = null;
         createNewBrick();
     }
 }

@@ -80,7 +80,7 @@ public interface Board {
      */
     ViewData getViewData();
 
-    boolean holdBrick();
+    boolean swapHoldBrick();
 
     int[][] getHoldBrickShape();
 

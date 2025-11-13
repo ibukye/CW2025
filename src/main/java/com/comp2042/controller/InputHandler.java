@@ -44,7 +44,7 @@ public class InputHandler implements EventHandler<KeyEvent> {
         if (guiController.isPause() == Boolean.FALSE && guiController.isGameOver() == Boolean.FALSE) {
             // CAPS : LEFT MOST
             if (keyEvent.getCode() == KeyCode.CAPS) {
-                ViewData data = gameController.onLeftMostEvnet();
+                ViewData data = gameController.onLeftMostEvent();
                 guiController.refreshBrick(data);
                 //guiController.refreshBrick(guiController.getEventListener().onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
                 keyEvent.consume();
@@ -96,6 +96,12 @@ public class InputHandler implements EventHandler<KeyEvent> {
 
                     lastSpacePressTime = now;   // record the pressed time
                 }
+            }
+
+            // Holding brick
+            if (keyEvent.getCode() == KeyCode.V) {
+                guiController.refreshBrick(guiController.getEventListener().onHoldEvent());
+                keyEvent.consume();
             }
         }
         if (keyEvent.getCode() == KeyCode.N) {

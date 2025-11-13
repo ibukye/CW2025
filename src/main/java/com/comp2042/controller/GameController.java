@@ -237,7 +237,7 @@ public class GameController implements InputEventListener {
     }
 
     @Override
-    public ViewData onLeftMostEvnet() {
+    public ViewData onLeftMostEvent() {
         board.moveBrickLeftMost();
         return board.getViewData();
     }
@@ -275,6 +275,12 @@ public class GameController implements InputEventListener {
     @Override
     public ViewData onRotateRightEvent() {
         board.rotateRightBrick();
+        return board.getViewData();
+    }
+
+    @Override
+    public ViewData onHoldEvent() {
+        board.swapHoldBrick();
         return board.getViewData();
     }
 
