@@ -113,6 +113,7 @@ com.comp2042
 - [x] **Hard Drop**
 - [x] **Drop Position Forecast (Ghost Piece)**
 - [x] **Multiple Next Bricks**
+- [x] **Hold Brick Feature**
 
 ** Difficulties **
 - Easy : No modification
@@ -144,6 +145,7 @@ com.comp2042
 - Double-Tap Hard Drop: Implemented a timestamp-based double-space detection in the InputHandler to distinguish between Soft Drop (single space) and Hard Drop (double space).
 - Ghost Piece (Drop Forecast): A semi-transparent forecast of the landing position is now rendered in the correct color
 - Multiple Next Bricks: There are 4 upcoming bricks now
+- Hold Feature: Player can press V to hold the current brick and swap it later (once per turn)
 
 ## Implemented but Not Working Properly
 
@@ -181,7 +183,10 @@ com.comp2042
     13. Modified `gameOver()` to call `eventListener.saveGameScore()`
     14. Added @FXML fields for `nextBrickPanel2, 3, 4` and `ghostBrickPanel`
     15. Added Rectangle fields for upcoming panel and ghost panel
-  - Reason : To ensure SRP and Separation of Concern, and to implement new UI features (Ghost Piece, Multiple Next Bricks, Sounds, Level Up Notification, High Score display)
+    16. Added `holdBrickPanel` and `holdBrickRectangle` for the hold feature
+    17. Implemented `displayHoldBrick()` method
+    18. Modified `refreshBrick()` to call `displayHoldBrick(brick.getHoldBrickData())` to render the hold piece
+  - Reason : To ensure SRP and Separation of Concern, and to implement new UI features (Ghost Piece, Multiple Next Bricks, Sounds, Level Up Notification, High Score display, Hold Piece Display)
 
 - com.comp2042.controller.GameController
   - Changes 
@@ -196,7 +201,7 @@ com.comp2042
     9. Modified constructor to initialize `HighScoreManager` and pass the high score to `viewGuiController.updateHighScore()`
     10. Implemented `saveGameScore()` method to save the score on game over
     11. Implemented `initializeSounds()` to load `MediaPlayer` objects (for line clear and speed(level) up) and pass them to the `GuiController`
-    12. 
+    12. Implemented `onHoldEvent()` to call `board.swapHoldBrick()` and check for game over
   - Reason : 
     - To expand contact between View and Controller. This allows the View class to request stop/resume game. This class is now solely responsible for managing the game's progression, timing, and execute game logic
     - To provide new action requested by `InputHandler` 
@@ -209,6 +214,7 @@ com.comp2042
     2. Added `onHardDropEvent()`
     3. Added `onRotateRightEvent()`, `onLeftMostEvent()`, and `onRightMostEvent()`
     4. Added `saveGameScore()` method
+    5. Added `onHoldEvent()` method
   - Reason : Same as above (GameController)
 
 - com.comp2042.model.SimpleBoard
@@ -220,26 +226,34 @@ com.comp2042
     5. Implemented `moveBrickRightMost()` using while loop to call `moveBrickRight()`
     6. Implemented `calculateGhostY()` to calculate Y coordinate for ghost piece
     7. Modified `getViewData()` to call `calculateGhostY()` and `brickGenerator.getNextBrickShapes()`, passing them to the `ViewData` constructor
+    8. Added `holdingBrick` field and `canSwap` flag
+    9. Implemented `swapHoldBrick()` and `getHoldBrickShape()`
+    10. Updated `createNewBrick()` and `newGame()` to reset `canSwap` and `holdingBrick`
+    11. Updated `getViewData()` constructor call to include `holdingShape()`
     - To improve maintainability and easier understanding and to implement logic for hard drop
     - To define new brick movements in the Model
-    - To provide model-side logic for Ghost Piece and Multiple Next Bricks features
+    - To provide model-side logic for Ghost Piece and Hold feature, and Multiple Next Bricks features
 
 - com.comp2042.model.Board (Interface)
   - Changes 
     1. Added `hardDrop()` method
     2. Added `rotateRightBrick()`, `moveBrickLeftMost()`, and `moveBrickRightMost()`
-  - Reason : To implement hard drop and new movements
+    3. Added `swapHoldBrick()` and `getHoldBrickShape()`
+  - Reason : To implement hard drop and new movements, and Hold feature
 
 - com.comp2042.controller.InputHandler
   - Changes
     1. Re-mapped all keyboard inputs to new keybinding (S,F,J,L,etc.)
     2. Added a timestamp(`lastSpacePressTime`) to detect double-tap space for hard drop
     3. Added Double tap detection for detecting either moveDown or hardDrop
+    4. Mapped `KeyCode.V` to call `gameController.onHoldEvent()`
   - Reason : To implement the innovative feature design of custom controls, separating it from the default key layout
 
 - com.comp2042.model.BrickRotator
-  - Change : Added `getPrevShape()` using decrement the index and handle error of out of bounds
-  - Reason : To provide rotation right logic for `rotateRightBrick()`
+  - Change
+    1. Added `getPrevShape()` using decrement the index and handle error of out of bounds
+    2. Added `getBrick()` method
+  - Reason : To provide rotation right logic for `rotateRightBrick()` and allow `SimpleBoard` to retrieve the current holding brick 
 
 - com.comp2042.model.Score
   - Changes
@@ -252,7 +266,9 @@ com.comp2042
   - Changes
     1. Added `ghostYPosition`
     2. Changed `nextBrickData` from `int[][]` to `List<int[][]>` to store multiple bricks
-  - Reason : To pass the necessary data for the Ghost Piece and Multiple Next Bricks from Model to View
+    3. Added `holdBrickData` field
+  - Reason : To pass the necessary data for the Ghost Piece and Multiple Next Bricks from Model to View, and to pass the holding brick shape
+
 - com.comp2042.model.bricks.RandomBrickGenerator
   - Changes
     1. Re-implemented to use a `upcomingBricks` (size=4) 
