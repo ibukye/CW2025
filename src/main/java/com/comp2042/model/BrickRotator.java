@@ -2,9 +2,17 @@ package com.comp2042.model;
 
 import com.comp2042.model.bricks.Brick;
 
+/**
+ * Manages the rotation state of a single {@link Brick}.
+ * This class tracks the current rotation index (currentShape) and provides
+ * methods to get the next (left rotation) or previous (right rotation) shape
+ * from the brick's shape matrix list.
+ */
 public class BrickRotator {
 
+    /** The active {@link Brick} (IBrick, JBrick, etc...) this rotator is managing. */
     private Brick brick;
+    /** The index of the current rotational state (0, 1, 2, or 3) in the brick's shape list. */
     private int currentShape = 0;
 
     /**
@@ -48,6 +56,12 @@ public class BrickRotator {
         return brick.getShapeMatrix().get(currentShape);
     }
 
+    /**
+     * Retrieves the raw {@link Brick} object currently being managed by the rotator.
+     * This is used by the Board's "Hold" feature to store the brick itself.
+     *
+     * @return The current {@link Brick} instance.
+     */
     public Brick getBrick() { return this.brick; }
 
     /**

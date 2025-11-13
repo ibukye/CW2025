@@ -25,8 +25,12 @@ public class SimpleBoard implements Board {
     private int[][] currentGameMatrix;
     private Point currentOffset;
     private final Score score;
+
+    /** The currently held brick, or null if no brick is held. */
     // field to store the holding brick
     private Brick holdingBrick = null;
+
+    /** Flag to allow only one swap per new brick. Resets when a new brick spawns. */
     // flag to detect one time swap
     private boolean canSwap = true;
 
@@ -187,6 +191,10 @@ public class SimpleBoard implements Board {
         return MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
     }
 
+    /**
+     * {@inheritDoc}
+     * This implementation places gray blocks (color 8) randomly in the bottom 5 rows.
+     */
     // 5 column will be embbed by some bricks
     public void initializeWithObstacles() {
         // place obstacles to the bottom of the gamescreen
@@ -209,7 +217,12 @@ public class SimpleBoard implements Board {
         return currentGameMatrix;
     }
 
-
+    /**
+     * Calculates the final Y-coordinate where the current brick would land if dropped (Ghost Piece).
+     * It does this by simulating downward moves until a collision is detected.
+     *
+     * @return The calculated "ghost" Y-coordinate.
+     */
     private int calculateGhostY() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
         int[][] shape = brickRotator.getCurrentShape();
@@ -244,7 +257,11 @@ public class SimpleBoard implements Board {
         );
     }
 
-
+    /**
+     * {@inheritDoc}
+     * If the hold slot is empty, this places the current brick in hold and spawns a new brick.
+     * This action is blocked by the {@code canSwap} flag until a new brick is spawned.
+     */
     @Override
     public boolean swapHoldBrick() {
         // if alrd swapped
@@ -270,6 +287,13 @@ public class SimpleBoard implements Board {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     * This implementation retrieves the default shape (rotation index 0)
+     * from the currently held brick.
+     *
+     * @return The {@code int[][]} matrix of the held brick, or {@code null} if the hold slot is empty.
+     */
     @Override
     public int[][] getHoldBrickShape() {
         if (holdingBrick == null) return null;

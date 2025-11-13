@@ -7,13 +7,23 @@ import java.util.Scanner;
 
 /**
  * Manages reading and writing the high score to a text file.
- * This adheres to SRP by separating file I/O logic from the GameController.
+ * This adheres to SRP by separating file I/O logic from the {@link com.comp2042.controller.GameController}.
+ * It loads the high score upon instantiation and provides methods to check
+ * and save a new high score.
  */
 public class HighScoreManager {
+
+    /** The static file name used to store the high score. */
     // file name to save
     private static final String HIGH_SCORE_FILE = "highscore.txt";
+
+    /** The currently loaded high score. */
     private int highScore;
 
+    /**
+     * Constructs a new HighScoreManager.
+     * Automatically loads the high score from the file upon creation.
+     */
     public HighScoreManager() { this.highScore = loadHighScore(); }
 
     /**

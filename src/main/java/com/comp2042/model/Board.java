@@ -80,8 +80,19 @@ public interface Board {
      */
     ViewData getViewData();
 
+    /**
+     * Swaps the currently falling brick with the brick in the "Hold" slot.
+     * This action is typically only allowed once per new brick.
+     *
+     * @return {@code true} if the swap was successful, {@code false} if a swap is not allowed (e.g., already swapped this turn).
+     */
     boolean swapHoldBrick();
 
+    /**
+     * Retrieves the shape of the brick currently in the "Hold" slot.
+     *
+     * @return The {@code int[][]} matrix of the held brick, or {@code null} if the hold slot is empty.
+     */
     int[][] getHoldBrickShape();
 
     /**
