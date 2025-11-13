@@ -47,7 +47,7 @@ public class GameController implements InputEventListener {
      * @param c the {@link GuiController} instance controlling the UI.
      * @param difficulty The selected difficulty (Easy, Normal, Hard)
      * @param clearRowPlayer The shared {@link MediaPlayer} for the line clear sound
-     * @param speedUpPlayer The shared {@link MediaPlayer} for the speed up sound
+     * @param speedUpPlayer The shared {@link MediaPlayer} for the speed-up sound
      */
     public GameController(GuiController c, Difficulty difficulty, MediaPlayer clearRowPlayer, MediaPlayer speedUpPlayer) {
         viewGuiController = c;
@@ -61,9 +61,6 @@ public class GameController implements InputEventListener {
 
         // initialize with difficulty
         initializeDifficulty(difficulty);
-
-        // initialize sound
-        //initializeSounds();
 
         // initialize HighScoreManager and pass to GUI
         this.highScoreManager = new HighScoreManager();
@@ -123,10 +120,6 @@ public class GameController implements InputEventListener {
     private void gameLoop() {
         if (timeLine != null) timeLine.stop();
 
-        // set speed (constant for now)
-        //double gameSpeed = GameConfig.GAME_SPEED_MS;
-        //if (this.difficulty == Difficulty.NORMAL || this.difficulty == Difficulty.HARD) gameSpeed = 300;
-
         timeLine = new Timeline(new KeyFrame(
                 Duration.millis(this.currentGameSpeed),
                 ae -> {
@@ -170,7 +163,7 @@ public class GameController implements InputEventListener {
 
         } else {
             if (event.getEventSource() == EventSource.USER) {
-                board.getScore().add(1);
+                board.getScore().add(GameConfig.SOFT_DROP_SCORE);
             }
         }
         return new DownData(clearRow, board.getViewData());
@@ -186,7 +179,7 @@ public class GameController implements InputEventListener {
     @Override
     public DownData onHardDropEvent() {
         int moved_count = board.hardDrop();
-        board.getScore().add(moved_count * 2);
+        board.getScore().add(moved_count * GameConfig.HARD_DROP_SCORE_MULTIPLIER);
         // same logic as onDownEvent
         board.mergeBrickToBackground();
         ClearRow clearRow = board.clearRows();
@@ -213,15 +206,13 @@ public class GameController implements InputEventListener {
         // no speed change in EASY mode
         if (this.difficulty == Difficulty.EASY) { return; }
         int totalLines = board.getScore().getTotalLinesCleared();
-        if (totalLines % 5 == 0) {
-            // speed up -> 90% of original
-            double newSpeed = this.currentGameSpeed * 0.9;
+        if (totalLines % GameConfig.ROWS_PER_LEVEL == 0) {
+            // speed up -> 95% of original
+            double newSpeed = this.currentGameSpeed * GameConfig.SPEED_INCREASE_FACTOR;
             if (newSpeed != this.currentGameSpeed) {
                 this.currentGameSpeed = newSpeed;
-                this.currentGameSpeed = newSpeed;
                 viewGuiController.playSound(speedUpSoundPlayer);
-                //viewGuiController.showSpeedUpNotification();
-                viewGuiController.showNotification("Speed UP!", 30);
+                viewGuiController.showNotification("Speed UP!", GameConfig.SPEEDUP_NOTIFICATION_Y_OFFSET);
                 gameLoop();
             }
         }

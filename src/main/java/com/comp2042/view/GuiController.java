@@ -243,11 +243,11 @@ public class GuiController implements Initializable {
         }
 
         // nextBrick panel initialization (4x4)
-        nextBrickRectangles = initializeNextBrickPanel(nextBrickPanel, 12);
-        nextBrickRectangles2 = initializeNextBrickPanel(nextBrickPanel2, 10);
-        nextBrickRectangles3 = initializeNextBrickPanel(nextBrickPanel3, 10);
-        nextBrickRectangles4 = initializeNextBrickPanel(nextBrickPanel4, 10);
-        holdBrickRectangle = initializeNextBrickPanel(holdBrickPanel, 12);
+        nextBrickRectangles = initializeNextBrickPanel(nextBrickPanel, GameConfig.NEXT_BRICK_SIZE_LARGE);
+        nextBrickRectangles2 = initializeNextBrickPanel(nextBrickPanel2, GameConfig.NEXT_BRICK_SIZE_SMALL);
+        nextBrickRectangles3 = initializeNextBrickPanel(nextBrickPanel3, GameConfig.NEXT_BRICK_SIZE_SMALL);
+        nextBrickRectangles4 = initializeNextBrickPanel(nextBrickPanel4, GameConfig.NEXT_BRICK_SIZE_SMALL);
+        holdBrickRectangle = initializeNextBrickPanel(holdBrickPanel, GameConfig.NEXT_BRICK_SIZE_LARGE);
 
         // Initialize the falling brick panel
         rectangles = new Rectangle[brick.getBrickData().length][brick.getBrickData()[0].length];
@@ -260,7 +260,7 @@ public class GuiController implements Initializable {
             }
         }
         brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * GameConfig.BRICK_SIZE);
-        brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * GameConfig.BRICK_SIZE);
+        brickPanel.setLayoutY(GameConfig.BRICK_PANEL_Y_OFFSET + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * GameConfig.BRICK_SIZE);
     }
 
     /**
@@ -361,7 +361,6 @@ public class GuiController implements Initializable {
             case 7 -> Color.BURLYWOOD;
             case 8 -> Color.GRAY;   // For obstacles
             default -> Color.WHITE;
-
         };
     }
 
@@ -374,7 +373,7 @@ public class GuiController implements Initializable {
         if (isPause.getValue() == Boolean.FALSE) {
            // refresh the dropping brick
             brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * GameConfig.BRICK_SIZE);
-            brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * GameConfig.BRICK_SIZE);
+            brickPanel.setLayoutY(GameConfig.BRICK_PANEL_Y_OFFSET + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * GameConfig.BRICK_SIZE);
             for (int i = 0; i < brick.getBrickData().length; i++) {
                 for (int j = 0; j < brick.getBrickData()[i].length; j++) {
                     setRectangleData(brick.getBrickData()[i][j], rectangles[i][j]);
@@ -441,9 +440,6 @@ public class GuiController implements Initializable {
         if (isPause.getValue() == Boolean.FALSE) {
             DownData downData = eventListener.onDownEvent(event);
             if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
-                //NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
-                //groupNotification.getChildren().add(notificationPanel);
-                //notificationPanel.showScore(groupNotification.getChildren());
                 showNotification("+" + downData.getClearRow().getScoreBonus(), 0);
                 playSound(clearRowSoundPlayer);
             }
@@ -462,9 +458,6 @@ public class GuiController implements Initializable {
         DownData downData = eventListener.onHardDropEvent();
         // Same as moveDown
         if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
-            //NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
-            //groupNotification.getChildren().add(notificationPanel);
-            //notificationPanel.showScore(groupNotification.getChildren());
             showNotification("+" + downData.getClearRow().getScoreBonus(), 0);
             playSound(clearRowSoundPlayer);
         }
@@ -518,8 +511,6 @@ public class GuiController implements Initializable {
      * Displays the game over panel and stops the game.
      */
     public void gameOver() {
-        //timeLine.stop();
-        //pauseGame(null);
         //eventListener.stopGame();   // call from interface (Separation of Concerns)
         // Ask for save score to GameController (eventListener)
         eventListener.saveGameScore();

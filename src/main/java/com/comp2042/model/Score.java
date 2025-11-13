@@ -24,9 +24,7 @@ public final class Score {
      *
      * @return The {@link IntegerProperty} for the score.
      */
-    public IntegerProperty scoreProperty() {
-        return score;
-    }
+    public IntegerProperty scoreProperty() { return score; }
 
     /**
      * Gets the current total number of lines cleared.
@@ -42,18 +40,14 @@ public final class Score {
      * @param lineCleared The number of lines cleared in the last turn.
      */
     // Calculate the total lines cleared
-    public void addToTotalLines(int lineCleared) {
-        this.totalLinesCleared.setValue(this.totalLinesCleared.get() + lineCleared);
-    }
+    public void addToTotalLines(int lineCleared) { this.totalLinesCleared.setValue(this.totalLinesCleared.get() + lineCleared); }
 
     /**
      * Adds a specified value to the current score.
      *
      * @param i The score value to add (e.g., bonus points).
      */
-    public void add(int i){
-        score.setValue(score.getValue() + i);
-    }
+    public void add(int i){ score.setValue(score.getValue() + i); }
 
     /**
      * Gets the current score as a primitive integer.
@@ -66,7 +60,5 @@ public final class Score {
      * Resets the score and total lines cleared to zero.
      * This is typically called at the start of a new game.
      */
-    public void reset() {
-        score.setValue(0);
-    }
+    public void reset() { score.setValue(0); }
 }

@@ -11,40 +11,36 @@ public final class GameConfig {
     // No need to create an instance for this just read from this file
     private GameConfig() {}
 
-    /**
-     * Width and Height of the Application Window
-     */
+    // Window
     public static final int WINDOW_WIDTH = 400;
     public static final int WINDOW_HEIGHT = 600;
 
-    // Board dimensions
-    /**
-     * Height of the game board matrix.
-     */
+    // Board
     public static final int BOARD_HEIGHT = 25;
-    /**
-     * Width of the game board matrix.
-     */
     public static final int BOARD_WIDTH = 10;
+    public static final int BRICK_SPAWN_X = 4;
+    public static final int BRICK_SPAWN_Y = 0;
+    public static final int BRICK_SIZE = 20;
 
-    /**
-     * The initial speed of the game loop's auto-drop in milliseconds.
-     */
+    // Hard mode
+    public static final double OBSTACLE_PROBABILITY = 0.6;
+
+
     // Game timing
     public static final int GAME_SPEED_MS = 400;
+    public static final double SPEED_INCREASE_FACTOR = 0.95;
+    public static final int ROWS_PER_LEVEL = 5;
 
-    /**
-     * The initial X coordinates for spawning new brick
-     */
-    public static final int BRICK_SPAWN_X = 4;
 
-    /**
-     * The initial Y coordinate for spawning new brick
-     */
-    public static final int BRICK_SPAWN_Y = 0;
+    // UI
+    public static final int BRICK_PANEL_Y_OFFSET = -42;
+    public static final double NEXT_BRICK_SIZE_LARGE = 12.0;
+    public static final double NEXT_BRICK_SIZE_SMALL = 10.0;
+    public static final double SPEEDUP_NOTIFICATION_Y_OFFSET = 30.0;
 
-    /**
-     * The size of all the bricks
-     */
-    public static final int BRICK_SIZE = 20;
+
+    // Score
+    public static final int SCORE_BASE_PER_LINE = 50;
+    public static final int SOFT_DROP_SCORE = 1;
+    public static final int HARD_DROP_SCORE_MULTIPLIER = 2;
 }

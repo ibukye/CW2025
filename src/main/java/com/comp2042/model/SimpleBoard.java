@@ -200,7 +200,7 @@ public class SimpleBoard implements Board {
         // place obstacles to the bottom of the gamescreen
         for (int y = 20; y < 25 && y < width; y++) {
             for (int x = 0; x < width && x < height; x++) {
-                if (Math.random() < 0.6) {
+                if (Math.random() < GameConfig.OBSTACLE_PROBABILITY) {
                     currentGameMatrix[y][x] = 8;  // 8th bricks for obstacle
                 }
             }

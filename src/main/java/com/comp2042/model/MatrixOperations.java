@@ -1,5 +1,7 @@
 package com.comp2042.model;
 
+import com.comp2042.GameConfig;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -9,7 +11,6 @@ import java.util.stream.Collectors;
 /**
  * A utility class containing static methods for performing
  * matrix operations required by the Tetris game.
- * <p>
  * This class includes methods for collision detection (intersect),
  * merging bricks, copying matrices, and checking for completed rows.
  * It cannot be instantiated.
@@ -140,7 +141,7 @@ public class MatrixOperations {
                 break;
             }
         }
-        int scoreBonus = 50 * clearedRows.size() * clearedRows.size();
+        int scoreBonus = GameConfig.SCORE_BASE_PER_LINE * clearedRows.size() * clearedRows.size();
         return new ClearRow(clearedRows.size(), tmp, scoreBonus);
     }
 
