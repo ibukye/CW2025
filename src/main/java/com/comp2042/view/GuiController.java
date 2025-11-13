@@ -42,16 +42,25 @@ import java.util.List;
  */
 public class GuiController implements Initializable {
     //private static final int BRICK_SIZE = 20;
+
+    /** The main grid pane that holds the static, merged bricks (the game board). */
     @FXML
     private GridPane gamePanel;
+    /** The Group container for displaying notifications (e.g., "+100", "Speed UP!"). */
     @FXML
     private Group groupNotification;
+    /** The grid pane that moves around to display the currently falling brick. */
     @FXML
     private GridPane brickPanel;
+
+    /** The label used to display the current score. */
     @FXML
     private Label scoreLabel;
+    /** The label used to display the persistent high score. */
     @FXML
     private Label highScoreLabel;
+
+    /** The 4x4 grid pane for the "next" brick. */
     @FXML
     private GridPane nextBrickPanel;
     @FXML
@@ -60,50 +69,75 @@ public class GuiController implements Initializable {
     private GridPane nextBrickPanel3;
     @FXML
     private GridPane nextBrickPanel4;
+
+    //** The button for pausing/resuming the game. */
     @FXML
     private Button pauseButton;
+    /** The button for restarting the game. */
     @FXML
     private Button restartButton;
+    /** The button for returning to the main menu. */
     @FXML
     private Button goBackToMenuButton;
+
+    /** The custom panel displayed on game over. */
     @FXML
     private GameOverPanel gameOverPanel;
+    /** The 4x4 grid pane for displaying the ghost piece (drop forecast). */
     @FXML
     private GridPane ghostBrickPanel;
+    /** The 4x4 grid pane for displaying the held brick. */
     @FXML
     private GridPane holdBrickPanel;
 
+
+    /** 2D array holding the {@link Rectangle} objects for the main game board (displayMatrix). */
     private Rectangle[][] displayMatrix;
+
+    /** 2D array holding the {@link Rectangle} objects for the "next" brick panel. */
     private Rectangle[][] nextBrickRectangles;
-    // next bricks
     private Rectangle[][] nextBrickRectangles2;
     private Rectangle[][] nextBrickRectangles3;
     private Rectangle[][] nextBrickRectangles4;
 
+    /** 2D array holding the {@link Rectangle} objects for the ghost piece panel. */
     private Rectangle[][] ghostRectangles;
 
+    /** 2D array holding the {@link Rectangle} objects for the hold piece panel. */
     private Rectangle[][] holdBrickRectangle;
 
+    /** A reference to the Controller (implements {@link InputEventListener}). */
     private InputEventListener eventListener;
+
+    /** 2D array holding the {@link Rectangle} objects for the currently falling brick panel. */
     private Rectangle[][] rectangles;
+
+    /** A reference to the Main application class, used for switching scenes. */
     private Main mainApp;
 
+    /** Cached image for buttons. */
     private Image pauseImg;
     private Image resumeImg;
     private Image restartImg;
+
+    /** Cached {@link ImageView} for icons. */
     private ImageView pauseIconView;
     private ImageView resumeIconView;
 
     // MediaPlayer
+    /** Shared {@link MediaPlayer} for sounds. */
     private MediaPlayer clearRowSoundPlayer;
     private MediaPlayer speedUpSoundPlayer;
 
+    /** JavaFX property tracking the pause state. */
     private final BooleanProperty isPause = new SimpleBooleanProperty();
+    /** JavaFX property tracking the game over state. */
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
     /**
-     * Initializes the GUI controller, sets up keyboard input,
-     * and configures the reflection effect and fonts.
+     * Initializes the GUI controller.
+     * aThis method is called automatically by JavaFX after the FXML file is loaded.
+     * It loads fonts, icons, sets up the game over panel, and requests focus.
      *
      * @param location  the location used to resolve relative paths for the root object.
      * @param resources the resources used to localize the root object.
@@ -137,11 +171,7 @@ public class GuiController implements Initializable {
         gamePanel.setFocusTraversable(true);
         gamePanel.requestFocus();
 
-        // InputHandler
-        //InputHandler inputHandler = new InputHandler(this, this.eventListener);
-        //gamePanel.setOnKeyPressed(inputHandler);
-
-        //
+        // Setup the game over panel's "Main Menu" button action
         gameOverPanel.setMainMenu(() -> {
             mainApp.showMainMenuScreen();
         });
@@ -155,7 +185,8 @@ public class GuiController implements Initializable {
     }
 
     /**
-     * receives MediaPlayer from GameController
+     * Receives the shared {@link MediaPlayer} instances from the {@link GameController}.
+     *
      * @param clearRowSoundPlayer Line Clear Sound
      * @param speedUpSoundPlayer Speed Up Sound
      */
@@ -165,8 +196,9 @@ public class GuiController implements Initializable {
     }
 
     /**
-     * play the MediaPlayer
-     * @param player MediaPlayer
+     * play the given {@link MediaPlayer} instance safely (handles null).
+     * Stops the player first to ensure it plays from the beginning.
+     * @param player The {@link MediaPlayer} to play.
      */
     public void playSound(MediaPlayer player) {
         // Stop the previous media
@@ -210,23 +242,14 @@ public class GuiController implements Initializable {
             }
         }
 
-
         // nextBrick panel initialization (4x4)
-        /*nextBrickRectangles = new Rectangle[4][4];
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                Rectangle rectangle = new Rectangle(12, 12);
-                nextBrickRectangles[i][j] = rectangle;
-                // Place to the panel (component, x, y)
-                nextBrickPanel.add(rectangle, j, i);
-            }
-        }*/
         nextBrickRectangles = initializeNextBrickPanel(nextBrickPanel, 12);
         nextBrickRectangles2 = initializeNextBrickPanel(nextBrickPanel2, 10);
         nextBrickRectangles3 = initializeNextBrickPanel(nextBrickPanel3, 10);
         nextBrickRectangles4 = initializeNextBrickPanel(nextBrickPanel4, 10);
         holdBrickRectangle = initializeNextBrickPanel(holdBrickPanel, 12);
 
+        // Initialize the falling brick panel
         rectangles = new Rectangle[brick.getBrickData().length][brick.getBrickData()[0].length];
         for (int i = 0; i < brick.getBrickData().length; i++) {
             for (int j = 0; j < brick.getBrickData()[i].length; j++) {
@@ -240,7 +263,10 @@ public class GuiController implements Initializable {
         brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * GameConfig.BRICK_SIZE);
     }
 
-
+    /**
+     * Renders all "next" brick preview panels.
+     * @param nextBricks A {@link List} of {@code int[][]} shapes from the queue.
+     */
     private void displayNextBricks(List<int[][]> nextBricks) {
         // Panel 1
         displayNextBrick(nextBricks.get(0), nextBrickRectangles);
@@ -253,6 +279,11 @@ public class GuiController implements Initializable {
 
     }
 
+    /**
+     * Helper method to render a single brick shape onto a specific preview panel.
+     * @param nextBrick The {@code int[][]} shape to draw.
+     * @param rects The 4x4 {@link Rectangle} array (e.g., {@code nextBrickRectangles}) to draw on.
+     */
     private void displayNextBrick(int[][] nextBrick, Rectangle[][] rects) {
         // need to initialize the panel to not overwrite
         for (int i = 0; i < 4; i++) {
@@ -268,13 +299,19 @@ public class GuiController implements Initializable {
         }
     }
 
+    /**
+     * Renders the "hold" brick preview panel.
+     * @param holdingBrick The {@code int[][]} shape of the held brick, or {@code null}.
+     */
     private void displayHoldBrick(int[][] holdingBrick) {
+        // Clear the panel
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 holdBrickRectangle[i][j].setFill(Color.TRANSPARENT);
             }
         }
 
+        // Set the new held brick shape
         if (holdingBrick != null) {
             for (int i = 0; i < holdingBrick.length; i++) {
                 for (int j = 0; j < holdingBrick[i].length; j++) {
@@ -286,6 +323,13 @@ public class GuiController implements Initializable {
         }
     }
 
+    /**
+     * A factory helper method to initialize a 4x4 grid of {@link Rectangle} objects.
+     *
+     * @param panel The {@link GridPane} to add the rectangles to.
+     * @param size  The pixel size (width/height) of each rectangle.
+     * @return The 2D array of created {@link Rectangle} objects.
+     */
     // To efficiently initialize brickpanel with size
     private Rectangle[][] initializeNextBrickPanel(GridPane panel, double size) {
         Rectangle[][] rectangles = new Rectangle[4][4];
@@ -408,6 +452,11 @@ public class GuiController implements Initializable {
         gamePanel.requestFocus();
     }
 
+    /**
+     * Handles the result of a "Hard Drop" (user pressing Space).
+     * This method is called by the {@link InputHandler} and delegates logic
+     * to the controller, then processes the result.
+     */
     public void handleHardDrop() {
         // ask Controller to run
         DownData downData = eventListener.onHardDropEvent();
@@ -564,6 +613,4 @@ public class GuiController implements Initializable {
             gamePanel.requestFocus();   // returns the focus to the game panel
         }
     }
-
-
 }

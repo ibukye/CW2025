@@ -13,29 +13,50 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
 
-
+/**
+ * The main entry point for the TetrisJFX application.
+ * This class extends {@link Application} and is responsible for:
+ * 1. Storing the primary {@link Stage} (the main window).
+ * 2. Loading global resources like {@link MediaPlayer} objects at startup.
+ * 3. Managing scene transitions between the Main Menu, Settings screen, and Game screen.
+ * 4. Passing shared resources (like this Main instance and MediaPlayers) to the controllers.
+ */
 public class Main extends Application {
 
+    /** The primary window (Stage) of the application. */
     // field for store Stage
     private Stage primaryStage;
 
+    /** The globally shared player for the line clear sound. */
     private MediaPlayer clearRowSoundPlayer;
+    /** The globally shared player for the speed up sound. */
     private MediaPlayer speedUpSoundPlayer;
 
+    /**
+     * The main entry point for this JavaFX application.
+     * This method is called after the JFX toolkit is initialized.
+     *
+     * @param primaryStage The primary stage for this application, onto which the application scene can be set.
+     */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         this.primaryStage = primaryStage;
-
         primaryStage.setTitle("TetrisJFX");
 
+        // Load shared media players
         loadSounds();
 
+        // Show the first screen
         showMainMenuScreen();
     }
 
+    /**
+     * Loads the sound files (e.g., clear row, speed up) from resources
+     * and initializes the shared {@link MediaPlayer} fields.
+     * This is called once at startup to ensure all scenes share the same players.
+     */
     private void loadSounds() {
         try {
             URL clearResource = getClass().getResource("/sounds/clearRowSound.mp3");
@@ -54,6 +75,10 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Loads and displays the Main Menu scene (menu.fxml).
+     * It also passes a reference of this {@link Main} instance to the {@link MainMenuController}.
+     */
     public void showMainMenuScreen() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("menu.fxml"));
@@ -90,6 +115,11 @@ public class Main extends Application {
     }
 
 
+    /**
+     * Loads and displays the settings scene (settingScreen.fxml).
+     * This method passes the shared {@link MediaPlayer} objects to the
+     * {@link SettingController} so their volume can be adjusted.
+     */
     public void showSettingScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("settingScreen.fxml"));
@@ -107,8 +137,12 @@ public class Main extends Application {
         }
     }
 
-
-
+    /**
+     * The main method, which serves as the entry point for the application.
+     * It calls {@link Application#launch(String...)} to start the JavaFX application.
+     *
+     * @param args Command line arguments (not used in this application).
+     */
     public static void main(String[] args) {
         launch(args);
     }

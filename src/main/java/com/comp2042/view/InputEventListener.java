@@ -59,6 +59,11 @@ public interface InputEventListener {
      */
     DownData onHardDropEvent();
 
+    /**
+     * Handles a "Hold" action (swaps the current brick with the held brick).
+     *
+     * @return The updated {@link ViewData} reflecting the board state after the swap.
+     */
     ViewData onHoldEvent();
 
     /**
