@@ -105,7 +105,7 @@ com.comp2042
 ---
 
 ## TODO (Should Implement)
-- [ ] **Setting Screen (adjust volume, change key-binds)**
+- [x] **Setting Screen (adjust volume, change key-binds)**
 - [x] **Game Mode: Multi-Level (speed, difficulty)**
 - [x] **High Score**
 - [x] **Pause/Resume function**
@@ -129,8 +129,8 @@ com.comp2042
 - [x] Directory Refactoring (View)
 - [x] Directory Refactoring (Controller)
 - [x] Code Refactoring
-- [ ] Code Modification (Modification)
-- [ ] Code Extension (Should Implement)
+- [x] Code Modification (Modification)
+- [x] Code Extension (Should Implement)
 
 
 
