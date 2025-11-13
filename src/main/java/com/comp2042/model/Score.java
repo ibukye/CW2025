@@ -60,5 +60,9 @@ public final class Score {
      * Resets the score and total lines cleared to zero.
      * This is typically called at the start of a new game.
      */
-    public void reset() { score.setValue(0); }
+    public void reset() {
+        score.setValue(0);
+        // BUG FIX -> speed up logic
+        totalLinesCleared.setValue(0);
+    }
 }
