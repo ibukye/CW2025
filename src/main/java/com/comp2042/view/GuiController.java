@@ -70,6 +70,8 @@ public class GuiController implements Initializable {
     private GameOverPanel gameOverPanel;
     @FXML
     private GridPane ghostBrickPanel;
+    @FXML
+    private GridPane holdBrickPanel;
 
     private Rectangle[][] displayMatrix;
     private Rectangle[][] nextBrickRectangles;
@@ -79,6 +81,8 @@ public class GuiController implements Initializable {
     private Rectangle[][] nextBrickRectangles4;
 
     private Rectangle[][] ghostRectangles;
+
+    private Rectangle[][] holdBrickRectangle;
 
     private InputEventListener eventListener;
     private Rectangle[][] rectangles;
@@ -221,6 +225,7 @@ public class GuiController implements Initializable {
         nextBrickRectangles2 = initializeNextBrickPanel(nextBrickPanel2, 10);
         nextBrickRectangles3 = initializeNextBrickPanel(nextBrickPanel3, 10);
         nextBrickRectangles4 = initializeNextBrickPanel(nextBrickPanel4, 10);
+        holdBrickRectangle = initializeNextBrickPanel(holdBrickPanel, 12);
 
         rectangles = new Rectangle[brick.getBrickData().length][brick.getBrickData()[0].length];
         for (int i = 0; i < brick.getBrickData().length; i++) {
@@ -259,6 +264,24 @@ public class GuiController implements Initializable {
         for (int i = 0; i < nextBrick.length; i++) {
             for (int j = 0; j < nextBrick[i].length; j++) {
                 if (nextBrick[i][j] != 0) setRectangleData(nextBrick[i][j], rects[i][j]);
+            }
+        }
+    }
+
+    private void displayHoldBrick(int[][] holdingBrick) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                holdBrickRectangle[i][j].setFill(Color.TRANSPARENT);
+            }
+        }
+
+        if (holdingBrick != null) {
+            for (int i = 0; i < holdingBrick.length; i++) {
+                for (int j = 0; j < holdingBrick[i].length; j++) {
+                    if (holdingBrick[i][j] != 0) {
+                        setRectangleData(holdingBrick[i][j], holdBrickRectangle[i][j]);
+                    }
+                }
             }
         }
     }
@@ -332,7 +355,8 @@ public class GuiController implements Initializable {
                 }
             }
 
-            // call next brick display method
+            // call holding brick and next brick display method
+            displayHoldBrick(brick.getHoldBrickData());
             displayNextBricks(brick.getNextBrickData());
         }
     }

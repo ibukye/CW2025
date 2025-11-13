@@ -48,6 +48,8 @@ public class BrickRotator {
         return brick.getShapeMatrix().get(currentShape);
     }
 
+    public Brick getBrick() { return this.brick; }
+
     /**
      * Manually sets the current rotation to a specific index.
      * This is used by the Board to confirm a rotation after a successful collision check.

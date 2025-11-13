@@ -80,6 +80,10 @@ public interface Board {
      */
     ViewData getViewData();
 
+    boolean holdBrick();
+
+    int[][] getHoldBrickShape();
+
     /**
      * Merges the currently falling brick into the static background matrix (when the brick lands).
      */

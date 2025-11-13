@@ -4,6 +4,7 @@ import com.comp2042.GameConfig;
 import com.comp2042.model.bricks.Brick;
 import com.comp2042.model.bricks.BrickGenerator;
 import com.comp2042.model.bricks.RandomBrickGenerator;
+import com.sun.javafx.scene.PointLightHelper;
 
 import java.awt.*;
 import java.util.List;
@@ -25,6 +26,10 @@ public class SimpleBoard implements Board {
     private int[][] currentGameMatrix;
     private Point currentOffset;
     private final Score score;
+    // field to store the holding brick
+    private Brick holdingBrick = null;
+    // flag to detect one time swap
+    private boolean canSwap = true;
 
     /**
      * Initializes a new SimpleBoard with the specified dimensions.
@@ -178,6 +183,8 @@ public class SimpleBoard implements Board {
         brickRotator.setBrick(currentBrick);
         // Determines the spawn point of new brick
         currentOffset = new Point(GameConfig.BRICK_SPAWN_X, GameConfig.BRICK_SPAWN_Y);
+        // reset the swap flag since new brick coming (the user put previous brick)
+        canSwap = true;
         return MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
     }
 
@@ -226,16 +233,49 @@ public class SimpleBoard implements Board {
     public ViewData getViewData() {
         List<int[][]> nextShape = ((RandomBrickGenerator) brickGenerator).getNextBrickShape();
         int ghostY = calculateGhostY();
+        int[][] holdingShape = getHoldBrickShape();
 
         return new ViewData(
                 brickRotator.getCurrentShape(),
                 (int) currentOffset.getX(),
                 (int) currentOffset.getY(),
                 nextShape,
-                ghostY
+                ghostY,
+                holdingShape
         );
 
         //return new ViewData(brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY(), brickGenerator.getNextBrick().getShapeMatrix().get(0));
+    }
+
+
+    @Override
+    public boolean holdBrick() {
+        // if alrd swapped
+        if (!canSwap) { return false; }
+        // Swap
+        canSwap = false;
+        Brick prevBrick = brickRotator.getBrick();
+
+        if (holdingBrick == null) {
+            // 1st time to swap
+            holdingBrick = prevBrick;
+            createNewBrick();   // get new brick from queue
+        } else {
+            // after 2nd time
+            Brick brickFromHold = holdingBrick;
+            holdingBrick = prevBrick;
+
+            brickRotator.setBrick(brickFromHold);
+            // set the position to the starting position(Spawn point)
+            currentOffset = new Point(GameConfig.BRICK_SPAWN_X, GameConfig.BRICK_SPAWN_Y);
+        }
+        return true;
+    }
+
+    @Override
+    public int[][] getHoldBrickShape() {
+        if (holdingBrick == null) return null;
+        return holdingBrick.getShapeMatrix().get(0);
     }
 
     /**
