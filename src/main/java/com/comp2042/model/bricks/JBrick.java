@@ -5,10 +5,21 @@ import com.comp2042.model.MatrixOperations;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Defines the specific shape matrices for the {@code JBrick}.
+ * This class implements {@link Brick} and provides the specific rotational states
+ * for the "J" shaped Tetromino.
+ */
 final class JBrick implements Brick {
 
+    // Stores all rotational shapes for this specific brick
     private final List<int[][]> brickMatrix = new ArrayList<>();
 
+    /**
+     * Constructs an {@code JBrick}.
+     * This constructor defines and adds all possible rotational states
+     * (as {@code int[][]} matrices) for the J-Brick to the internal shape list.
+     */
     public JBrick() {
         brickMatrix.add(new int[][]{
                 {0, 0, 0, 0},
@@ -36,6 +47,11 @@ final class JBrick implements Brick {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     * This implementation returns a deep copy of the shape list for the {@code JBrick}
+     * to prevent the original matrices from being modified.
+     */
     @Override
     public List<int[][]> getShapeMatrix() {
         return MatrixOperations.deepCopyList(brickMatrix);
