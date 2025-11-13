@@ -27,6 +27,8 @@
         <Button fx:id="normalButton" mnemonicParsing="false" onAction="#onNormalClicked" prefWidth="120.0" text="Normal" />
         <Button fx:id="hardButton" mnemonicParsing="false" onAction="#onHardClicked" prefWidth="120.0" text="Hard" />
 
+        <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#onSettingClicked" prefWidth="120.0" text="Settings" />
+
         <Button fx:id="exitButton" mnemonicParsing="false" onAction="#onExitClicked" prefWidth="120.0" text="Exit" />
     </children>
     <padding>

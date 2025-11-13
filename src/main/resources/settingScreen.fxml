@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.comp2042.view.SettingController"
+      spacing="20" alignment="CENTER" styleClass="root">
+
+    <VBox spacing="5" maxWidth="300">
+        <Label text="clear row sound"/>
+        <Slider fx:id="clearRowVolumeSlider" min="0" max="100" value="100" showTickLabels="true"/>
+    </VBox>
+
+    <VBox spacing="5" maxWidth="300">
+        <Label text="speed up sound"/>
+        <Slider fx:id="speedUpVolumeSlider" min="0" max="100" value="100" showTickLabels="true"/>
+    </VBox>
+
+    <Button text="go to menu" onAction="#goToMainMenu"/>
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+</VBox>

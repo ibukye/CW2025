@@ -7,6 +7,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,7 +18,11 @@ import java.util.ResourceBundle;
 
 public class Main extends Application {
 
+    // field for store Stage
     private Stage primaryStage;
+
+    private MediaPlayer clearRowSoundPlayer;
+    private MediaPlayer speedUpSoundPlayer;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,7 +31,27 @@ public class Main extends Application {
 
         primaryStage.setTitle("TetrisJFX");
 
+        loadSounds();
+
         showMainMenuScreen();
+    }
+
+    private void loadSounds() {
+        try {
+            URL clearResource = getClass().getResource("/sounds/clearRowSound.mp3");
+            URL speedResource = getClass().getResource("/sounds/speedUpSound.mp3");
+
+            if (clearResource != null) {
+                Media clearMedia = new Media(clearResource.toExternalForm());
+                clearRowSoundPlayer = new MediaPlayer(clearMedia);
+            }
+            if (speedResource != null) {
+                Media speedMedia = new Media(speedResource.toExternalForm());
+                speedUpSoundPlayer = new MediaPlayer(speedMedia);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load douns: " + e.getMessage());
+        }
     }
 
     public void showMainMenuScreen() {
@@ -58,11 +84,28 @@ public class Main extends Application {
             c.setMainApp(this);
             primaryStage.setScene(new Scene(root, GameConfig.WINDOW_WIDTH, GameConfig.WINDOW_HEIGHT));
             // handles selected difficulty (pass Difficulty Enum to GameController)
-            new GameController(c, difficulty);
+            new GameController(c, difficulty, clearRowSoundPlayer, speedUpSoundPlayer);
         } catch (IOException e) { e.printStackTrace(); }
 
     }
 
+
+    public void showSettingScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("settingScreen.fxml"));
+            Parent root = loader.load();
+            SettingController controller = loader.getController();
+            // pass the both sounds
+            controller.setupVolumeControls(clearRowSoundPlayer, speedUpSoundPlayer);
+
+            controller.setMainApp(this);
+
+            primaryStage.setScene(new Scene(root, 420, 510));
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

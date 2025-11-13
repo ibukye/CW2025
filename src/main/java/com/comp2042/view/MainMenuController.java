@@ -39,10 +39,10 @@ public class MainMenuController {
     }
 
     // Setting Button
-    /*@FXML
+    @FXML
     void onSettingClicked(ActionEvent e) {
         mainApp.showSettingScreen();
-    }*/
+    }
 
     // Exit Button
     @FXML

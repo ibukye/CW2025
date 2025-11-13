@@ -40,15 +40,21 @@ public class GameController implements InputEventListener {
      * @param c the {@link GuiController} instance controlling the UI.
      * @param difficulty The selected difficulty (Easy, Normal, Hard)
      */
-    public GameController(GuiController c, Difficulty difficulty) {
+    public GameController(GuiController c, Difficulty difficulty, MediaPlayer clearRowPlayer, MediaPlayer speedUpPlayer) {
         viewGuiController = c;
         this.difficulty = difficulty;
+
+        // store the shared players
+        this.clearRowSoundPlayer = clearRowPlayer;
+        this.speedUpSoundPlayer = speedUpPlayer;
+
+        viewGuiController.setupSoundPlayers(this.clearRowSoundPlayer, this.speedUpSoundPlayer);
 
         // initialize with difficulty
         initializeDifficulty(difficulty);
 
         // initialize sound
-        initializeSounds();
+        //initializeSounds();
 
         // initialize HighScoreManager and pass to GUI
         this.highScoreManager = new HighScoreManager();
@@ -100,7 +106,7 @@ public class GameController implements InputEventListener {
     /**
      * Loads sound files into MediaPlayer objects and passes them to the GuiController.
      */
-    private void initializeSounds() {
+    /*private void initializeSounds() {
         try {
             URL clearSoundURL = getClass().getResource("/sounds/clearRowSound.mp3");
             URL speedUpSoundURL = getClass().getResource("/sounds/speedUpSound.mp3");
@@ -113,7 +119,7 @@ public class GameController implements InputEventListener {
             System.err.println("Failed to load sounds : " + e.getMessage());
         }
         viewGuiController.setupSoundPlayers(this.clearRowSoundPlayer, this.speedUpSoundPlayer);
-    }
+    }*/
 
     /**
      * Initializes and starts the main game loop.
