@@ -63,7 +63,7 @@ public class GameController implements InputEventListener {
         initializeDifficulty(difficulty);
 
         // initialize HighScoreManager and pass to GUI
-        this.highScoreManager = new HighScoreManager();
+        this.highScoreManager = new HighScoreManager(this.difficulty);
         viewGuiController.updateHighScore(highScoreManager.getHighScore()); // Display high score to the GUI
 
         board.createNewBrick();

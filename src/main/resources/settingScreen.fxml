@@ -8,7 +8,8 @@
 <?import javafx.geometry.Insets?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.comp2042.view.SettingController"
-      spacing="20" alignment="CENTER" styleClass="root">
+      prefHeight="600.0" prefWidth="400.0" spacing="20"
+      alignment="CENTER" styleClass="root">
 
     <VBox spacing="5" maxWidth="300">
         <Label text="clear row sound"/>

@@ -15,7 +15,9 @@ public class HighScoreManager {
 
     /** The static file name used to store the high score. */
     // file name to save
-    private static final String HIGH_SCORE_FILE = "highscore.txt";
+    private static final String EASY_FILE = "highscore_easy.txt";
+    private static final String NORMAL_FILE = "highscore_normal.txt";
+    private static final String HARD_FILE = "highscore_hard.txt";
 
     /** The currently loaded high score. */
     private int highScore;
@@ -24,7 +26,10 @@ public class HighScoreManager {
      * Constructs a new HighScoreManager.
      * Automatically loads the high score from the file upon creation.
      */
-    public HighScoreManager() { this.highScore = loadHighScore(); }
+    public HighScoreManager(Difficulty difficulty) {
+        this.difficulty = difficulty;
+        this.highScore = loadHighScore();
+    }
 
     /**
      * Loads the high score from the file.
@@ -32,7 +37,7 @@ public class HighScoreManager {
      */
     public int loadHighScore() {
         try {
-            File file = new File(HIGH_SCORE_FILE);
+            File file = new File(getHighScoreFile());
             if (!file.exists()) { return 0; }
             Scanner scanner = new Scanner(file);
             if (scanner.hasNextInt()) {
@@ -48,6 +53,20 @@ public class HighScoreManager {
     }
 
     /**
+     * Helper method to get the correct filename based on the current difficulty.
+     * @return The filename (e.g., "highscore_easy.txt").
+     */
+    private String getHighScoreFile() {
+        return switch (this.difficulty) {
+            case EASY -> EASY_FILE;
+            case NORMAL -> NORMAL_FILE;
+            case HARD -> HARD_FILE;
+        };
+    }
+
+    private Difficulty difficulty;
+
+    /**
      * Checks if the new score is a high score and saves it to the file.
      * @param newScore The final score from the game.
      * @return true if this was a new high score, false otherwise.
@@ -57,7 +76,7 @@ public class HighScoreManager {
             this.highScore = newScore;
             // write to the file
             try {
-                FileWriter writer = new FileWriter(HIGH_SCORE_FILE, false); // Overwrite
+                FileWriter writer = new FileWriter(getHighScoreFile(), false); // Overwrite
                 writer.write(String.valueOf(newScore));
                 writer.close();
                 return true;
