@@ -12,6 +12,13 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.URL;
 
+
+/**
+ * The main controller for the Tetris game, implementing the {@link InputEventListener} interface.
+ * This class acts as the bridge between the {@link Board} (Model) and the {@link GuiController} (View).
+ * It is responsible for managing the game's core logic, including the game loop (Timeline),
+ * difficulty settings, sound events, and high score persistence.
+ */
 public class GameController implements InputEventListener {
 
     /** The logical game board model. */
@@ -39,6 +46,8 @@ public class GameController implements InputEventListener {
     /**
      * @param c the {@link GuiController} instance controlling the UI.
      * @param difficulty The selected difficulty (Easy, Normal, Hard)
+     * @param clearRowPlayer The shared {@link MediaPlayer} for the line clear sound
+     * @param speedUpPlayer The shared {@link MediaPlayer} for the speed up sound
      */
     public GameController(GuiController c, Difficulty difficulty, MediaPlayer clearRowPlayer, MediaPlayer speedUpPlayer) {
         viewGuiController = c;
@@ -70,6 +79,8 @@ public class GameController implements InputEventListener {
 
     /**
      * Saves the current game score, updating the high score if necessary.
+     * If the final score is higher than the saved high score, it updates the high score file
+     * and requests the GUI to display a "New High Score!" notification.
      */
     public void saveGameScore() {
         int finalScore = board.getScore().getScore();
@@ -84,7 +95,8 @@ public class GameController implements InputEventListener {
 
     /**
      * Sets game parameters based on the selected difficulty.
-     * @param difficulty The selected difficulty.
+     * For HARD mode, it also instructs the board to set up obstacles.
+     * @param difficulty The {@link Difficulty} selected difficulty.
      */
     private void initializeDifficulty(Difficulty difficulty) {
         this.currentGameSpeed = GameConfig.GAME_SPEED_MS;
@@ -102,24 +114,6 @@ public class GameController implements InputEventListener {
                 break;
         }
     }
-
-    /**
-     * Loads sound files into MediaPlayer objects and passes them to the GuiController.
-     */
-    /*private void initializeSounds() {
-        try {
-            URL clearSoundURL = getClass().getResource("/sounds/clearRowSound.mp3");
-            URL speedUpSoundURL = getClass().getResource("/sounds/speedUpSound.mp3");
-
-            Media clearMedia = new Media(clearSoundURL.toExternalForm());
-            this.clearRowSoundPlayer = new MediaPlayer(clearMedia);
-            Media speedUpMedia = new Media(speedUpSoundURL.toExternalForm());
-            this.speedUpSoundPlayer = new MediaPlayer(speedUpMedia);
-        } catch (Exception e) {
-            System.err.println("Failed to load sounds : " + e.getMessage());
-        }
-        viewGuiController.setupSoundPlayers(this.clearRowSoundPlayer, this.speedUpSoundPlayer);
-    }*/
 
     /**
      * Initializes and starts the main game loop.
@@ -184,6 +178,8 @@ public class GameController implements InputEventListener {
 
     /**
      * Handles Hard Drop (move down instantly).
+     * Instantly drops the brick, calculates the score bonus, and finalizes the turn
+     * (merge, clear rows, level-up check, new brick spawn).
      *
      * @return DownData containing the final board state and score.
      */
@@ -210,7 +206,8 @@ public class GameController implements InputEventListener {
 
     /**
      * Checks if the line clear count has reached the next level threshold
-     * and increases the game speed if necessary.
+     * and increases the game speed if necessary, plays a sound.
+     * shows a notification (via GuiController), and restarts the game loop.
      */
     private void checkSpeedUp() {
         // no speed change in EASY mode
@@ -242,6 +239,10 @@ public class GameController implements InputEventListener {
         return board.getViewData();
     }
 
+    /**
+     * Handles "Move Left Most" events.
+     * @return The updated {@link ViewData} .
+     */
     @Override
     public ViewData onLeftMostEvent() {
         board.moveBrickLeftMost();
@@ -260,6 +261,10 @@ public class GameController implements InputEventListener {
         return board.getViewData();
     }
 
+    /**
+     * Handles "Move Right Most" events.
+     * @return The updated {@link ViewData} for the view.
+     */
     @Override
     public ViewData onRightMostEvent() {
         board.moveBrickRightMost();
@@ -278,12 +283,21 @@ public class GameController implements InputEventListener {
         return board.getViewData();
     }
 
+    /**
+     * Handles rotation right of the current brick.
+     *
+     * @return The updated {@link ViewData} for the view.
+     */
     @Override
     public ViewData onRotateRightEvent() {
         board.rotateRightBrick();
         return board.getViewData();
     }
 
+    /**
+     * Handles "Hold" events (swap the current brick with the held brick).
+     * @return The updated {@link ViewData} for the view.
+     */
     @Override
     public ViewData onHoldEvent() {
         board.swapHoldBrick();

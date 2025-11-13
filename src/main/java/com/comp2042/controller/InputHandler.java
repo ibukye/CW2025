@@ -27,7 +27,10 @@ public class InputHandler implements EventHandler<KeyEvent> {
 
     /**
      * Creates a new InputHandler.
-     * @param controller The GuiController instance to interact with.
+     * @param controller The {@link GuiController} (View) used for checking game state (isPause, isGameOver)
+     * and refreshing the brick display.
+     * @param gameController The {@link InputEventListener} (Controller) to which game logic
+     * commands (onLeft, onRight, etc.) are sent.
      */
     public InputHandler(GuiController controller, InputEventListener gameController) {
         this.guiController = controller;
@@ -37,6 +40,8 @@ public class InputHandler implements EventHandler<KeyEvent> {
     /**
      * Handles the keyboard input (KeyPressed event).
      * Interprets the key code and delegates the appropriate action.
+     * Implements a double-tap detection for the SPACE key to differentiate
+     * between Soft Drop (single tap) and Hard Drop (double tap).
      * @param keyEvent The KeyEvent triggered by the user.
      */
     @Override
