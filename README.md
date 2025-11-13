@@ -64,7 +64,9 @@ com.comp2042
 |    |-- Board
 |    |-- BrickRotator
 |    |-- ClearRow
+|    |-- Difficulty
 |    |-- DownData
+|    |-- HighScoreManager
 |    |-- MatrixOperations
 |    |-- NextShapeInfo
 |    |-- Score
@@ -87,7 +89,9 @@ com.comp2042
 |    |-- GuiController
 |    |-- InputEventListener
 |    |-- Main
+|    |-- MainMenuController
 |    |-- NotificationPanel
+|    |-- SettingController
 |
 |-- GameConfig
 
@@ -131,9 +135,6 @@ com.comp2042
 - [x] Code Refactoring
 - [x] Code Modification (Modification)
 - [x] Code Extension (Should Implement)
-
-
-
 
 
 ---
