@@ -3,6 +3,7 @@ package com.comp2042.view;
 import com.comp2042.GameConfig;
 import com.comp2042.controller.GameController;
 import com.comp2042.model.Difficulty;
+import com.comp2042.model.GameSettings;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -107,9 +108,10 @@ public class Main extends Application {
             Parent root = fxmlLoader.load();
             GuiController c = fxmlLoader.getController();
             c.setMainApp(this);
+            GameSettings settings = new GameSettings();
             primaryStage.setScene(new Scene(root, GameConfig.WINDOW_WIDTH, GameConfig.WINDOW_HEIGHT));
             // handles selected difficulty (pass Difficulty Enum to GameController)
-            new GameController(c, difficulty, clearRowSoundPlayer, speedUpSoundPlayer);
+            new GameController(c, difficulty, clearRowSoundPlayer, speedUpSoundPlayer, settings);
         } catch (IOException e) { e.printStackTrace(); }
 
     }

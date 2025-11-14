@@ -4,6 +4,7 @@ import com.comp2042.GameConfig;
 import com.comp2042.controller.InputHandler;
 import com.comp2042.controller.MoveEvent;
 import com.comp2042.model.DownData;
+import com.comp2042.model.GameSettings;
 import com.comp2042.model.ViewData;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -483,9 +484,9 @@ public class GuiController implements Initializable {
      *
      * @param eventListener the listener implementing {@link InputEventListener}.
      */
-    public void setEventListener(InputEventListener eventListener) {
+    public void setEventListener(InputEventListener eventListener, GameSettings settings) {
         this.eventListener = eventListener;
-        InputHandler inputHandler = new InputHandler(this, this.eventListener);
+        InputHandler inputHandler = new InputHandler(this, this.eventListener, settings);
         gamePanel.setOnKeyPressed(inputHandler);
     }
 

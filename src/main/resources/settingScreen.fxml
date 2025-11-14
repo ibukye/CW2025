@@ -21,6 +21,9 @@
         <Slider fx:id="speedUpVolumeSlider" min="0" max="100" value="100" showTickLabels="true"/>
     </VBox>
 
+    <Label text="Keybinding Mode" style="-fx-font-size: 14px; -fx-text-fill: white;"/>
+    <ToggleButton fx:id="keyBindingToggle" onAction="#onKeyBindingToggle" prefWidth="150.0" />
+
     <Button text="go to menu" onAction="#goToMainMenu"/>
 
     <padding>

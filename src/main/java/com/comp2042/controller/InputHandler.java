@@ -1,6 +1,7 @@
 package com.comp2042.controller;
 
 import com.comp2042.model.DownData;
+import com.comp2042.model.GameSettings;
 import com.comp2042.model.ViewData;
 import com.comp2042.view.GuiController;
 import com.comp2042.view.InputEventListener;
@@ -19,6 +20,17 @@ public class InputHandler implements EventHandler<KeyEvent> {
     // Reference to the GuiController
     private final GuiController guiController;
     private final InputEventListener gameController;
+    private final GameSettings settings;
+
+    private KeyCode K_MOVE_LEFT;
+    private KeyCode K_MOVE_RIGHT;
+    private KeyCode K_ROTATE_LEFT;
+    private KeyCode K_ROTATE_RIGHT;
+    private KeyCode K_SOFT_DROP;
+    private KeyCode K_HARD_DROP;
+    private KeyCode K_MOVE_LEFT_MOST;
+    private KeyCode K_MOVE_RIGHT_MOST;
+    private KeyCode K_HOLD;
 
     // TimeStamp for detecting double space
     private long lastSpacePressTime = 0;
@@ -27,14 +39,31 @@ public class InputHandler implements EventHandler<KeyEvent> {
 
     /**
      * Creates a new InputHandler.
-     * @param controller The {@link GuiController} (View) used for checking game state (isPause, isGameOver)
-     * and refreshing the brick display.
+     *
+     * @param controller     The {@link GuiController} (View) used for checking game state (isPause, isGameOver)
+     *                       and refreshing the brick display.
      * @param gameController The {@link InputEventListener} (Controller) to which game logic
-     * commands (onLeft, onRight, etc.) are sent.
+     *                       commands (onLeft, onRight, etc.) are sent.
      */
-    public InputHandler(GuiController controller, InputEventListener gameController) {
+    public InputHandler(GuiController controller, InputEventListener gameController, GameSettings settings) {
         this.guiController = controller;
         this.gameController = gameController;
+        this.settings = settings;
+
+        loadKeybindings();
+    }
+
+
+    private void loadKeybindings() {
+        K_MOVE_LEFT = settings.getKeyCode("MOVE_LEFT");
+        K_MOVE_RIGHT = settings.getKeyCode("MOVE_RIGHT");
+        K_ROTATE_LEFT = settings.getKeyCode("ROTATE_LEFT");
+        K_ROTATE_RIGHT = settings.getKeyCode("ROTATE_RIGHT");
+        K_SOFT_DROP = settings.getKeyCode("SOFT_DROP");
+        K_HARD_DROP = settings.getKeyCode("HARD_DROP");
+        K_MOVE_LEFT_MOST = settings.getKeyCode("MOVE_LEFT_MOST");
+        K_MOVE_RIGHT_MOST = settings.getKeyCode("MOVE_RIGHT_MOST");
+        K_HOLD = settings.getKeyCode("HOLD");
     }
 
     /**
@@ -42,49 +71,60 @@ public class InputHandler implements EventHandler<KeyEvent> {
      * Interprets the key code and delegates the appropriate action.
      * Implements a double-tap detection for the SPACE key to differentiate
      * between Soft Drop (single tap) and Hard Drop (double tap).
+     *
      * @param keyEvent The KeyEvent triggered by the user.
      */
     @Override
     public void handle(KeyEvent keyEvent) {
         if (guiController.isPause() == Boolean.FALSE && guiController.isGameOver() == Boolean.FALSE) {
-            // CAPS : LEFT MOST
-            if (keyEvent.getCode() == KeyCode.CAPS) {
+            KeyCode keyCode = keyEvent.getCode();
+
+            // SLASH(/) : LEFT MOST
+            if (keyCode == K_MOVE_LEFT_MOST) {
                 ViewData data = gameController.onLeftMostEvent();
                 guiController.refreshBrick(data);
-                //guiController.refreshBrick(guiController.getEventListener().onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
                 keyEvent.consume();
             }
-            // F : LEFT
-            if (keyEvent.getCode() == KeyCode.F || keyEvent.getCode() == KeyCode.LEFT) {
+            // F -> LEFT
+            if (keyCode == K_MOVE_LEFT) {
                 guiController.refreshBrick(guiController.getEventListener().onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
                 keyEvent.consume();
             }
-            // J : RIGHT
-            if (keyEvent.getCode() == KeyCode.J || keyEvent.getCode() == KeyCode.RIGHT) {
+            // J -> RIGHT
+            if (keyCode == K_MOVE_RIGHT) {
                 guiController.refreshBrick(guiController.getEventListener().onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER)));
                 keyEvent.consume();
             }
-            // ENTER : RIGHT MOST
-            if (keyEvent.getCode() == KeyCode.ENTER) {
+            // SHIFT -> RIGHT MOST
+            if (keyCode == K_MOVE_RIGHT_MOST) {
                 ViewData data = gameController.onRightMostEvent();
                 guiController.refreshBrick(data);
                 keyEvent.consume();
             }
 
             // --- ROTATION ---
-            // S : ROTATE LEFT
-            if (keyEvent.getCode() == KeyCode.S || keyEvent.getCode() == KeyCode.UP) {
+            // S -> ROTATE LEFT
+            if (keyCode == K_ROTATE_LEFT) {
                 guiController.refreshBrick(guiController.getEventListener().onRotateEvent(new MoveEvent(EventType.ROTATE, EventSource.USER)));
                 keyEvent.consume();
             }
-            // L : ROTATE RIGHT
-            if (keyEvent.getCode() == KeyCode.L) {
+            // L -> ROTATE RIGHT
+            if (keyCode == K_ROTATE_RIGHT) {
                 guiController.refreshBrick(guiController.getEventListener().onRotateRightEvent());
                 keyEvent.consume();
             }
 
+            // Holding brick
+            if (keyCode == K_HOLD) {
+                guiController.refreshBrick(guiController.getEventListener().onHoldEvent());
+                keyEvent.consume();
+            }
+            if (keyCode == KeyCode.N) {
+                guiController.newGame(null);
+            }
+
             // --- DOUBLE SPACE LOGIC ---
-            if (keyEvent.getCode() == KeyCode.SPACE) {
+            /*if (keyCode == K_SOFT_DROP) {
                 long now = System.currentTimeMillis();
 
                 if (now - lastSpacePressTime < DOUBLE_TAP_THRESHOLD) {
@@ -101,38 +141,36 @@ public class InputHandler implements EventHandler<KeyEvent> {
 
                     lastSpacePressTime = now;   // record the pressed time
                 }
-            }
+            }*/
 
-            // Holding brick
-            if (keyEvent.getCode() == KeyCode.V) {
-                guiController.refreshBrick(guiController.getEventListener().onHoldEvent());
-                keyEvent.consume();
+            if (K_SOFT_DROP == K_HARD_DROP) {
+                if (keyCode == K_SOFT_DROP) {
+                    long now = System.currentTimeMillis();
+
+                    if (now - lastSpacePressTime < DOUBLE_TAP_THRESHOLD) {
+                        // DOUBLE SPACE -> HARD DROP
+                        guiController.handleHardDrop();
+                        keyEvent.consume();
+
+                        // Reset timer
+                        lastSpacePressTime = 0;
+                    } else {
+                        // DOWN
+                        guiController.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
+                        keyEvent.consume();
+
+                        lastSpacePressTime = now;   // record the pressed time
+                    }
+                }
+            } else {
+                if (keyCode == K_SOFT_DROP) {
+                    guiController.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
+                    keyEvent.consume();
+                } else {
+                    guiController.handleHardDrop();
+                    keyEvent.consume();
+                }
             }
-        }
-        if (keyEvent.getCode() == KeyCode.N) {
-            guiController.newGame(null);
         }
     }
 }
-
-
-
-/*
-
-CAPS : Left most
-
-S : Rotate Left
-
-F : Move left
-
-J : Move right
-
-L : Rotate right
-
-ENTER : Right most
-
-
-SPACE : Go down
-DOUBLE SPACE : Hard drop
-
- */

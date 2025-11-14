@@ -49,13 +49,15 @@ public class GameController implements InputEventListener {
      * @param clearRowPlayer The shared {@link MediaPlayer} for the line clear sound
      * @param speedUpPlayer The shared {@link MediaPlayer} for the speed-up sound
      */
-    public GameController(GuiController c, Difficulty difficulty, MediaPlayer clearRowPlayer, MediaPlayer speedUpPlayer) {
+    public GameController(GuiController c, Difficulty difficulty, MediaPlayer clearRowPlayer, MediaPlayer speedUpPlayer, GameSettings settings) {
         viewGuiController = c;
         this.difficulty = difficulty;
 
         // store the shared players
         this.clearRowSoundPlayer = clearRowPlayer;
         this.speedUpSoundPlayer = speedUpPlayer;
+
+        viewGuiController.setEventListener(this, settings);
 
         viewGuiController.setupSoundPlayers(this.clearRowSoundPlayer, this.speedUpSoundPlayer);
 
@@ -67,7 +69,7 @@ public class GameController implements InputEventListener {
         viewGuiController.updateHighScore(highScoreManager.getHighScore()); // Display high score to the GUI
 
         board.createNewBrick();
-        viewGuiController.setEventListener(this);
+        viewGuiController.setEventListener(this, settings);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
 

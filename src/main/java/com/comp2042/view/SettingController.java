@@ -1,8 +1,12 @@
 package com.comp2042.view;
 
+import com.comp2042.model.GameSettings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyCode;
 import javafx.scene.media.MediaPlayer;
 
 import java.net.URL;
@@ -23,12 +27,28 @@ public class SettingController implements Initializable {
     @FXML
     private Slider speedUpVolumeSlider;
 
+    @FXML
+    private ToggleButton keyBindingToggle;
+
+    @FXML private Button moveLeftKeyButton;
+    @FXML private Button moveRightKeyButton;
+    @FXML private Button rotateLeftKeyButton;
+    @FXML private Button rotateRightKeyButton;
+    @FXML private Button softDropKeyButton;
+    @FXML private Button hardDropKeyButton;
+    @FXML private Button holdKeyButton;
+    @FXML private Button moveLeftMostKeyButton;
+    @FXML private Button moveRightMostKeyButton;
+    @FXML private Button resetButton;
+
     /** A reference to the main application class for switching scenes. */
     private Main mainApp;
 
     /** The shared {@link MediaPlayer} for the row clear sound and speed up sound, received from Main. */
     private MediaPlayer clearRowPlayer;
     private MediaPlayer speedUpPlayer;
+
+    private GameSettings settings;
 
     /**
      * Initializes the controller.
@@ -43,6 +63,11 @@ public class SettingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        this.settings = new GameSettings();
+        //updateToggleText();
+        loadKeybindButtons();
+
+
         clearRowVolumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (clearRowPlayer != null) {
                 // convert the slider value to sound volume
@@ -56,6 +81,47 @@ public class SettingController implements Initializable {
             }
         });
     }
+
+    private void loadKeybindButtons() {
+        moveLeftKeyButton.setText(settings.getKeyCode("MOVE_LEFT").name());
+        moveRightKeyButton.setText(settings.getKeyCode("MOVE_RIGHT").name());
+        rotateLeftKeyButton.setText(settings.getKeyCode("ROTATE_LEFT").name());
+        rotateRightKeyButton.setText(settings.getKeyCode("ROTATE_RIGHT").name());
+        softDropKeyButton.setText(settings.getKeyCode("SOFT_DROP").name());
+        hardDropKeyButton.setText(settings.getKeyCode("HARD_DROP").name());
+        holdKeyButton.setText(settings.getKeyCode("HOLD").name());
+        moveLeftMostKeyButton.setText(settings.getKeyCode("MOVE_LEFT_MOST").name());
+        moveRightMostKeyButton.setText(settings.getKeyCode("MOVE_RIGHT_MOST").name());
+    }
+
+
+    @FXML
+    private void onChangeMoveLeft() {
+        captureKeyForAction(moveLeftKeyButton, "MOVE_LEFT");
+    }
+
+    @FXML
+    private void onResetKeys() {
+        settings.setDefaultSettings();
+        loadKeybindButtons();
+    }
+
+
+    private void captureKeyForAction(Button button, String action) {
+        String originalText = button.getText();
+        button.setText("Press any key...");
+
+        button.setOnKeyPressed(event -> {
+            KeyCode newKey = event.getCode();
+            settings.setKeyCode(action, newKey);
+            button.setText(newKey.name());
+
+
+            button.setOnKeyPressed(null);
+            event.consume();
+        });
+    }
+
 
     /**
      * Injects the shared {@link MediaPlayer} instances from the {@link Main} application.
@@ -82,8 +148,35 @@ public class SettingController implements Initializable {
      */
     @FXML
     private void goToMainMenu() {
+        // Save the settings before go back to menu
+        settings.saveSettings();
         mainApp.showMainMenuScreen();
     }
+
+
+
+    @FXML
+    private void onKeyBindingToggle() {
+        if (keyBindingToggle.isSelected()) {
+            settings.setKeyBindingMode("CUSTOM");
+        } else {
+            settings.setKeyBindingMode("DEFAULT");
+        }
+        updateToggleText();
+    }
+
+    private void updateToggleText() {
+        if (settings.getKeyBindingMode().equals("CUSTOM")) {
+            keyBindingToggle.setSelected(true);
+            keyBindingToggle.setText("Keybind: Custom");
+        } else {
+            keyBindingToggle.setSelected(false);
+            keyBindingToggle.setText("Keybind: Default");
+        }
+    }
+
+
+
 
     /**
      * Sets the reference to the main application class.
