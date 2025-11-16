@@ -89,7 +89,7 @@ public class Main extends Application {
             MainMenuController controller = fxmlLoader.getController();
             controller.setMainApp(this);
 
-            primaryStage.setScene(new Scene(root));
+            primaryStage.setScene(new Scene(root, GameConfig.WINDOW_WIDTH, GameConfig.WINDOW_HEIGHT));
             primaryStage.show();
         } catch (IOException e) { e.printStackTrace(); }
     }
@@ -132,7 +132,7 @@ public class Main extends Application {
 
             controller.setMainApp(this);
 
-            primaryStage.setScene(new Scene(root, 420, 510));
+            primaryStage.setScene(new Scene(root, GameConfig.WINDOW_WIDTH, GameConfig.WINDOW_HEIGHT));
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

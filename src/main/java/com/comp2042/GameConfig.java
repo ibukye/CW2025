@@ -12,14 +12,14 @@ public final class GameConfig {
     private GameConfig() {}
 
     // Window
-    public static final int WINDOW_WIDTH = 400;
+    public static final int WINDOW_WIDTH = 500;
     public static final int WINDOW_HEIGHT = 600;
 
     // Board
     public static final int BOARD_HEIGHT = 25;
     public static final int BOARD_WIDTH = 10;
     public static final int BRICK_SPAWN_X = 4;
-    public static final int BRICK_SPAWN_Y = 0;
+    public static final int BRICK_SPAWN_Y = 1;
     public static final int BRICK_SIZE = 20;
 
     // Hard mode
@@ -35,7 +35,7 @@ public final class GameConfig {
     // UI
     public static final int BRICK_PANEL_Y_OFFSET = -42;
     public static final double NEXT_BRICK_SIZE_LARGE = 12.0;
-    public static final double NEXT_BRICK_SIZE_SMALL = 10.0;
+    public static final double NEXT_BRICK_SIZE_SMALL = 8.0;
     public static final double SPEEDUP_NOTIFICATION_Y_OFFSET = 30.0;
 
 

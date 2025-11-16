@@ -76,6 +76,11 @@ public class InputHandler implements EventHandler<KeyEvent> {
      */
     @Override
     public void handle(KeyEvent keyEvent) {
+
+        if (keyEvent.getCode() == KeyCode.N) {
+            guiController.newGame(null);
+        }
+
         if (guiController.isPause() == Boolean.FALSE && guiController.isGameOver() == Boolean.FALSE) {
             KeyCode keyCode = keyEvent.getCode();
 
@@ -119,29 +124,6 @@ public class InputHandler implements EventHandler<KeyEvent> {
                 guiController.refreshBrick(guiController.getEventListener().onHoldEvent());
                 keyEvent.consume();
             }
-            if (keyCode == KeyCode.N) {
-                guiController.newGame(null);
-            }
-
-            // --- DOUBLE SPACE LOGIC ---
-            /*if (keyCode == K_SOFT_DROP) {
-                long now = System.currentTimeMillis();
-
-                if (now - lastSpacePressTime < DOUBLE_TAP_THRESHOLD) {
-                    // DOUBLE SPACE -> HARD DROP
-                    guiController.handleHardDrop();
-                    keyEvent.consume();
-
-                    // Reset timer
-                    lastSpacePressTime = 0;
-                } else {
-                    // DOWN
-                    guiController.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
-                    keyEvent.consume();
-
-                    lastSpacePressTime = now;   // record the pressed time
-                }
-            }*/
 
             if (K_SOFT_DROP == K_HARD_DROP) {
                 if (keyCode == K_SOFT_DROP) {

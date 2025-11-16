@@ -209,7 +209,7 @@ public class GameController implements InputEventListener {
         // no speed change in EASY mode
         if (this.difficulty == Difficulty.EASY) { return; }
         int totalLines = board.getScore().getTotalLinesCleared();
-        if (totalLines >= GameConfig.ROWS_PER_LEVEL) {
+        if (totalLines >= totalLinesForNextLevel) {
             // speed up -> 95% of original
             double newSpeed = this.currentGameSpeed * GameConfig.SPEED_INCREASE_FACTOR;
             // update threshold

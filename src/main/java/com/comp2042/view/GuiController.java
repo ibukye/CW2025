@@ -42,7 +42,6 @@ import java.util.List;
  * {@link com.comp2042.controller.GameController} to send and receive game events.
  */
 public class GuiController implements Initializable {
-    //private static final int BRICK_SIZE = 20;
 
     /** The main grid pane that holds the static, merged bricks (the game board). */
     @FXML
@@ -79,7 +78,9 @@ public class GuiController implements Initializable {
     private Button restartButton;
     /** The button for returning to the main menu. */
     @FXML
-    private Button goBackToMenuButton;
+    private Button backButton;
+    @FXML
+    private Button keybindingButton;
 
     /** The custom panel displayed on game over. */
     @FXML
@@ -135,6 +136,8 @@ public class GuiController implements Initializable {
     /** JavaFX property tracking the game over state. */
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
+    private GameSettings settings;
+
     /**
      * Initializes the GUI controller.
      * aThis method is called automatically by JavaFX after the FXML file is loaded.
@@ -186,7 +189,7 @@ public class GuiController implements Initializable {
     }
 
     /**
-     * Receives the shared {@link MediaPlayer} instances from the {@link GameController}.
+     * Receives the shared {@link MediaPlayer} instances.
      *
      * @param clearRowSoundPlayer Line Clear Sound
      * @param speedUpSoundPlayer Speed Up Sound
@@ -486,6 +489,7 @@ public class GuiController implements Initializable {
      */
     public void setEventListener(InputEventListener eventListener, GameSettings settings) {
         this.eventListener = eventListener;
+        this.settings = settings;
         InputHandler inputHandler = new InputHandler(this, this.eventListener, settings);
         gamePanel.setOnKeyPressed(inputHandler);
     }
@@ -605,4 +609,40 @@ public class GuiController implements Initializable {
             gamePanel.requestFocus();   // returns the focus to the game panel
         }
     }
+
+    @FXML
+    private void onShowKeybindings() {
+        // Need to stop game
+        eventListener.stopGame();
+        // set pause
+        isPause.setValue(Boolean.TRUE);
+        // create a string to show the keybindings
+        String keybindings =
+                "Move Left:\t\t" + settings.getKeyCode("MOVE_LEFT").name() + "\n" +
+                "Move Right:\t\t" + settings.getKeyCode("MOVE_RIGHT").name() + "\n" +
+                "Rotate Left:\t\t" + settings.getKeyCode("ROTATE_LEFT").name() + "\n" +
+                "Rotate Right:\t\t" + settings.getKeyCode("ROTATE_RIGHT").name() + "\n" +
+                "Soft Drop:\t\t" + settings.getKeyCode("SOFT_DROP").name() + "\n" +
+                "Hard Drop:\t\t" + settings.getKeyCode("HARD_DROP").name() + "\n" +
+                "Hold:\t\t\t" + settings.getKeyCode("HOLD").name() + "\n" +
+                "Move Left Most: \t" + settings.getKeyCode("MOVE_LEFT_MOST").name() + "\n" +
+                "Move Right Most:\t" + settings.getKeyCode("MOVE_RIGHT_MOST").name();
+
+        // create alart
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Keybindings");
+        alert.setHeaderText("Current Keybindings");
+
+        // set text
+        alert.setContentText(keybindings);
+
+        // wait until the player closes
+        alert.showAndWait();
+
+        // after closed the game needs to be resumed
+        isPause.setValue(Boolean.FALSE);
+        eventListener.resumeGame();
+        gamePanel.requestFocus();
+    }
+
 }

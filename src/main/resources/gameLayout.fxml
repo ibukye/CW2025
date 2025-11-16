@@ -6,67 +6,75 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<Pane fx:controller="com.comp2042.view.GuiController"
-      xmlns:fx="http://javafx.com/fxml">
-
-    <GridPane fx:id="ghostBrickPanel" vgap="1" hgap="1" opacity="0.4" />
-    <GridPane fx:id="brickPanel" vgap="1" hgap="1"/>
 
 
-    <BorderPane styleClass="gameBoard" fx:id="gameBoard">
-        <center>
-            <GridPane fx:id="gamePanel" hgap="1" vgap="1" layoutY="30" layoutX="40"/>
-        </center>
-    </BorderPane>
 
-    <Group layoutX="340" layoutY="20">
-        <VBox spacing="5">
-            <Label text="Hold" styleClass="score-label"/>
-            <GridPane fx:id="holdBrickPanel" hgap="1" vgap="1" />
-        </VBox>
-    </Group>
 
-    <Group layoutX="280" layoutY="20" styleClass="next-brick-container">
-        <VBox>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.comp2042.view.GuiController"
+      styleClass="root"
+      style="-fx-padding: 50 0 0 50;">
+
+    <Pane style="-fx-background-color: transparent;">
+        <GridPane fx:id="ghostBrickPanel" vgap="1" hgap="1" opacity="0.4" />
+        <GridPane fx:id="brickPanel" vgap="1" hgap="1"/>
+
+        <!-- GAME BOARD -->
+        <BorderPane styleClass="gameBoard" fx:id="gameBoard">
+            <center>
+                <GridPane fx:id="gamePanel" hgap="1" vgap="1" layoutY="30" layoutX="40"/>
+            </center>
+        </BorderPane>
+
+        <!-- NEXT BRICK PANEL -->
+        <VBox layoutX="260" layoutY="20" styleClass="next-brick-container">
             <Label text="Next" styleClass="next-brick-label"/>
             <GridPane fx:id="nextBrickPanel" hgap="1" vgap="1" />
-
             <GridPane fx:id="nextBrickPanel2" hgap="1" vgap="1" />
             <GridPane fx:id="nextBrickPanel3" hgap="1" vgap="1" />
             <GridPane fx:id="nextBrickPanel4" hgap="1" vgap="1" />
         </VBox>
-    </Group>
 
-    <Group layoutX="280" layoutY="280">
-        <VBox spacing="5">
-            <Label text="Score" styleClass="score-label"/>
-            <Label fx:id="scoreLabel" text="0" styleClass="score-value"/>
-            <Label text="High Score" styleClass="score-label"/>
-            <Label fx:id="highScoreLabel" text="0" styleClass="score-value"/>
+        <!-- HOLD PANEL -->
+        <VBox spacing="5" layoutX="360" layoutY="20" styleClass="next-brick-container">
+            <Label text="Hold" styleClass="score-label"/>
+            <GridPane fx:id="holdBrickPanel" hgap="1" vgap="1" />
         </VBox>
-    </Group>
 
-    <Group fx:id="groupNotification" layoutX="14" layoutY="203">
-        <VBox alignment="CENTER">
-            <GameOverPanel fx:id="gameOverPanel"/>
-        </VBox>
-    </Group>
+        <!-- SCORE LABEL -->
+        <Group layoutX="280" layoutY="280">
+            <VBox spacing="5">
+                <Label text="Score" styleClass="score-label"/>
+                <Label fx:id="scoreLabel" text="0" styleClass="score-value"/>
+                <Label text="High Score" styleClass="score-label"/>
+                <Label fx:id="highScoreLabel" text="0" styleClass="score-value"/>
+            </VBox>
+        </Group>
 
-    <Group layoutX="270" layoutY="430">
-        <VBox spacing="10">
-            <HBox spacing="10" alignment="CENTER">
-                <Button fx:id="pauseButton" onAction="#pauseGame"/>
-                <Button fx:id="restartButton" onAction="#newGame" />
-            </HBox>
-            <Button text="Menu" fx:id="backButton" onAction="#goBackToMenu" />
-        </VBox>
-    </Group>
+        <!-- NOTIFICATION -->
+        <Group fx:id="groupNotification" layoutX="14" layoutY="203">
+            <VBox alignment="CENTER">
+                <GameOverPanel fx:id="gameOverPanel"/>
+            </VBox>
+        </Group>
 
-
-
-
+        <!-- BUTTONS -->
+        <Group layoutX="280" layoutY="430">
+            <VBox spacing="10">
+                <HBox spacing="10" alignment="CENTER">
+                    <Button fx:id="pauseButton" onAction="#pauseGame"/>
+                    <Button fx:id="restartButton" onAction="#newGame" />
+                </HBox>
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Menu" fx:id="backButton" onAction="#goBackToMenu" />
+                    <Button text="Keybindings" fx:id="keybindingButton" onAction="#onShowKeybindings" />
+                </HBox>
+            </VBox>
+        </Group>
+    </Pane>
 
     <stylesheets>
         <URL value="@window_style.css"/>
     </stylesheets>
-</Pane>
+
+</VBox>
