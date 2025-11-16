@@ -35,6 +35,7 @@ public class GameController implements InputEventListener {
 
     // current game speed with lines
     private double currentGameSpeed;
+    private int totalLinesForNextLevel;
 
     // MediaPlayer field
     private MediaPlayer clearRowSoundPlayer;
@@ -69,7 +70,6 @@ public class GameController implements InputEventListener {
         viewGuiController.updateHighScore(highScoreManager.getHighScore()); // Display high score to the GUI
 
         board.createNewBrick();
-        viewGuiController.setEventListener(this, settings);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
 
@@ -99,6 +99,7 @@ public class GameController implements InputEventListener {
      */
     private void initializeDifficulty(Difficulty difficulty) {
         this.currentGameSpeed = GameConfig.GAME_SPEED_MS;
+        this.totalLinesForNextLevel = GameConfig.ROWS_PER_LEVEL;
         switch (difficulty) {
             case EASY:
                 // speed = 400ms, no change
@@ -208,9 +209,12 @@ public class GameController implements InputEventListener {
         // no speed change in EASY mode
         if (this.difficulty == Difficulty.EASY) { return; }
         int totalLines = board.getScore().getTotalLinesCleared();
-        if (totalLines % GameConfig.ROWS_PER_LEVEL == 0) {
+        if (totalLines >= GameConfig.ROWS_PER_LEVEL) {
             // speed up -> 95% of original
             double newSpeed = this.currentGameSpeed * GameConfig.SPEED_INCREASE_FACTOR;
+            // update threshold
+            this.totalLinesForNextLevel += GameConfig.ROWS_PER_LEVEL;
+
             if (newSpeed != this.currentGameSpeed) {
                 this.currentGameSpeed = newSpeed;
                 viewGuiController.playSound(speedUpSoundPlayer);
