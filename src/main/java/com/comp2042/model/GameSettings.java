@@ -24,7 +24,7 @@ public class GameSettings {
     public void loadSettings() {
         File file = new File(SETTINGS_FILE);
         if (!file.exists()) {
-            setDefaultSettings();
+            setDefaultSettings(); // if no then create default setting to save
             saveSettings(); // create a new file
             return;
         }
@@ -35,7 +35,14 @@ public class GameSettings {
         }
     }
 
-
+    // save the current setting
+    public void saveSettings() {
+        try (FileWriter writer = new FileWriter(SETTINGS_FILE)) {
+            properties.store(writer, "Tetris Game Settings");
+        } catch (IOException e) {
+            System.err.println("Failed to save settings; "+ e.getMessage());
+        }
+    }
 
     /**
      * Sets the default keybindings (your "Custom" layout).
@@ -52,51 +59,28 @@ public class GameSettings {
         properties.setProperty("HOLD", KeyCode.V.name());
     }
 
-
-
-    // save the current setting
-    public void saveSettings() {
-        try {
-            FileWriter writer = new FileWriter(SETTINGS_FILE, false);
-            writer.write(this.keyBindingMode);
-            writer.close();
-        } catch (IOException e) {
-            System.err.println("Failed to save settings; "+ e.getMessage());
-        }
-    }
-
     /**
      * Gets a specific keybinding as a KeyCode.
      * @param action The action (e.g., "MOVE_LEFT").
      * @return The saved KeyCode.
      */
-    public KeyCode getKeyBindingMode(String action) {
+    public KeyCode getKeyCode(String action) {
         String keyName = properties.getProperty(action);
-        try {
-            return KeyCode.valueOf(keyName);
-        } catch (Exception e) {
-            System.err.println("Invalid key " + keyName + " for " + action + ", resetting.");
+        try { return KeyCode.valueOf(keyName); }
+        catch (Exception e) {
+            System.err.println("Invalid key");
+            // if error, set as default
             setDefaultSettings();
             return getKeyCode(action);
         }
     }
 
-    public KeyCode getKeyCode(String action) {
-        String keyName = properties.getProperty(action);
-        try { return KeyCode.valueOf(keyName); }
-        catch (Exception e) {System.err.println("Invalid key"); }
-    }
-
     /**
-     * Sets a new keybinding.
-     * @param action The action (e.g., "MOVE_LEFT").
-     * @param code The new KeyCode.
+     * Sets new keybind
+     * @param action The action (eg, "MOVE_LEFT")
+     * @param code The new KeyCode
      */
-    public void setKeyBindingMode(String action, KeyCode code) {
+    public void setKeyCode(String action, KeyCode code) {
         properties.setProperty(action, code.name());
     }
-
-
-
-
 }
