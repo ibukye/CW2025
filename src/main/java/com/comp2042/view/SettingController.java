@@ -82,6 +82,9 @@ public class SettingController implements Initializable {
         });
     }
 
+    /**
+     * Load the current saved keybind and set to button text
+     */
     private void loadKeybindButtons() {
         moveLeftKeyButton.setText(settings.getKeyCode("MOVE_LEFT").name());
         moveRightKeyButton.setText(settings.getKeyCode("MOVE_RIGHT").name());
@@ -96,16 +99,29 @@ public class SettingController implements Initializable {
 
 
     @FXML
-    private void onChangeMoveLeft() {
-        captureKeyForAction(moveLeftKeyButton, "MOVE_LEFT");
-    }
+    private void onChangeMoveLeft() { captureKeyForAction(moveLeftKeyButton, "MOVE_LEFT"); }
+    @FXML
+    private void onChangeMoveRight() { captureKeyForAction(moveRightKeyButton, "MOVE_RIGHT"); }
+    @FXML
+    private void onChangeLeftMost() { captureKeyForAction(moveLeftMostKeyButton, "MOVE_LEFT_MOST"); }
+    @FXML
+    private void onChangeRightMost() { captureKeyForAction(moveRightMostKeyButton, "MOVE_RIGHT_MOST"); }
+    @FXML
+    private void onChangeSoftDrop() { captureKeyForAction(softDropKeyButton, "SOFT_DROP"); }
+    @FXML
+    private void onChangeHardDrop() { captureKeyForAction(hardDropKeyButton, "HARD_DROP"); }
+    @FXML
+    private void onChangeRotateLeft() { captureKeyForAction(rotateLeftKeyButton, "ROTATE_LEFT"); }
+    @FXML
+    private void onChangeRotateRight() { captureKeyForAction(rotateRightKeyButton, "ROTATE_RIGHT"); }
+    @FXML
+    private void onChangeHold() { captureKeyForAction(holdKeyButton, "HOLD"); }
 
     @FXML
     private void onResetKeys() {
         settings.setDefaultSettings();
         loadKeybindButtons();
     }
-
 
     private void captureKeyForAction(Button button, String action) {
         String originalText = button.getText();
@@ -115,7 +131,6 @@ public class SettingController implements Initializable {
             KeyCode newKey = event.getCode();
             settings.setKeyCode(action, newKey);
             button.setText(newKey.name());
-
 
             button.setOnKeyPressed(null);
             event.consume();
@@ -155,7 +170,7 @@ public class SettingController implements Initializable {
 
 
 
-    @FXML
+    /*@FXML
     private void onKeyBindingToggle() {
         if (keyBindingToggle.isSelected()) {
             settings.setKeyBindingMode("CUSTOM");
@@ -173,7 +188,7 @@ public class SettingController implements Initializable {
             keyBindingToggle.setSelected(false);
             keyBindingToggle.setText("Keybind: Default");
         }
-    }
+    }*/
 
 
 

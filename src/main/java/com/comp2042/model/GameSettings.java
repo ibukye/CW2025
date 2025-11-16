@@ -47,7 +47,7 @@ public class GameSettings {
     /**
      * Sets the default keybindings (your "Custom" layout).
      */
-    private void setDefaultSettings() {
+    public void setDefaultSettings() {
         properties.setProperty("MOVE_LEFT", KeyCode.F.name());
         properties.setProperty("MOVE_RIGHT", KeyCode.J.name());
         properties.setProperty("ROTATE_LEFT", KeyCode.S.name());

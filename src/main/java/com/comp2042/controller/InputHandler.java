@@ -166,7 +166,7 @@ public class InputHandler implements EventHandler<KeyEvent> {
                 if (keyCode == K_SOFT_DROP) {
                     guiController.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
                     keyEvent.consume();
-                } else {
+                } else if (keyCode == K_HARD_DROP) {
                     guiController.handleHardDrop();
                     keyEvent.consume();
                 }
