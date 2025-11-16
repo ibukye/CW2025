@@ -610,6 +610,10 @@ public class GuiController implements Initializable {
         }
     }
 
+    /**
+     * Handles the "Keybindings" button action.
+     * Shows an information pop-up to display keybindings.
+     */
     @FXML
     private void onShowKeybindings() {
         // Need to stop game

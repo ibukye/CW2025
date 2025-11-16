@@ -224,6 +224,7 @@ com.comp2042
     2. Added a timestamp(`lastSpacePressTime`) to detect double-tap space for hard drop
     3. Added Double tap detection for detecting either moveDown or hardDrop
     4. Mapped `KeyCode.V` to call `gameController.onHoldEvent()`
+    5. Modified `KeyCode.N` to call `newGame` after game over
   - Reason : To implement the innovative feature design of custom controls, separating it from the default key layout
 
 ### Model
@@ -301,7 +302,8 @@ com.comp2042
     16. Added `holdBrickPanel` and `holdBrickRectangle` for the hold feature
     17. Implemented `displayHoldBrick()` method
     18. Modified `refreshBrick()` to call `displayHoldBrick(brick.getHoldBrickData())` to render the hold piece
-  - Reason : To ensure SRP and Separation of Concern, and to implement new UI features (Ghost Piece, Multiple Next Bricks, Sounds, Level Up Notification, High Score display, Hold Piece Display)
+    19. Added `onShowKeybindings()` to show the pop-up with current keybindings 
+  - Reason : To ensure SRP and Separation of Concern, and to implement new UI features (Ghost Piece, Multiple Next Bricks, Sounds, Level Up Notification, High Score display, Hold Piece Display, Keybindings)
 
 - com.comp2042.view.InputEventListener (Interface)
   - Changes

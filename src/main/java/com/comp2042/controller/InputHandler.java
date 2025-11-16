@@ -76,7 +76,7 @@ public class InputHandler implements EventHandler<KeyEvent> {
      */
     @Override
     public void handle(KeyEvent keyEvent) {
-
+        // Moved to start to handle N key to restart the game when game over
         if (keyEvent.getCode() == KeyCode.N) {
             guiController.newGame(null);
         }
