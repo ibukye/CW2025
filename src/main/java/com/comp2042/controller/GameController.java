@@ -28,6 +28,9 @@ public class GameController implements InputEventListener {
     /** The main game loop timeline. */
     private Timeline timeLine;
 
+    // Droppping obstacles in Extra Hard Mode
+    private Timeline obstacleTimeline;
+
     /** Reference to the GUI controller for updating the view. */
     private final GuiController viewGuiController;
     // Get Difficulty
@@ -112,6 +115,12 @@ public class GameController implements InputEventListener {
                 // Normal + obstacle
                 board.initializeWithObstacles();
                 break;
+            case EXTRA:
+                // HARD + Random obstacle generation
+                board.initializeWithObstacles();
+                // Timer for obstacles
+                startObstacleTimer();
+                break;
         }
     }
 
@@ -134,6 +143,24 @@ public class GameController implements InputEventListener {
         ));
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
+    }
+
+    private void startObstacleTimer() {
+        obstacleTimeline = new Timeline(new KeyFrame(
+                Duration.millis(15000),  // 15s interval
+                ae -> dropRandomObstacle()
+        ));
+        obstacleTimeline.setCycleCount(Timeline.INDEFINITE);
+        obstacleTimeline.play();
+    }
+
+    private void dropRandomObstacle() {
+        if (Math.random() < 0.5) {
+            // generate and drop by harddrop
+            board.spawnAndHardDropObstacle();
+            // Update view
+            viewGuiController.refreshGameBackground(board.getBoardMatrix());
+        }
     }
 
     /**
@@ -305,13 +332,23 @@ public class GameController implements InputEventListener {
      * Stops the main game loop.
      */
     @Override
-    public void stopGame() { timeLine.stop(); }
+    public void stopGame() {
+        timeLine.stop();
+        if (obstacleTimeline != null) {
+            obstacleTimeline.stop();
+        }
+    }
 
     /**
      * Resumes the main game loop.
      */
     @Override
-    public void resumeGame() { timeLine.play(); }
+    public void resumeGame() {
+        timeLine.play();
+        if (obstacleTimeline != null) {
+            obstacleTimeline.play();
+        }
+    }
 
     /**
      * Starts a new game by resetting the board and refreshing the view.
@@ -320,8 +357,14 @@ public class GameController implements InputEventListener {
     public void createNewGame() {
         board.newGame();
 
+        if (obstacleTimeline != null) {
+            obstacleTimeline.stop();
+            obstacleTimeline = null;
+        }
+
         // check the difficulty
-        if (this.difficulty == Difficulty.HARD) board.initializeWithObstacles();
+        if (this.difficulty == Difficulty.HARD) { board.initializeWithObstacles(); }
+        if (this.difficulty == Difficulty.EXTRA) { board.initializeWithObstacles(); startObstacleTimer(); }
 
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
         timeLine.play();

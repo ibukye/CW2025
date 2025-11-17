@@ -1,9 +1,15 @@
 package com.comp2042.view;
 
 import com.comp2042.model.Difficulty;
+import com.comp2042.model.HighScoreManager;
 import javafx.fxml.FXML;
 //import java.awt.event.ActionEvent;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * The controller for the main menu screen (menu.fxml).
@@ -12,11 +18,33 @@ import javafx.event.ActionEvent;
  * or exiting the application. It communicates back to the {@link Main}
  * application class to manage scene transitions.
  */
-public class MainMenuController {
+public class MainMenuController implements Initializable {
 
     /** A reference to the main application class for switching scenes. */
     // field which have the reference to the Main Class
     private Main mainApp;
+
+    //
+    @FXML
+    private Button extraHardButton;
+
+    //
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // get high scores
+        int easyScore = new HighScoreManager(Difficulty.EASY).getHighScore();
+        int normalScore = new HighScoreManager(Difficulty.NORMAL).getHighScore();
+        int hardScore = new HighScoreManager(Difficulty.HARD).getHighScore();
+
+        int unlockThreshold = 5000;
+
+        // checlk the condition
+        if (easyScore >= unlockThreshold && normalScore >= unlockThreshold && hardScore >= unlockThreshold) {
+            extraHardButton.setVisible(true);
+        }
+
+
+    }
 
     /**
      * Sets the reference to the main application.
@@ -67,6 +95,12 @@ public class MainMenuController {
     void onHardClicked(ActionEvent e) {
         // create Main class with hard mode
         mainApp.showGameScreen(Difficulty.HARD);
+    }
+
+    @FXML
+    void onExtraHardClicked(ActionEvent e) {
+        // create Main class with extra hard mode
+        mainApp.showGameScreen(Difficulty.EXTRA);
     }
 
     /**

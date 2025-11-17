@@ -7,6 +7,7 @@ import com.comp2042.model.bricks.RandomBrickGenerator;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -342,4 +343,82 @@ public class SimpleBoard implements Board {
         holdingBrick = null;
         createNewBrick();
     }
+
+
+
+
+    @Override
+    public void spawnAndHardDropObstacle() {
+        Random rand = new Random();
+        BrickGenerator obstacleGenerator = new RandomBrickGenerator();
+
+        // create an obstacle brick
+        Brick brick = obstacleGenerator.getBrick();
+
+        // get random rotation of the brick
+        List<int[][]> shapes = brick.getShapeMatrix();
+        int[][] shape = shapes.get(rand.nextInt(shapes.size()));
+
+        // 3. calculate the height and width of the brick
+        // shape[y][x] -> shape.length = height(Y), shape[0].length = width(X)
+        int shapeHeight = shape.length;      // size for y direction
+        int shapeWidth = shape[0].length;    // size for x direction
+
+        // get random with considering the height
+        int maxX = this.height - shapeWidth;  // heightが横幅（列数）
+        if (maxX <= 0) {
+            maxX = 1;
+        }
+        int randomX = rand.nextInt(maxX);
+        int y = 0;
+
+        // ignore the current brick
+        int[][] collisionMatrix = this.currentGameMatrix;
+
+        // Hard drop simulation
+        while (y + shapeHeight < this.width &&
+                !MatrixOperations.intersect(collisionMatrix, shape, randomX, y + 1)) {
+            y++;
+        }
+
+        // Merge to the game matrix
+        this.currentGameMatrix = MatrixOperations.merge(
+                this.currentGameMatrix,
+                shape,
+                randomX,
+                y
+        );
+    }
+
+
+    /*@Override
+    public void spawnAndHardDropObstacle() {
+        Random rand = new Random();
+        BrickGenerator obstacleGenerator = new RandomBrickGenerator();
+
+        // create a obstacle brick
+        Brick brick = obstacleGenerator.getBrick();
+        int[][] shape = brick.getShapeMatrix().get(0);
+
+        // get random x
+        int randomX = rand.nextInt(this.width-4);
+        int y = 0;
+
+        int[][] collisionMatrix = MatrixOperations.merge(
+                this.currentGameMatrix,
+                brickRotator.getCurrentShape(),
+                (int) currentOffset.getX(),
+                (int) currentOffset.getY()
+        );
+
+        /*while (y < this.height - 4 && !MatrixOperations.intersect(currentGameMatrix, shape, randomX, y + 1)) {
+            y++;
+        }*/
+        /*while (y < this.height - 4 && !MatrixOperations.intersect(collisionMatrix, shape, randomX, y + 1)) {
+            y++;
+        }
+
+        //this.currentGameMatrix = MatrixOperations.merge(this.currentGameMatrix, shape, randomX, y);
+        this.currentGameMatrix = MatrixOperations.merge(this.currentGameMatrix, shape, randomX, y);
+    }*/
 }

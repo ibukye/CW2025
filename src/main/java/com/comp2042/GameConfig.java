@@ -24,6 +24,7 @@ public final class GameConfig {
 
     // Hard mode
     public static final double OBSTACLE_PROBABILITY = 0.6;
+    public static final int OBSTACLE_COLOR_INDEX = 8;
 
 
     // Game timing

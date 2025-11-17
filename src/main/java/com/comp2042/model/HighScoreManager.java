@@ -18,6 +18,7 @@ public class HighScoreManager {
     private static final String EASY_FILE = "highscore_easy.txt";
     private static final String NORMAL_FILE = "highscore_normal.txt";
     private static final String HARD_FILE = "highscore_hard.txt";
+    private static final String EXTRA_FILE = "highscore_extra.txt";
 
     /** The currently loaded high score. */
     private int highScore;
@@ -61,6 +62,7 @@ public class HighScoreManager {
             case EASY -> EASY_FILE;
             case NORMAL -> NORMAL_FILE;
             case HARD -> HARD_FILE;
+            case EXTRA -> EXTRA_FILE;
         };
     }
 

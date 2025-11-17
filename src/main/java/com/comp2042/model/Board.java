@@ -119,4 +119,10 @@ public interface Board {
      * Resets the game state: clears the board matrix, resets the score, and spawns a new brick.
      */
     void newGame();
+
+    /**
+     * Spawns a single obstacle block at a random X coordinate
+     * and hard drops it into the board.
+     */
+    void spawnAndHardDropObstacle();
 }
