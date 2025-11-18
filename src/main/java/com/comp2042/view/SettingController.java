@@ -27,9 +27,6 @@ public class SettingController implements Initializable {
     @FXML
     private Slider speedUpVolumeSlider;
 
-    @FXML
-    private ToggleButton keyBindingToggle;
-
     @FXML private Button moveLeftKeyButton;
     @FXML private Button moveRightKeyButton;
     @FXML private Button rotateLeftKeyButton;

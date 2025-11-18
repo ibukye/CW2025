@@ -31,7 +31,7 @@ public class GameController implements InputEventListener {
     /** Reference to the GUI controller for updating the view. */
     private final GuiController viewGuiController;
     // Get Difficulty
-    private Difficulty difficulty;
+    private final Difficulty difficulty;
 
     // current game speed with lines
     private double currentGameSpeed;
@@ -131,7 +131,7 @@ public class GameController implements InputEventListener {
 
         timeLine = new Timeline(new KeyFrame(
                 Duration.millis(this.currentGameSpeed),
-                ae -> {
+                _ -> {
                     //onDownEvent(new MoveEvent(EventType.DOWN, EventSource.THREAD));
                     DownData downData = onDownEvent(new MoveEvent(EventType.DOWN, EventSource.THREAD));
                     // Update screen after a down event
@@ -149,7 +149,7 @@ public class GameController implements InputEventListener {
     private void startObstacleTimer() {
         obstacleTimeline = new Timeline(new KeyFrame(
                 Duration.millis(15000),  // 15s interval
-                ae -> dropRandomObstacle()
+                _ -> dropRandomObstacle()
         ));
         obstacleTimeline.setCycleCount(Timeline.INDEFINITE);
         obstacleTimeline.play();

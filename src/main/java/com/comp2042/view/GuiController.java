@@ -37,7 +37,6 @@ import java.util.List;
  * It is responsible for rendering bricks, detecting user input,
  * refreshing the game view, and managing visual effects and state transitions
  * such as pause and game over.
- *
  * This controller is associated with {@code gameLayout.fxml} and interacts with
  * {@link com.comp2042.controller.GameController} to send and receive game events.
  */
@@ -76,11 +75,6 @@ public class GuiController implements Initializable {
     /** The button for restarting the game. */
     @FXML
     private Button restartButton;
-    /** The button for returning to the main menu. */
-    @FXML
-    private Button backButton;
-    @FXML
-    private Button keybindingButton;
 
     /** The custom panel displayed on game over. */
     @FXML

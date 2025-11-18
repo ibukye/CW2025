@@ -11,7 +11,7 @@ import java.util.Properties;
 public class GameSettings {
     // file to save settings
     private static final String SETTINGS_FILE = "settings.txt";
-    private Properties properties = new Properties();
+    private final Properties properties = new Properties();
 
     public GameSettings() {
         loadSettings();

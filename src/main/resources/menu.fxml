@@ -15,14 +15,14 @@
     <Label text="TetrisJFX" styleClass="menu-title" />
 
     <Label text="Select Level" styleClass="menu-label"/>
-    <Button fx:id="easyButton" mnemonicParsing="false" onAction="#onEasyClicked" prefWidth="120.0" text="Easy" />
-    <Button fx:id="normalButton" mnemonicParsing="false" onAction="#onNormalClicked" prefWidth="120.0" text="Normal" />
-    <Button fx:id="hardButton" mnemonicParsing="false" onAction="#onHardClicked" prefWidth="120.0" text="Hard" />
+    <Button mnemonicParsing="false" onAction="#onEasyClicked" prefWidth="120.0" text="Easy" />
+    <Button mnemonicParsing="false" onAction="#onNormalClicked" prefWidth="120.0" text="Normal" />
+    <Button mnemonicParsing="false" onAction="#onHardClicked" prefWidth="120.0" text="Hard" />
     <Button fx:id="extraHardButton" mnemonicParsing="false" onAction="#onExtraHardClicked" prefWidth="120.0" text="Extra Hard" visible="false" />
 
-    <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#onSettingClicked" prefWidth="120.0" text="Settings" />
+    <Button mnemonicParsing="false" onAction="#onSettingClicked" prefWidth="120.0" text="Settings" />
 
-    <Button fx:id="exitButton" mnemonicParsing="false" onAction="#onExitClicked" prefWidth="120.0" text="Exit" />
+    <Button mnemonicParsing="false" onAction="#onExitClicked" prefWidth="120.0" text="Exit" />
 
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
