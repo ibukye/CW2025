@@ -45,12 +45,14 @@ public interface Board {
      * @return true if the brick can move, false if collide
      */
     boolean rotateLeftBrick();
+    //void rotateLeftBrick();
 
     /**
      * Attempts to rotate the currently falling brick 90 degrees right.
      * @return true if the rotation was successful, false if a collision occurred.
      */
     boolean rotateRightBrick();
+    //void rotateRightBrick();
 
     /**
      * Generates a new random brick, sets it as the currently falling brick,

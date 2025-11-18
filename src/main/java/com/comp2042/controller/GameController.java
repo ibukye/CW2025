@@ -20,7 +20,7 @@ public class GameController implements InputEventListener {
 
     /** The logical game board model. */
     // Original constructor for SimpleBoard -> SimpleBoard(int width, int height) -> ERROR
-    private Board board = new SimpleBoard(GameConfig.BOARD_HEIGHT, GameConfig.BOARD_WIDTH);
+    private final Board board = new SimpleBoard(GameConfig.BOARD_HEIGHT, GameConfig.BOARD_WIDTH);
 
     /** The main game loop timeline. */
     private Timeline timeLine;
@@ -38,11 +38,11 @@ public class GameController implements InputEventListener {
     private int totalLinesForNextLevel;
 
     // MediaPlayer field
-    private MediaPlayer clearRowSoundPlayer;
-    private MediaPlayer speedUpSoundPlayer;
+    private final MediaPlayer clearRowSoundPlayer;
+    private final MediaPlayer speedUpSoundPlayer;
 
     // HighScoreManager reference
-    private HighScoreManager highScoreManager;
+    private final HighScoreManager highScoreManager;
 
     /**
      * @param c the {@link GuiController} instance controlling the UI.

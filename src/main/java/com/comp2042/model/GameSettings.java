@@ -11,14 +11,11 @@ import java.util.Properties;
 public class GameSettings {
     // file to save settings
     private static final String SETTINGS_FILE = "settings.txt";
-    private String keyBindingMode = "CUSTOM";
     private Properties properties = new Properties();
 
     public GameSettings() {
         loadSettings();
     }
-
-
 
     public void loadSettings() {
         File file = new File(SETTINGS_FILE);

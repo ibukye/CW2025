@@ -10,12 +10,12 @@
 
     <VBox spacing="5" maxWidth="300">
         <Label text="clear row sound"/>
-        <Slider fx:id="clearRowVolumeSlider" min="0" max="100" value="100" showTickLabels="true"/>
+        <Slider fx:id="clearRowVolumeSlider" value="100" showTickLabels="true"/>
     </VBox>
 
     <VBox spacing="5" maxWidth="300">
         <Label text="speed up sound"/>
-        <Slider fx:id="speedUpVolumeSlider" min="0" max="100" value="100" showTickLabels="true"/>
+        <Slider fx:id="speedUpVolumeSlider" value="100" showTickLabels="true"/>
     </VBox>
 
     <Label text="Keybinding" style="-fx-font-size: 14px; -fx-text-fill: white;"/>
