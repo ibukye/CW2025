@@ -333,7 +333,11 @@ public class SimpleBoard implements Board {
     }
 
     /**
-     * Resets the game state: clears the board matrix, resets the score, and spawns a new brick.
+     * {@inheritDoc}
+
+     * This implementation clears the board matrix, resets the score,
+     * resets the "Hold" brick, and enables the {@code canSwap} flag.
+     * It then spawns the first new brick.
      */
     @Override
     public void newGame() {
@@ -344,9 +348,15 @@ public class SimpleBoard implements Board {
         createNewBrick();
     }
 
-
-
-
+    /**
+     * {@inheritDoc}
+     * (EXTRA HARD Mode) Spawns a random obstacle (excluding O-Brick) with a
+     * random rotation at a random X-coordinate at the top of the board
+     * and hard-drops it.
+     * This implementation correctly uses {@code this.width} for X-axis calculations
+     * and {@code this.height} for Y-axis calculations. It does not
+     * check for collision against the player's active brick.
+     */
     @Override
     public void spawnAndHardDropObstacle() {
         Random rand = new Random();
@@ -389,36 +399,4 @@ public class SimpleBoard implements Board {
                 y
         );
     }
-
-
-    /*@Override
-    public void spawnAndHardDropObstacle() {
-        Random rand = new Random();
-        BrickGenerator obstacleGenerator = new RandomBrickGenerator();
-
-        // create a obstacle brick
-        Brick brick = obstacleGenerator.getBrick();
-        int[][] shape = brick.getShapeMatrix().get(0);
-
-        // get random x
-        int randomX = rand.nextInt(this.width-4);
-        int y = 0;
-
-        int[][] collisionMatrix = MatrixOperations.merge(
-                this.currentGameMatrix,
-                brickRotator.getCurrentShape(),
-                (int) currentOffset.getX(),
-                (int) currentOffset.getY()
-        );
-
-        /*while (y < this.height - 4 && !MatrixOperations.intersect(currentGameMatrix, shape, randomX, y + 1)) {
-            y++;
-        }*/
-        /*while (y < this.height - 4 && !MatrixOperations.intersect(collisionMatrix, shape, randomX, y + 1)) {
-            y++;
-        }
-
-        //this.currentGameMatrix = MatrixOperations.merge(this.currentGameMatrix, shape, randomX, y);
-        this.currentGameMatrix = MatrixOperations.merge(this.currentGameMatrix, shape, randomX, y);
-    }*/
 }

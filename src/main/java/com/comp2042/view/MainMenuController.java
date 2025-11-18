@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
  * selecting a difficulty to start the game, opening the settings screen,
  * or exiting the application. It communicates back to the {@link Main}
  * application class to manage scene transitions.
+ * It also implements {@link Initializable} to check high scores and
+ * unlock the "Extra Hard" mode if conditions are met.
  */
 public class MainMenuController implements Initializable {
 
@@ -24,11 +26,20 @@ public class MainMenuController implements Initializable {
     // field which have the reference to the Main Class
     private Main mainApp;
 
-    //
+    /** The FXML {@link Button} for the unlockable "Extra Hard" mode. */
     @FXML
     private Button extraHardButton;
 
-    //
+    /**
+     * Initializes the controller.
+     * This method is called automatically by JavaFX after the FXML file is loaded.
+     * It checks the high scores for Easy, Normal, and Hard modes. If all
+     * scores are above a set threshold (e.g., 5000), it makes the
+     * "Extra Hard" button visible.
+     *
+     * @param location  The location used to resolve relative paths, or null if not known.
+     * @param resources The resources used to localize, or null if not known.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // get high scores
@@ -97,6 +108,12 @@ public class MainMenuController implements Initializable {
         mainApp.showGameScreen(Difficulty.HARD);
     }
 
+    /**
+     * Handles the "Extra Hard" button click event.
+     * Tells the main application to start the game with {@link Difficulty#EXTRA}.
+     *
+     * @param e The ActionEvent triggered by the button.
+     */
     @FXML
     void onExtraHardClicked(ActionEvent e) {
         // create Main class with extra hard mode

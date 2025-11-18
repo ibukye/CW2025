@@ -145,6 +145,10 @@ public class GameController implements InputEventListener {
         timeLine.play();
     }
 
+    /**
+     * Initializes and starts the timer for spawning random obstacles in EXTRA HARD mode.
+     * The timer calls {@link #dropRandomObstacle()} at a fixed interval.
+     */
     private void startObstacleTimer() {
         obstacleTimeline = new Timeline(new KeyFrame(
                 Duration.millis(15000),  // 15s interval
@@ -154,6 +158,12 @@ public class GameController implements InputEventListener {
         obstacleTimeline.play();
     }
 
+    /**
+     * (EXTRA HARD Mode) Called by the {@code obstacleTimeline} to periodically
+     * drop a new obstacle onto the board.
+     * This method has a chance (50%) to call the {@link Board#spawnAndHardDropObstacle()}
+     * method and then forces the {@link GuiController} to refresh the background to show the new obstacle.
+     */
     private void dropRandomObstacle() {
         if (Math.random() < 0.5) {
             // generate and drop by harddrop
