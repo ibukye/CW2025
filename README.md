@@ -159,6 +159,9 @@ com.comp2042
 - [x] Code Refactoring
 - [x] Code Modification (Modification)
 - [x] Code Extension (Should Implement)
+- [x] JUnitTest
+- [ ] Class Diagram
+- [ ] Recording
 
 ---
 
@@ -357,3 +360,32 @@ None
 - Sometimes the bonus score and row cleared sound doesn't come up
   - Predicted Reason: previous notification panel is still remains
 
+
+
+---
+
+
+## JUnitTesting
+
+```
+Test Coverage:
+|--GameSettingsTest (2 tests)
+|  |-- Default settings loading
+|  |-- Custom keybinding persistence
+|
+|-- HighScoreManagerTest (6 tests)
+|   |-- File I/O operations
+|   |-- Score validation logic
+|   |-- Difficulty separation
+|
+|-- MatrixOperationsTest (3 tests)
+|   |-- Bottom row collision
+|   |-- Empty space validation
+|   |-- Boundary detection
+|
+|-- SimpleBoardTest (4 tests)
+|   |-- Basic movement (assertTrue)
+|   |-- Hard drop (>20 rows)
+|   |-- Hold system (single-use)
+|   |-- Obstacle spawning (4 blocks)
+```
