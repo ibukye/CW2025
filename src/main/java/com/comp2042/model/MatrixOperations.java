@@ -21,9 +21,7 @@ public class MatrixOperations {
      * Private constructor to prevent instantiation of this utility class.
      */
     //We don't want to instantiate this utility class
-    private MatrixOperations(){
-
-    }
+    private MatrixOperations(){}
 
     /**
      * Checks if a brick's shape intersects with the game board matrix at a specific position.

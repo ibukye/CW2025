@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -167,6 +168,14 @@ public class GuiController implements Initializable {
             pauseButton.setText("Pause");
             restartButton.setText("Restart");
         }
+
+        /*
+        pauseButton.setFocusTraversable(false);
+        restartButton.setFocusTraversable(false);
+
+        pauseButton.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, e -> e.consume());
+        restartButton.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, e -> e.consume());
+        */
 
         gamePanel.setFocusTraversable(true);
         gamePanel.requestFocus();
