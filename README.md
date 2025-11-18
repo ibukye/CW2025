@@ -7,6 +7,21 @@
 
 ---
 
+## Index
+- [Compilation Instructions](#compilation-instructions)
+- [Directory Structure](#directory-structure)
+- [TODO (Modification)](#todo-modification)
+- [TODO (Should Implement)](#todo-should-implement)
+- [TimeLine](#timeline)
+- [Implemented and Working Properly](#implemented-and-working-properly)
+- [Implemented but Not Working Properly](#implemented-but-not-working-properly)
+- [Features Not Implemented](#features-not-implemented)
+- [New Java Classes](#new-java-classes)
+- [Modified Java Classes](#modified-java-classes)
+- [Unexpected Problems](#unexpected-problems)
+
+
+---
 
 
 ## Compilation Instructions
@@ -30,30 +45,30 @@ javafx.controls,javafx.fxml,javafx.media
 **MVC Design Pattern (Model-View-Controller)**
 - **Model** : State, Logic of Application (Data Structure, Rule, Computation) 
   - bricks : Model of the bricks and manages brick generation (Data Structure, Computation)
-  - Board, SimpleBoard : State of game board & bricks (Moving of bricks, rotation, generate new brick, clear rows, score management)
-  - BrickRotator : Rotational logic of brick
+  - Board, SimpleBoard : State of game board & bricks (Moving of bricks, rotation, generate new brick, clear rows, score management, hold, ghost piece, obstacle generation)
+  - BrickRotator : Rotational logic of brick (left and right)
   - ClearRow : Computation (linesRemoved, newMatrix, scoreBonus)
   - DownData: State change (ClearRow, ViewData)
-  - Difficulty: Enum for game difficulty (EASY, NORMAL, HARD)
+  - Difficulty: Enum for game difficulty (EASY, NORMAL, HARD, EXTRA)
   - GameSettings: Manages loading/saving of user settings (e.g., keybindings)
   - HighScoreManager: Manages loading/saving of high scores (per difficulty)
   - MatrixOperations : Computation (intersect, copy, merge, checkRemoving)
   - NextShapeInfo : State
-  - Score : Manages score -> State
-  - ViewData : State of a brick (brickData, xPosition, yPosition, nextBrickData)
+  - Score : Manages score and total lines cleared -> State
+  - ViewData : State of a brick (brickData, xPosition, yPosition, List of nextBrickData, ghostYPosition, holdBrickData)
 - **View** : GUI
-  - GameOverPanel : UI component for game over
-  - GuiController : Initializes the GameScreen (refreshGameBackGround, refreshBrick, setOnKeyPressed)
+  - GameOverPanel : UI component for game over with "Back to Menu" without pop-up
+  - GuiController : Initializes the GameScreen (refreshGameBackGround, refreshBrick, setOnKeyPressed, displayHoldBrick, displayNextBricks, Ghost Piece rendering)
   - InputEventListener : Interface to process user input events from View
-  - Main : Entry point of the application and Scene Manager
-  - MainMenuController: Controller for the main menu screen (menu.fxml)
+  - Main : Entry point of the application and Scene Manager (load scenes, global sound players, and settings)
+  - MainMenuController: Controller for the main menu screen (menu.fxml), handles difficulty selection and Extra Hard mode unlock check
   - NotificationPanel : UI component to show score bonus
-  - SettingController: Controller for the settings screen (settingScreen.fxml)
+  - SettingController: Controller for the settings screen (settingScreen.fxml), manages volume sliders and keybinding
 - **Controller** : Update Model & View (in between)
   - EventSource : To identify where the command came from (USER, THREAD) 
   - EventType : Command type from user (DOWN, LEFT, RIGHT, ROTATE)
-  - GameController : Implements InputEventListener, receives events from GuiController, and call methods of Board (onDownEvent, onLeftEvent, onRightEvent, onRotateEvent, createNewGame)
-  - InputHandler : Controller for all keyboard input event
+  - GameController : Implements InputEventListener, receives events from GuiController, and call methods of Board (onDownEvent, onLeftEvent, onRightEvent, onRotateEvent, createNewGame). Manges Timeline (game loop, obstacle loop), Difficulty logic, and HighScore save
+  - InputHandler : Controller for all keyboard input event, manages keybindings from user and double-tap logic by using timer
   - MoveEvent : Controller-layer event object in MVC architecture that encapsulates What happened (EventType), Who caused it (EventSource)
 
 ```
@@ -116,7 +131,7 @@ com.comp2042
 
 ## TODO (Should Implement)
 - [x] **Setting Screen (adjust volume, change key-binds)**: Implemented `settingScreen.fxml` and `SettingController` to manage volume and change keybindings
-- [x] **Game Mode: Multi-Level (speed, difficulty)**: Implemented `Difficulty`, `GameController` now increases speed based on `totalLinesCleared` for Normal and Hard, and `SimpleBoard` adds obstacles for Hard
+- [x] **Game Mode: Multi-Level (speed, difficulty)**: Implemented `Difficulty`(EASY, NORMAL, HARD, EXTRA), `GameController` now increases speed based on `totalLinesCleared` for Normal, Hard, and Extra, and `SimpleBoard` adds obstacles for Hard and Extra
 - [x] **High Score**: Implemented `HighScoreManager` to read/write high scores for individual mode
 - [x] **Pause/Resume function**: Implemented pauseButton in `GuiController` to handle `stopGame()` and `resumeGame()` in `GameController`
 - [x] **Sound Effect**: Implemented `MediaPlayer` to handle sounds for line cleared and level up
@@ -125,11 +140,13 @@ com.comp2042
 - [x] **Multiple Next Bricks**: Implemented 4 next brick panels 
 - [x] **Hold Brick Feature**: Implemented swap logic and hold a brick 
 - [x] **Custom Keybinding**: Implemented `InputHandler` managed by `GameSettings`
+- [x] **Extra Hard Mode**: Added an unlockable "Extra Hard" mode (Difficulty.EXTRA) which spawns random obstacles during gameplay using a separate Timeline
 
 ** Difficulties **
 - Easy : No modification
 - Normal : Speed will be increased as the player clears rows
 - Hard : Normal + Some bricks are placed before it starts(obstacle)
+- ??? : Hard + random obstacle generation (Unlocked after achieving 5000+ score in each mode)
 
 
 ---
@@ -146,10 +163,11 @@ com.comp2042
 ---
 
 
-
 ## Implemented and Working Properly
 - Custom Keybindings: Implemented `GameSettings` to save/load key preferences. `InputHandler` now supports customized keybindings
 - Difficulty Modes: `GameController` loads speed settings based on `Difficulty`. `SimpleBoard` calls `initializeWithObstacles()` for Hard mode
+- Extra Hard Mode: Implemented an `obstacleTimeline` in `GameController` which calls `spawnAndHardDropObstacle()` to drop random bricks during gameplay
+- Unlockable Mode: "Extra Hard" button is hidden in `MainMenuController` until high scores in Easy, Normal, Hard are all over 5000
 - Double-Tap Hard Drop: Implemented a timestamp-based double-space detection in the InputHandler to distinguish between Soft Drop (single space) and Hard Drop (double space).
 - Ghost Piece (Drop Forecast): A semi-transparent forecast of the landing position is now rendered in the correct color
 - Multiple Next Bricks: There are 4 upcoming bricks now
@@ -158,7 +176,7 @@ com.comp2042
 - High Score: `HighScoreManager` now saves/loads high scores for each mode(level)
 
 ## Implemented but Not Working Properly
-
+None
 
 ## Features Not Implemented
 - BGM (Background Music)
@@ -182,12 +200,12 @@ com.comp2042
   - Reason: To adhere to SRP by separating settings I/O (settings.txt) from controllers.
 
 - com.comp2042.model.Difficulty
-  - Purpose: Enum (EASY, NORMAL, HARD) to represent game modes. 
+  - Purpose: Enum (EASY, NORMAL, HARD, EXTRA) to represent game modes. 
   - Reason: Provides a type-safe way to pass difficulty settings from MainMenuController to GameController.
 
 - com.comp2042.view.MainMenuController
   - Purpose: Controller for menu.fxml.
-  - Reason: Handles navigation from the main menu (Start, Settings, Exit).
+  - Reason: Handles navigation from the main menu (Start, Settings, Exit). Checks high scores for unlocking `extraHardButton`.
 
 - com.comp2042.view.SettingController
   - Purpose: Controller for settingScreen.fxml.
@@ -208,15 +226,19 @@ com.comp2042
     6. Implemented `checkSpeedUp()` to manage the speed increase logic and restart the `Timeline` at a faster speed
     7. Modified `onDownEvent()` and `onHardDropEvent()` to call `checkSpeedUp()`
     8. Added `HighScoreManager` field
-    9. Modified constructor to initialize `HighScoreManager` and pass the high score to `viewGuiController.updateHighScore()`
+    9. Modified constructor to initialize `HighScoreManager` with the correct `Difficulty` and pass the high score to `viewGuiController.updateHighScore()`
     10. Implemented `saveGameScore()` method to save the score on game over
-    11. Implemented `initializeSounds()` to load `MediaPlayer` objects (for line clear and speed(level) up) and pass them to the `GuiController`
+    11. Implemented `initializeSounds()` was removed since sounds are initialized at `Main` to set volume
     12. Implemented `onHoldEvent()` to call `board.swapHoldBrick()` and check for game over
+    13. Added `obstacleTimeline` to randomized generation of obstacles for Extra Hard mode
+    14. Implemented `startObstacleTimer()` and `dropRandomObstacle()` to manage Extra Hard mode logic
+    15. Updated `createNewGame()` and `stopGame()` to correctly handle `obstacleTimeline`
   - Reason :
     - To expand contact between View and Controller. This allows the View class to request stop/resume game. This class is now solely responsible for managing the game's progression, timing, and execute game logic
     - To provide new action requested by `InputHandler`
     - To implement the "Game Mode: Multi-Level" logic by managing game speed
     - To manage game state persistence (High Score) and sound resource loading
+    - To implement "Extra Hard" mode logic
 
 - com.comp2042.controller.InputHandler
   - Changes
@@ -225,7 +247,9 @@ com.comp2042
     3. Added Double tap detection for detecting either moveDown or hardDrop
     4. Mapped `KeyCode.V` to call `gameController.onHoldEvent()`
     5. Modified `KeyCode.N` to call `newGame` after game over
-  - Reason : To implement the innovative feature design of custom controls, separating it from the default key layout
+    6. Now accepts `GameSettings` in the constructor
+    7. `handle()` method now branches logic based on `settings.getKeyBindingMode()` DELETED
+  - Reason : To implement the innovative feature design of custom controls, separating it from the default key layout and allowing user selection
 
 ### Model
 
@@ -241,7 +265,8 @@ com.comp2042
     1. Added `hardDrop()` method
     2. Added `rotateRightBrick()`, `moveBrickLeftMost()`, and `moveBrickRightMost()`
     3. Added `swapHoldBrick()` and `getHoldBrickShape()`
-  - Reason : To implement hard drop and new movements, and Hold feature
+    4. Added `initializeWithObstacles()` and `spawnAndHardDropObstacle()`
+  - Reason : To implement hard drop and new movements, and Hold feature, and difficulty-based obstacle generation
 
 - com.comp2042.model.BrickRotator
   - Change
@@ -254,6 +279,7 @@ com.comp2042
     1. Added `totalLinesCleared`
     2. Added `addLines()` and `getTotalLinesCleared()`
     3. Added `getScore()` method to retrieve the final score for saving
+    4. Modified `reset()` to also reset `totalLinesCleared
   - Reason : To track the cumulative number of lines cleared, which is required for the "Game Mode: Multi-Level" speed up logic
 
 - com.comp2042.model.SimpleBoard
@@ -269,9 +295,12 @@ com.comp2042
     9. Implemented `swapHoldBrick()` and `getHoldBrickShape()`
     10. Updated `createNewBrick()` and `newGame()` to reset `canSwap` and `holdingBrick`
     11. Updated `getViewData()` constructor call to include `holdingShape()`
+    12. Implemented `initializeWithObstacles()` (for Hard, Extra Hard mode) and `spawnAndHardDropObstacle()` (for Extra Hard mode)
+  - Reason:
     - To improve maintainability and easier understanding and to implement logic for hard drop
     - To define new brick movements in the Model
     - To provide model-side logic for Ghost Piece and Hold feature, and Multiple Next Bricks features
+    - To implement Model-side logic for difficulty modes
 
 - com.comp2042.model.ViewData
   - Changes
@@ -303,6 +332,7 @@ com.comp2042
     17. Implemented `displayHoldBrick()` method
     18. Modified `refreshBrick()` to call `displayHoldBrick(brick.getHoldBrickData())` to render the hold piece
     19. Added `onShowKeybindings()` to show the pop-up with current keybindings 
+    20. Modified `setEventListener` to accept `GameSettings` and pass it to `InputHandler`
   - Reason : To ensure SRP and Separation of Concern, and to implement new UI features (Ghost Piece, Multiple Next Bricks, Sounds, Level Up Notification, High Score display, Hold Piece Display, Keybindings)
 
 - com.comp2042.view.InputEventListener (Interface)
