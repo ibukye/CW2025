@@ -32,8 +32,11 @@ public class GameOverPanel extends VBox {
         gameOverLabel.getStyleClass().add("gameOverStyle");
 
         final Button mainMenuButton = new Button("Main Menu");
+
         this.setSpacing(20);
         this.setAlignment(Pos.CENTER);
+        this.getStyleClass().add("game-over-panel");
+
         this.getChildren().addAll(gameOverLabel, mainMenuButton);
 
         mainMenuButton.setOnAction(event -> {

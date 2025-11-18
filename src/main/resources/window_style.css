@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Let's go Digital";
+    src: url("digital.ttf");
+}
+
 .root {
     -fx-background-image: url("background_image.png");
 }
@@ -100,3 +105,32 @@
     -fx-font-size: 20px;
     -fx-text-fill: white;
 }
+
+/* GAME OVER PANEL */
+.game-over-panel {
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-background-radius: 10;
+    -fx-padding: 20px;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10;
+}
+
+/* MENU */
+.menu-title {
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 48px;
+    -fx-text-fill: yellow;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.7), 5, 0, 0, 2); /* 影を付けて読みやすく */
+}
+
+.menu-label {
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+}
+
+.menu-background .button {
+     -fx-font-family: "Let's go Digital";
+     -fx-font-size: 18px;
+ }
