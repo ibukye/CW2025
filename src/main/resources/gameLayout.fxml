@@ -25,7 +25,7 @@
         </BorderPane>
 
         <!-- NEXT BRICK PANEL -->
-        <VBox layoutX="260" layoutY="20" styleClass="next-brick-container">
+        <VBox layoutX="260" layoutY="10" styleClass="next-brick-container">
             <Label text="Next" styleClass="next-brick-label"/>
             <GridPane fx:id="nextBrickPanel" hgap="1" vgap="1" />
             <GridPane fx:id="nextBrickPanel2" hgap="1" vgap="1" />
@@ -34,18 +34,21 @@
         </VBox>
 
         <!-- HOLD PANEL -->
-        <VBox spacing="5" layoutX="360" layoutY="20" styleClass="next-brick-container">
+        <VBox spacing="5" layoutX="360" layoutY="10" styleClass="next-brick-container">
             <Label text="Hold" styleClass="score-label"/>
             <GridPane fx:id="holdBrickPanel" hgap="1" vgap="1" />
         </VBox>
 
         <!-- SCORE LABEL -->
-        <Group layoutX="280" layoutY="280">
+        <Group layoutX="280" layoutY="230">
             <VBox spacing="5">
                 <Label text="Score" styleClass="score-label"/>
                 <Label fx:id="scoreLabel" text="0" styleClass="score-value"/>
                 <Label text="High Score" styleClass="score-label"/>
                 <Label fx:id="highScoreLabel" text="0" styleClass="score-value"/>
+                <!-- TOTAL LINES CLEARED -->
+                <Label text="Total Lines" styleClass="score-label" />
+                <Label fx:id="linesLabel" text="0" styleClass="score-value" />
             </VBox>
         </Group>
 

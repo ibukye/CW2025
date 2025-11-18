@@ -298,7 +298,7 @@ public class SimpleBoard implements Board {
     @Override
     public int[][] getHoldBrickShape() {
         if (holdingBrick == null) return null;
-        return holdingBrick.getShapeMatrix().get(0);
+        return holdingBrick.getShapeMatrix().getFirst();
     }
 
     /**

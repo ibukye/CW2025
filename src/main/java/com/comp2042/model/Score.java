@@ -27,6 +27,14 @@ public final class Score {
     public IntegerProperty scoreProperty() { return score; }
 
     /**
+     * Gets the JavaFX property for the total lines cleared.
+     * This allows the GUI to bind directly to the lines value.
+     *
+     * @return The {@link IntegerProperty} for the total lines cleared.
+     */
+    public IntegerProperty totalLinesClearedProperty() { return totalLinesCleared; }
+
+    /**
      * Gets the current total number of lines cleared.
      *
      * @return The cumulative number of lines cleared.

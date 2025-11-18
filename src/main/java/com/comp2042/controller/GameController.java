@@ -72,6 +72,7 @@ public class GameController implements InputEventListener {
         board.createNewBrick();
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
+        viewGuiController.bindLines(board.getScore().totalLinesClearedProperty());
 
         gameLoop();
     }

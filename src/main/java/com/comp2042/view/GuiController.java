@@ -59,6 +59,8 @@ public class GuiController implements Initializable {
     @FXML
     private Label highScoreLabel;
 
+    @FXML private Label linesLabel;
+
     /** The 4x4 grid pane for the "next" brick. */
     @FXML
     private GridPane nextBrickPanel;
@@ -496,6 +498,15 @@ public class GuiController implements Initializable {
      */
     public void bindScore(IntegerProperty integerProperty) {
         scoreLabel.textProperty().bind(integerProperty.asString());
+    }
+
+    /**
+     * Binds the displayed total lines cleared to the game's lines property.
+     * This method links the line value from the Model to the linesLabel in the View.
+     * @param integerProperty the total lines cleared
+     */
+    public void bindLines(IntegerProperty integerProperty) {
+        linesLabel.textProperty().bind(integerProperty.asString());
     }
 
     /**
