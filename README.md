@@ -9,6 +9,7 @@
 
 ## Index
 - [Compilation Instructions](#compilation-instructions)
+- [Design Principles & Patterns Application](#design-principles--patterns-application)
 - [Directory Structure](#directory-structure)
 - [TODO (Modification)](#todo-modification)
 - [TODO (Should Implement)](#todo-should-implement)
@@ -40,9 +41,9 @@ javafx.controls,javafx.fxml,javafx.media
 6. select Main class
 ---
 
-## Directory Structure
+## Design Principles & Patterns Application
 
-**MVC Design Pattern (Model-View-Controller)**
+### MVC Design Pattern (Model-View-Controller)
 - **Model** : State, Logic of Application (Data Structure, Rule, Computation) 
   - bricks : Model of the bricks and manages brick generation (Data Structure, Computation)
   - Board, SimpleBoard : State of game board & bricks (Moving of bricks, rotation, generate new brick, clear rows, score management, hold, ghost piece, obstacle generation)
@@ -70,6 +71,38 @@ javafx.controls,javafx.fxml,javafx.media
   - GameController : Implements InputEventListener, receives events from GuiController, and call methods of Board (onDownEvent, onLeftEvent, onRightEvent, onRotateEvent, createNewGame). Manges Timeline (game loop, obstacle loop), Difficulty logic, and HighScore save
   - InputHandler : Controller for all keyboard input event, manages keybindings from user and double-tap logic by using timer
   - MoveEvent : Controller-layer event object in MVC architecture that encapsulates What happened (EventType), Who caused it (EventSource)
+
+### SOLID Principles
+
+#### Single Responsibility Principle (SRP)
+The codebase was refactored to ensure each class has one specific job, reducing the "God Class" problem found in the original code.
+- **`InputHandler`**: Extracted from `GuiController`. It is now solely responsible for interpreting raw key events and mapping them to game commands.
+- **`HighScoreManager` & `GameSettings`**: Extracted from `GameController`. Responsibilities for File I/O (persistence) are now isolated in these dedicated classes.
+- **`GameConfig`**: Centralized all "magic numbers" and configuration settings into one static utility class.
+
+#### Open-Closed Principle (OCP)
+The system is designed to be open for extension but closed for modification.
+- **`Brick` Interface**: New brick shapes can be added by creating new classes implementing `Brick` without modifying the existing `Board` or `GameController` logic.
+- **`Difficulty` Enum**: New game modes can be added to the Enum, and the `switch` logic in `GameController` can be extended without rewriting the core game loop.
+
+#### Dependency Inversion Principle (DIP)
+High-level modules now depend on abstractions rather than concrete implementations.
+- **`InputHandler` & `InputEventListener`**: `InputHandler` does not depend on the concrete `GameController`. Instead, it communicates via the `InputEventListener` interface, decoupling input logic from game logic.
+- **`SimpleBoard` & `BrickGenerator`**: The board depends on the `BrickGenerator` interface rather than the specific `RandomBrickGenerator`, allowing for easy swapping of generation algorithms.
+
+
+#### Factory Method Pattern
+- Used in `RandomBrickGenerator`. The `newBrick()` method encapsulates the logic of instantiating specific brick types (`IBrick`, `JBrick`, etc.), hiding the creation complexity from the board.
+
+#### Observer Pattern
+- Used between `Score` (Observable) and `GuiController` (Observer). The UI labels bind directly to the `IntegerProperty` fields in `Score`, ensuring the display automatically updates whenever the state changes.
+
+#### Data Transfer Object (DTO)
+- Classes like `ViewData`, `DownData`, and `NextShapeInfo` are immutable objects used solely to transfer state data between the Model and View layers without exposing internal logic.
+
+---
+
+## Directory Structure
 
 ```
 com.comp2042
@@ -142,7 +175,7 @@ com.comp2042
 - [x] **Custom Keybinding**: Implemented `InputHandler` managed by `GameSettings`
 - [x] **Extra Hard Mode**: Added an unlockable "Extra Hard" mode (Difficulty.EXTRA) which spawns random obstacles during gameplay using a separate Timeline
 
-** Difficulties **
+**Difficulties**
 - Easy : No modification
 - Normal : Speed will be increased as the player clears rows
 - Hard : Normal + Some bricks are placed before it starts(obstacle)
