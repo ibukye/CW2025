@@ -7,10 +7,7 @@ import com.comp2042.view.InputEventListener;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import java.net.URL;
 
 
 /**

@@ -1,6 +1,6 @@
 package com.comp2042.controller;
 
-import com.comp2042.model.DownData;
+//import com.comp2042.model.DownData;
 import com.comp2042.model.GameSettings;
 import com.comp2042.model.ViewData;
 import com.comp2042.view.GuiController;
