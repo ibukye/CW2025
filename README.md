@@ -255,26 +255,26 @@ None
 - com.comp2042.controller.GameController
   - Changes
     1. This manages TimeLine (GameLoop)
-    2. Added new methods `stopGame()` and `resumeGame()`
-    3. Implemented `onHardDropEvent()` to handle hard drop (call `board.hardDrop()`, clear rows, and add score)
-    4. Implemented `onRotateRightEvent()`, `onLeftMostEvent()`, and `onRightMostEvent()`
-    5. Added `currentGameSpeed` to manage level progression
-    6. Implemented `checkSpeedUp()` to manage the speed increase logic and restart the `Timeline` at a faster speed
-    7. Modified `onDownEvent()` and `onHardDropEvent()` to call `checkSpeedUp()`
-    8. Added `HighScoreManager` field
-    9. Modified constructor to initialize `HighScoreManager` with the correct `Difficulty` and pass the high score to `viewGuiController.updateHighScore()`
-    10. Implemented `saveGameScore()` method to save the score on game over
-    11. Implemented `initializeSounds()` was removed since sounds are initialized at `Main` to set volume
-    12. Implemented `onHoldEvent()` to call `board.swapHoldBrick()` and check for game over
-    13. Added `obstacleTimeline` to randomized generation of obstacles for Extra Hard mode
-    14. Implemented `startObstacleTimer()` and `dropRandomObstacle()` to manage Extra Hard mode logic
-    15. Updated `createNewGame()` and `stopGame()` to correctly handle `obstacleTimeline`
-  - Reason :
-    - To expand contact between View and Controller. This allows the View class to request stop/resume game. This class is now solely responsible for managing the game's progression, timing, and execute game logic
-    - To provide new action requested by `InputHandler`
-    - To implement the "Game Mode: Multi-Level" logic by managing game speed
-    - To manage game state persistence (High Score) and sound resource loading
-    - To implement "Extra Hard" mode logic
+  2. Added new methods `stopGame()` and `resumeGame()`
+     3. Implemented `onHardDropEvent()` to handle hard drop (call `board.hardDrop()`, clear rows, and add score)
+     4. Implemented `onRotateRightEvent()`, `onLeftMostEvent()`, and `onRightMostEvent()`
+     5. Added `currentGameSpeed` to manage level progression
+     6. Implemented `checkSpeedUp()` to manage the speed increase logic and restart the `Timeline` at a faster speed
+     7. Modified `onDownEvent()` and `onHardDropEvent()` to call `checkSpeedUp()`
+     8. Added `HighScoreManager` field
+     9. Modified constructor to initialize `HighScoreManager` with the correct `Difficulty` and pass the high score to `viewGuiController.updateHighScore()`
+     10. Implemented `saveGameScore()` method to save the score on game over
+     11. Implemented `initializeSounds()` was removed since sounds are initialized at `Main` to set volume
+     12. Implemented `onHoldEvent()` to call `board.swapHoldBrick()` and check for game over
+     13. Added `obstacleTimeline` to randomized generation of obstacles for Extra Hard mode
+     14. Implemented `startObstacleTimer()` and `dropRandomObstacle()` to manage Extra Hard mode logic
+     15. Updated `createNewGame()` and `stopGame()` to correctly handle `obstacleTimeline`
+     - Reason :
+       - To expand contact between View and Controller. This allows the View class to request stop/resume game. This class is now solely responsible for managing the game's progression, timing, and execute game logic
+       - To provide new action requested by `InputHandler`
+       - To implement the "Game Mode: Multi-Level" logic by managing game speed
+       - To manage game state persistence (High Score) and sound resource loading
+       - To implement "Extra Hard" mode logic
 
 - com.comp2042.controller.InputHandler
   - Changes
