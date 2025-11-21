@@ -20,7 +20,6 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -38,7 +37,7 @@ import java.util.List;
  * It is responsible for rendering bricks, detecting user input,
  * refreshing the game view, and managing visual effects and state transitions
  * such as pause and game over.
- * This controller is associated with {@code gameLayout.fxml} and interacts with
+ * This controller is associated with {@code game_layout.fxml} and interacts with
  * {@link com.comp2042.controller.GameController} to send and receive game events.
  */
 public class GuiController implements Initializable {
@@ -154,7 +153,7 @@ public class GuiController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
+        Font.loadFont(getClass().getClassLoader().getResource("fonts/digital.ttf").toExternalForm(), 38);
 
         // Load assets
         try {
@@ -543,7 +542,7 @@ public class GuiController implements Initializable {
         //eventListener.stopGame();   // call from interface (Separation of Concerns)
         // Ask for save score to GameController (eventListener)
         eventListener.saveGameScore();
-        gameOverPanel.setVisible(true);
+        gameOverPanel.showWithAnimation();
         isGameOver.setValue(Boolean.TRUE);
     }
 
@@ -553,13 +552,9 @@ public class GuiController implements Initializable {
      * @param actionEvent the event triggering the new game.
      */
     public void newGame(ActionEvent actionEvent) {
-        //timeLine.stop();
-        //eventListener.stopGame();   // Chamged from timeLine.stop();
         gameOverPanel.setVisible(false);
         eventListener.createNewGame();
         gamePanel.requestFocus();
-        //timeLine.play();
-        //eventListener.resumeGame();
         isPause.setValue(Boolean.FALSE);
         isGameOver.setValue(Boolean.FALSE);
         pauseButton.setGraphic(pauseIconView);

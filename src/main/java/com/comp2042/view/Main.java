@@ -84,12 +84,12 @@ public class Main extends Application {
     }
 
     /**
-     * Loads and displays the Main Menu scene (menu.fxml).
+     * Loads and displays the Main Menu scene (main_menu.fxml).
      * It also passes a reference of this {@link Main} instance to the {@link MainMenuController}.
      */
     public void showMainMenuScreen() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("menu.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main_menu.fxml"));
             Parent root = fxmlLoader.load();
 
             // pass the reference of the Main class to MainMenuController
@@ -108,10 +108,8 @@ public class Main extends Application {
      * @param difficulty The difficulty level chosen from the menu.
      */
     public void showGameScreen(Difficulty difficulty) {
-        // C:\Users\ib092\Desktop\CW2025\src\main\java\com\comp2042\view\MainMenuController.java:24:31
-        // java: unreported exception java.lang.Exception; must be caught or declared to be thrown
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("gameLayout.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/game_layout.fxml"));
             Parent root = fxmlLoader.load();
             GuiController c = fxmlLoader.getController();
             c.setMainApp(this);
@@ -125,13 +123,13 @@ public class Main extends Application {
 
 
     /**
-     * Loads and displays the settings scene (settingScreen.fxml).
+     * Loads and displays the settings scene (settings_screen.fxml).
      * This method passes the shared {@link MediaPlayer} objects to the
      * {@link SettingController} so their volume can be adjusted.
      */
     public void showSettingScreen() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("settingScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/settings_screen.fxml"));
             Parent root = loader.load();
             SettingController controller = loader.getController();
             // pass the both sounds

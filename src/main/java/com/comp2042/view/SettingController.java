@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * The controller for the settings screen (settingScreen.fxml).
+ * The controller for the settings screen (settings_screen.fxml).
  * This class manages the UI elements on the settings screen, primarily
  * sliders for adjusting the volume of the game's shared {@link MediaPlayer} instances.
  * It receives the {@link Main} app reference for navigation and the players

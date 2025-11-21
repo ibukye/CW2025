@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * The controller for the main menu screen (menu.fxml).
+ * The controller for the main menu screen (main_menu.fxml).
  * This class handles user interactions on the main menu, such as
  * selecting a difficulty to start the game, opening the settings screen,
  * or exiting the application. It communicates back to the {@link Main}
