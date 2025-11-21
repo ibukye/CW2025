@@ -32,6 +32,8 @@ public final class GameConfig {
     // Timing and Difficulty
     /** The initial speed of the game loop's auto-drop in milliseconds (EASY mode base). */
     public static final int GAME_SPEED_MS = 400;
+    /** The timer to generate random brick in Extra Hard mode (in milliseconds). */
+    public static final int EXTRA_TIMER = 5000;
     /** The probability (0.0 to 1.0) of an obstacle spawning in Hard/Extra mode. */
     public static final double OBSTACLE_PROBABILITY = 0.6;
     /** The number of lines to clear to advance one level. */

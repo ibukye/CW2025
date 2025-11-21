@@ -1,9 +1,12 @@
 package com.comp2042.view;
 
+import javafx.animation.FadeTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /**
  * A custom JavaFX component that displays the "GAME OVER" message
@@ -13,7 +16,7 @@ import javafx.scene.layout.VBox;
  * that should be performed when the "Main Menu" button is clicked.
  */
 // change to VBox to align label and button vertically
-public class GameOverPanel extends VBox {
+public class GameOverPanel extends StackPane {
 
     /**
      * Stores the action (as a {@link Runnable}) to be executed when the
@@ -32,12 +35,19 @@ public class GameOverPanel extends VBox {
         gameOverLabel.getStyleClass().add("gameOverStyle");
 
         final Button mainMenuButton = new Button("Main Menu");
+        mainMenuButton.getStyleClass().add("ipad-dark-grey");
 
-        this.setSpacing(20);
+        VBox contentBox = new VBox(20);
+        contentBox.setAlignment(Pos.CENTER);
+        contentBox.getChildren().addAll(gameOverLabel, mainMenuButton);
+
+        // Overlay
+        this.getChildren().add(contentBox);
         this.setAlignment(Pos.CENTER);
-        this.getStyleClass().add("game-over-panel");
 
-        this.getChildren().addAll(gameOverLabel, mainMenuButton);
+        this.getStyleClass().add("game-over-overlay");
+        this.setVisible(false);
+        this.setOpacity(0);
 
         mainMenuButton.setOnAction(event -> {
             onMainMenu.run();
@@ -53,6 +63,17 @@ public class GameOverPanel extends VBox {
      */
     public void setMainMenu(Runnable action) {
         this.onMainMenu = action;
+    }
+
+    public void showWithAnimation() {
+        this.setVisible(true);
+        this.toFront();
+
+        // fade-in animation
+        FadeTransition fade = new FadeTransition(Duration.seconds(1), this);
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
     }
 
 }
