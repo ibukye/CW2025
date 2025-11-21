@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.comp2042.view.DifficultyController"
       alignment="CENTER" spacing="20">
@@ -15,4 +16,8 @@
     <Button text="Normal" onAction="#handleNormal"/>
     <Button text="Hard" onAction="#handleHard"/>
     <Button text="Back" onAction="#handleBack"/>
+
+    <stylesheets>
+        <URL value="@../css/global.css"/>
+    </stylesheets>
 </VBox>
