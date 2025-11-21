@@ -6,8 +6,19 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests the core functionality of the {@code SimpleBoard} class.
+ */
 public class SimpleBoardTest {
+
     private Board board;
+
+    /**
+     * Constructs the test suite for {@code SimpleBoard}.
+     * This default constructor is called by the JUnit test runner to instantiate the test class,
+     * allowing it to execute the defined unit tests against the {@code SimpleBoard} implementation.
+     */
+    public SimpleBoardTest() {}
 
     /**
      * This method will be executed before all tests (@Test)

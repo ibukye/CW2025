@@ -31,6 +31,14 @@ public class MainMenuController implements Initializable {
     private Button extraHardButton;
 
     /**
+     * Constructs the MainMenuController instance.
+     * This default constructor is called automatically by the JavaFX {@code FXMLLoader}
+     * when the main menu FXML file is loaded. It prepares the controller for the
+     * subsequent initialization of UI elements in {@code initialize()}.
+     */
+    public MainMenuController() {}
+
+    /**
      * Initializes the controller.
      * This method is called automatically by JavaFX after the FXML file is loaded.
      * It checks the high scores for Easy, Normal, and Hard modes. If all

@@ -45,10 +45,13 @@ public class GameController implements InputEventListener {
     private final HighScoreManager highScoreManager;
 
     /**
-     * @param c the {@link GuiController} instance controlling the UI.
-     * @param difficulty The selected difficulty (Easy, Normal, Hard)
-     * @param clearRowPlayer The shared {@link MediaPlayer} for the line clear sound
-     * @param speedUpPlayer The shared {@link MediaPlayer} for the speed-up sound
+     * Creates a new GameController.
+     *
+     * @param c                 The {@link GuiController} (View) instance this controller will manage.
+     * @param difficulty        The {@link Difficulty} level selected by the player.
+     * @param clearRowPlayer    The shared {@link MediaPlayer} for the line clear sound.
+     * @param speedUpPlayer     The shared {@link MediaPlayer} for the speed up sound.
+     * @param settings          The {@link GameSettings} object containing the user's keybindings.
      */
     public GameController(GuiController c, Difficulty difficulty, MediaPlayer clearRowPlayer, MediaPlayer speedUpPlayer, GameSettings settings) {
         viewGuiController = c;

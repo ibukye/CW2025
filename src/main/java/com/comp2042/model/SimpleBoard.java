@@ -350,9 +350,8 @@ public class SimpleBoard implements Board {
 
     /**
      * {@inheritDoc}
-     * (EXTRA HARD Mode) Spawns a random obstacle (excluding O-Brick) with a
-     * random rotation at a random X-coordinate at the top of the board
-     * and hard-drops it.
+     * (EXTRA HARD Mode) Spawns a random obstacle with a random rotation
+     * at a random X-coordinate at the top of the board and hard-drops it.
      * This implementation correctly uses {@code this.width} for X-axis calculations
      * and {@code this.height} for Y-axis calculations. It does not
      * check for collision against the player's active brick.

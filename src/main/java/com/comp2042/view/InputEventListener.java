@@ -4,6 +4,13 @@ import com.comp2042.controller.MoveEvent;
 import com.comp2042.model.DownData;
 import com.comp2042.model.ViewData;
 
+/**
+ * Interface defining the contract for events passed from the View ({@link GuiController})
+ * or {@link com.comp2042.controller.InputHandler} to the Controller ({@link com.comp2042.controller.GameController})
+ * for processing game logic.
+ * This interface allows the View to remain decoupled from the specific implementation
+ * of the game logic, adhering to the Dependency Inversion Principle.
+ */
 public interface InputEventListener {
 
     /**

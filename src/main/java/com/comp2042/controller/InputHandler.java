@@ -37,12 +37,11 @@ public class InputHandler implements EventHandler<KeyEvent> {
     private static final long DOUBLE_TAP_THRESHOLD = 300;
 
     /**
-     * Creates a new InputHandler.
+     * Creates a new InputHandler that bridges the View and the Controller.
      *
-     * @param controller     The {@link GuiController} (View) used for checking game state (isPause, isGameOver)
-     *                       and refreshing the brick display.
-     * @param gameController The {@link InputEventListener} (Controller) to which game logic
-     *                       commands (onLeft, onRight, etc.) are sent.
+     * @param controller        The {@link GuiController} (View) used for checking game state and refreshing the brick display.
+     * @param gameController    The {@link InputEventListener} (Controller) to which game logic commands are sent.
+     * @param settings          The {@link GameSettings} object containing the user's keybindings.
      */
     public InputHandler(GuiController controller, InputEventListener gameController, GameSettings settings) {
         this.guiController = controller;

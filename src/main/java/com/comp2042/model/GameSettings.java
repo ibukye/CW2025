@@ -1,22 +1,32 @@
 package com.comp2042.model;
 
 import javafx.scene.input.KeyCode;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
+
+/**
+ * Manages saving and loading user game settings (e.g., keybindings) to a persistent file.
+ * This class ensures that user-defined controls persist between sessions.
+ */
 public class GameSettings {
     // file to save settings
     private static final String SETTINGS_FILE = "settings.txt";
     private final Properties properties = new Properties();
 
+    /**
+     * Constructs a new GameSettings object and loads existing settings from file.
+     */
     public GameSettings() {
         loadSettings();
     }
 
+    /**
+     * Loads settings from settings.txt. If the file doesn't exist, it creates one with default settings.
+     */
     public void loadSettings() {
         File file = new File(SETTINGS_FILE);
         if (!file.exists()) {
@@ -31,6 +41,9 @@ public class GameSettings {
         }
     }
 
+    /**
+     * Saves the current settings (keybindings) to settings.txt.
+     */
     // save the current setting
     public void saveSettings() {
         try (FileWriter writer = new FileWriter(SETTINGS_FILE)) {
@@ -57,8 +70,8 @@ public class GameSettings {
 
     /**
      * Gets a specific keybinding as a KeyCode.
-     * @param action The action (e.g., "MOVE_LEFT").
-     * @return The saved KeyCode.
+     * @param action    The action (e.g., "MOVE_LEFT").
+     * @return          The saved KeyCode.
      */
     public KeyCode getKeyCode(String action) {
         String keyName = properties.getProperty(action);
@@ -73,8 +86,8 @@ public class GameSettings {
 
     /**
      * Sets new keybind
-     * @param action The action (eg, "MOVE_LEFT")
-     * @param code The new KeyCode
+     * @param action    The action (eg, "MOVE_LEFT")
+     * @param code      The new KeyCode
      */
     public void setKeyCode(String action, KeyCode code) {
         properties.setProperty(action, code.name());

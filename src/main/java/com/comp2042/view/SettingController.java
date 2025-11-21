@@ -47,6 +47,16 @@ public class SettingController implements Initializable {
 
     private GameSettings settings;
 
+
+    /**
+     * Constructs the SettingController instance.
+     * This default constructor is called automatically by the JavaFX {@code FXMLLoader}
+     * before the {@code initialize()} method is invoked. It is used to create
+     * the controller object before injecting FXML elements.
+     */
+    public SettingController() {}
+
+    // This method will be called automatically
     /**
      * Initializes the controller.
      * This method is called automatically by JavaFX after the FXML file is loaded.
@@ -56,7 +66,6 @@ public class SettingController implements Initializable {
      * @param url The location used to resolve relative paths for the root object, or null if not known.
      * @param resourceBundle The resources used to localize the root object, or null if not known.
      */
-    // This method will be called automatically
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

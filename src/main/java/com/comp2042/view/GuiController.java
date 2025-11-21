@@ -136,6 +136,15 @@ public class GuiController implements Initializable {
     private GameSettings settings;
 
     /**
+     * Construct an instance of GuiController
+     * This constructor is automatically invoked by the JavaFX runtime
+     * ({@code FXMLLoader}) when an FXML file is loaded.
+     * Injection of values into {@code @FXML} fields and initial setup
+     * are typically performed within the {@code initialize()} method.
+     */
+    public GuiController() {}
+
+    /**
      * Initializes the GUI controller.
      * aThis method is called automatically by JavaFX after the FXML file is loaded.
      * It loads fonts, icons, sets up the game over panel, and requests focus.
@@ -491,6 +500,7 @@ public class GuiController implements Initializable {
      * Sets the input event listener for the GUI controller.
      *
      * @param eventListener the listener implementing {@link InputEventListener}.
+     * @param settings The {@link GameSettings} object containing the user's keybindings.
      */
     public void setEventListener(InputEventListener eventListener, GameSettings settings) {
         this.eventListener = eventListener;

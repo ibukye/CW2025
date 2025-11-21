@@ -24,8 +24,10 @@ public class HighScoreManager {
     private int highScore;
 
     /**
-     * Constructs a new HighScoreManager.
-     * Automatically loads the high score from the file upon creation.
+     * Constructs a new HighScoreManager for a specific difficulty.
+     * Automatically loads the high score for that difficulty upon creation.
+     *
+     * @param difficulty The difficulty level to manage.
      */
     public HighScoreManager(Difficulty difficulty) {
         this.difficulty = difficulty;

@@ -16,6 +16,12 @@ public class BrickRotator {
     private int currentShape = 0;
 
     /**
+     * Constructs a new BrickRotator.
+     * Initializes the rotation index to 0.
+     */
+    public BrickRotator() {}
+
+    /**
      * Gets the next rotation shape from the brick's shape list (Rotate Left).
      * This method increments the current shape index and wraps around
      * to the beginning if it reaches the end of the list.

@@ -9,9 +9,17 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests the file I/O and properties logic of the {@code GameSettings} class.
+ */
 public class GameSettingsTest {
 
     private static final String SETTINGS_FILE = "settings.txt";
+
+    /**
+     * Constructs the test suite for {@code GameSettings}.
+     */
+    public GameSettingsTest() {}
 
     /**
      * delete the settings file before/after tests

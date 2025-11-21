@@ -11,12 +11,16 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public final class Score {
 
-    /** The JavaFX property that holds the current game score. */
     private final IntegerProperty score = new SimpleIntegerProperty(0);
 
-    /** The JavaFX property that tracks the cumulative total of lines cleared. */
     // Calculate the total lines cleared
     private final IntegerProperty totalLinesCleared = new SimpleIntegerProperty(0);
+
+    /**
+     * Constructs a new Score tracker.
+     * Initializes the score and total lines cleared to zero.
+     */
+    public Score() {}
 
     /**
      * Gets the JavaFX property for the score.

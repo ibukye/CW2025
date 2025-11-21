@@ -35,6 +35,13 @@ public class Main extends Application {
     private MediaPlayer speedUpSoundPlayer;
 
     /**
+     * Constructs the Main application instance.
+     * This constructor performs no application initialization logic;
+     * application setup and launch occur within the {@code start(Stage)} method.
+     */
+    public Main() {}
+
+    /**
      * The main entry point for this JavaFX application.
      * This method is called after the JFX toolkit is initialized.
      *
