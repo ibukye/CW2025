@@ -217,6 +217,9 @@ None
 ## Features Not Implemented
 - BGM (Background Music)
 - Custom Skin/Theme
+- Ability (slow down)
+- Player Level
+- Accessibility color mode
 
 ## New Java Classes
 - com.comp2042.controller.InputHandler
