@@ -179,7 +179,7 @@ com.comp2042
 - Easy : No modification
 - Normal : Speed will be increased as the player clears rows
 - Hard : Normal + Some bricks are placed before it starts(obstacle)
-- ??? : Hard + random obstacle generation (Unlocked after achieving 5000+ score in each mode)
+- Extra Hard : Hard + random obstacle generation (Unlocked after achieving 5000+ score in each mode)
 
 
 ---
@@ -193,8 +193,8 @@ com.comp2042
 - [x] Code Modification (Modification)
 - [x] Code Extension (Should Implement)
 - [x] JUnitTest
-- [ ] Class Diagram
-- [ ] Recording
+- [x] Class Diagram
+- [x] Recording
 
 ---
 
@@ -395,8 +395,6 @@ None
 ## Unexpected Problems
 - Sometimes the bonus score and row cleared sound doesn't come up
   - Predicted Reason: previous notification panel is still remains
-
-
 
 ---
 
