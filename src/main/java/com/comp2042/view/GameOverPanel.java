@@ -65,6 +65,14 @@ public class GameOverPanel extends StackPane {
         this.onMainMenu = action;
     }
 
+
+    /**
+     * Displays this panel with a fade-in animation.
+     * This method performs the following sequence:
+     * Sets the panel's visibility to {@code true}.
+     * Brings the panel to the front of the scene graph to ensure it overlays other elements.
+     * Plays a {@link FadeTransition} that changes the opacity from 0.0 (transparent) to 1.0 (opaque) over 1 second.
+     */
     public void showWithAnimation() {
         this.setVisible(true);
         this.toFront();
@@ -75,5 +83,4 @@ public class GameOverPanel extends StackPane {
         fade.setToValue(1);
         fade.play();
     }
-
 }
