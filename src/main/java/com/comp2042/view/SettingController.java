@@ -70,7 +70,6 @@ public class SettingController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         this.settings = new GameSettings();
-        //updateToggleText();
         loadKeybindButtons();
 
 
@@ -123,12 +122,29 @@ public class SettingController implements Initializable {
     @FXML
     private void onChangeHold() { captureKeyForAction(holdKeyButton, "HOLD"); }
 
+    /**
+     * Resets all keybindings to their default values.
+     * This method calls {@link GameSettings#setDefaultSettings()} and then
+     * updates the UI to reflect the default keys.
+     */
     @FXML
     private void onResetKeys() {
         settings.setDefaultSettings();
         loadKeybindButtons();
     }
 
+
+    /**
+     * Captures the next key press to rebind a specific game action.
+     * When a button is clicked, this method:
+     * Changes the button text to "Press any key..." to prompt the user.
+     * Sets a one-time {@code setOnKeyPressed} event listener on the button.
+     * Updates the {@link GameSettings} model with the new {@link KeyCode} when a key is pressed.
+     * Updates the button text to the new key name.
+     *
+     * @param button The button that was clicked to initiate the change.
+     * @param action The string identifier for the action in {@link GameSettings} (e.g., "MOVE_LEFT").
+     */
     private void captureKeyForAction(Button button, String action) {
         String originalText = button.getText();
         button.setText("Press any key...");
@@ -173,31 +189,6 @@ public class SettingController implements Initializable {
         settings.saveSettings();
         mainApp.showMainMenuScreen();
     }
-
-
-
-    /*@FXML
-    private void onKeyBindingToggle() {
-        if (keyBindingToggle.isSelected()) {
-            settings.setKeyBindingMode("CUSTOM");
-        } else {
-            settings.setKeyBindingMode("DEFAULT");
-        }
-        updateToggleText();
-    }
-
-    private void updateToggleText() {
-        if (settings.getKeyBindingMode().equals("CUSTOM")) {
-            keyBindingToggle.setSelected(true);
-            keyBindingToggle.setText("Keybind: Custom");
-        } else {
-            keyBindingToggle.setSelected(false);
-            keyBindingToggle.setText("Keybind: Default");
-        }
-    }*/
-
-
-
 
     /**
      * Sets the reference to the main application class.
