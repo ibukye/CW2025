@@ -39,7 +39,7 @@
 --add-modules
 javafx.controls,javafx.fxml,javafx.media
 ```
-6. Select Main class and run (`src/main/java/com/comp2042/view/Main.java`)
+8. Select Main class and run (`src/main/java/com/comp2042/view/Main.java`)
 ---
 
 ## Design Principles & Patterns Application
