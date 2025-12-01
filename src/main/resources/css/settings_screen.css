@@ -1,21 +1,27 @@
 /* * settings_screen.css
- * 設定画面専用スタイル
+ * Setting Screen Style
  */
 
-/* スライダーの目盛りラベル */
-.slider .axis-tick-label {
-    -fx-text-fill: white; /* 文字色を白に */
-    -fx-fill: white;      /*念のためfillも白に */
-    -fx-font-family: "Let's go Digital"; /* デジタルフォント適用 */
-    -fx-font-size: 14px;  /* 少し大きく */
+/* Font Definition */
+@font-face {
+    font-family: "Let's go Digital";
+    src: url("../fonts/digital.ttf");  /* Go out from css, and go to fonts */
 }
 
-/* スライダーの軌道（線）を見やすく */
+/* Slider tick values */
+.slider .axis-tick-label {
+    -fx-text-fill: white;
+    -fx-fill: white;
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 14px;
+}
+
+/* Make it easier to see the track of slider */
 .slider .track {
     -fx-background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* 透明なスクロールペイン背景 */
+/* Background for transparent scroll pane */
 .transparent-scroll-pane {
     -fx-background: transparent;
     -fx-background-color: transparent;

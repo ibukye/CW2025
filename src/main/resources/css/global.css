@@ -1,19 +1,19 @@
 /* * global.css
- * すべての画面で読み込む共通設定
+ * Setting for common among all screen
  */
 
-/* フォント定義：フォルダ階層が変わるためパスを調整しています */
+/* Font Definition */
 @font-face {
     font-family: "Let's go Digital";
-    src: url("../fonts/digital.ttf");  /* ← cssフォルダを出てfontsフォルダへ */
+    src: url("../fonts/digital.ttf");  /* Go out from css, and go to fonts */
 }
 
-/* 全体の背景 */
+/* Background */
 .root {
     -fx-background-image: url("../images/background_image.png");
 }
 
-/* 共通ボタンデザイン (ipad-dark-grey) */
+/* Common Button Design (ipad-dark-grey) */
 .ipad-dark-grey {
     -fx-background-color: linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
     linear-gradient(#020b02, #3a3a3a),
@@ -30,12 +30,12 @@
     -fx-effect: dropshadow(three-pass-box, rgba(255, 255, 255, 0.2), 1, 0.0, 0, 1);
 }
 
-/* 共通レイアウト用 */
+/* layout */
 .vbox {
     -fx-spacing: 12;
 }
 
-/* ヘルプなどの小文字情報 */
+/* small font */
 .helpInfo {
     -fx-fill: white;
     -fx-alignment: center-left;
@@ -43,7 +43,7 @@
     -fx-font-size: 10px;
 }
 
-/* 透明なスクロールペイン（設定画面などで使用） */
+/* transparent scroll pane (setting screen) */
 .scroll-pane {
     -fx-background-color: transparent;
     -fx-background: transparent;
