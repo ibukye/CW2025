@@ -25,20 +25,21 @@
 ---
 
 
-## Compilation Instructions
+## Compilation Instructions (& Run)
 1. Install JavaFX SDK
-2. Set Run/Debug Configurations
-3. Click Modify options
-4. Java - Add VM options
-5. Enter
+2. Right click `pom.xml`
+3. Click "Add as Maven Project" (Reload All Maven Projects)
+4. Set Run/Debug Configurations
+5. Click Modify options
+6. Java - Add VM options
+7. Enter below to VM options
 ```
 --module-path
 "PATH_TO_JAVAFX_SDK_LIB"
 --add-modules
 javafx.controls,javafx.fxml,javafx.media
 ```
-	to VM options
-6. select Main class
+6. Select Main class and run (`src/main/java/com/comp2042/view/Main.java`)
 ---
 
 ## Design Principles & Patterns Application
