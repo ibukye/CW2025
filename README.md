@@ -8,7 +8,7 @@
 ---
 
 ## Index
-- [Compilation Instructions](#compilation-instructions)
+- [Compilation Instructions](#compilation-instructions--run)
 - [Design Principles & Patterns Application](#design-principles--patterns-application)
 - [Directory Structure](#directory-structure)
 - [TODO (Modification)](#todo-modification)
